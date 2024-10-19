@@ -1,44 +1,48 @@
-<style>
-    .nav-link-white {
-        color: white !important; /* Use !important to ensure it overrides any other styles */
-    }
-</style>
-
-
-    <!-- for mobile view -->
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+{{--  <div class="container-fluid">
+    <div class="control-panel">
+        <div class="control-panel-header text-center">
+            <img src="{{ asset('img/maologo.jpg') }}" alt="Logo" class="rounded-circle"
+                style="width: 100px; height: 100px;">
+            <h2 class="control-panel-title" style="font-size: 1.25rem; color: white;">Admin Panel</h2>
         </div>
 
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
+        <a href="{{ route('dashboard') }}" class="btn">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
 
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
+        <a href="{{ route('admin.report') }}" class="btn">
+            <i class="fas fa-file-alt"></i> Maritime Reports
+        </a>
 
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
+        <a href="{{ route('admin.referrals') }}" class="btn">
+            <i class="fas fa-share-square"></i> View Referrals
+        </a>
 
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
-        </div>
+        <a href="{{ route('violation.record') }}" class="btn">
+            <i class="fas fa-plus-square"></i> Record a Violation
+        </a>
 
+        <a href="{{ route('violation.list') }}" class="btn">
+            <i class="fas fa-list"></i> List of Records
+        </a>
+
+        <!-- New "History" navigation link -->
+        <a href="{{ route('admin.history') }}" class="btn">
+            <i class="fas fa-history"></i> History
+        </a>
+
+
+
+        <!-- New "Register" navigation link -->
+        <a href="{{ route('admin.register') }}" class="btn">
+            <i class="fas fa-user-plus"></i> Register
+        </a>
+
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="btn d-flex align-items-center" style="width: 100%;">
+                <i class="fas fa-sign-out-alt"></i> Log Out
+            </button>
+        </form>
     </div>
-    <script src="/bootstrap-5.3.3-dist/js/bootstrap.js"> </script>
-</nav>
+</div>  --}}

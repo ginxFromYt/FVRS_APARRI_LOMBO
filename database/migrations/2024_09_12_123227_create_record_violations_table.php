@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('record_violations', function (Blueprint $table) {
-            $table->dropColumn(['first_name', 'middle_name', 'last_name', 'extension_name', 'sex', 'address']);
+        Schema::create('record_violations', function (Blueprint $table) {
+            $table->id();
+            $table->string('violation');
+            $table->string('location');
+            $table->string('date_of_violation');
+            $table->string('time_of_violation');
+            $table->timestamps();
         });
     }
 
@@ -21,13 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('record_violations', function (Blueprint $table) {
-            $table->string('first_name');
-            $table->string('middle_name')->nullable();
-            $table->string('last_name');
-            $table->string('extension_name')->nullable();
-            $table->string('sex');
-            $table->string('address');
-        });
+        Schema::dropIfExists('record_violations');
     }
 };

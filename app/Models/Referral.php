@@ -20,7 +20,7 @@ class Referral extends Model
         'violator',
         'piece_of_evidence',
     ];
-    
+
 
     // Relationships
     public function report()

@@ -9,11 +9,16 @@ use App\Models\Referral;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Logs;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Validation\Rules;
 
-use Gate;
 use DB;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -30,17 +35,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        // denies the gate if 
+        // denies the gate if
         if(Gate::denies('admin-access')){
             return redirect('errors.403');
         }
-        
         $allusers = User::where('id','>=','3')->paginate(10); // get only records that start with id 3 and below
-        // query using model eloquent 
-
-        
-
-
+        // query using model eloquent
         return view('admin.users.index')
         ->with('allusers',$allusers);
 
@@ -95,15 +95,15 @@ public function edit(User $user)
             'sex' => 'required|in:male,female',
             'address' => 'required|string',
         ]);
-    
+
         // Update the user record with the validated data
         $user->update($validatedData);
-    
+
         // Redirect back to the view page with a success message
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
-    
-    
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -120,11 +120,11 @@ public function edit(User $user)
     {
         // Fetch all reports
         $reports = Report::all();
-    
+
         // Pass the reports to the view
         return view('admin.report', ['myreports' => $reports]);
     }
-    
+
 
     public function viewedReports()
     {
@@ -132,7 +132,7 @@ public function edit(User $user)
 
         return view('admin.viewed_reports', compact('viewedReports'));
     }
-    
+
 private function logAction($action, $description)
     {
         $user = auth()->user(); // Get the current user
@@ -160,9 +160,16 @@ public function viewReferrals()
 
     return view('admin.referrals', compact('referrals'));
 }
+
+public function edits($id)
+{
+    $referrals = Referral::with('report')->findOrFail($id); // Fetch all referrals
+
+    return view('violation.create', compact('referrals'));
+}
 // public function dashboard()
 // {
-    
+
 //     // Pass the variables to the view
 //     return view('admin.dashboard', compact('totalViolations', 'barangaysWithViolators', 'monthlyCounts', 'months'));
 // }
@@ -172,29 +179,32 @@ public function viewReferrals()
 
 public function showRegisterForm()
 {
-    return view('auth.register'); // This should match the location of your Blade template
+    return view('admin.register'); // This should match the location of your Blade template
 }
 
 public function register(Request $request)
 {
-    // Validate the incoming request data
-    $validatedData = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|confirmed|min:8',
-    ]);
+    // $request->validate([
+    //     'name' => ['required', 'string', 'max:255'],
+    //     'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+    //     'password' => ['required', 'confirmed', Rules\Password::defaults()],
+    // ]);
 
-    // Create the new user
     $user = User::create([
-        'name' => $validatedData['name'],
-        'email' => $validatedData['email'],
-        'password' => bcrypt($validatedData['password']), // Hash the password
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
     ]);
 
-    // Redirect back with a success message
-    return redirect()->route('admin.users.index')->with('success', 'User registered successfully.');
-}
+    event(new Registered($user));
 
+    // adds role to a newly registered user as user role
+    $role = Role::select('id')->where('name','user')->first();
+    $user->roles()->attach($role);
+
+
+    return redirect()->back();
+}
 
 
 

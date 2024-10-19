@@ -13,12 +13,22 @@ class RecordViolationController extends Controller
     public function recordviolation()
     {
         // Fetch all referrals to be displayed in the violation form
-        $referrals = Referral::all(); 
-    
+        $referrals = Referral::all();
+
         // Pass the referrals to the view
         return view('violation.create', compact('referrals')); // Adjust the view name if necessary
     }
-    
+
+
+    public function edits($id)
+    {
+        // Fetch all referrals to be displayed in the violation form
+        $referrals = Referral::findOrFail($id);
+
+        // Pass the referrals to the view
+        return view('violation.create', compact('referrals')); // Adjust the view name if necessary
+    }
+
 
     // Method to store the violation record
    public function store(Request $request)
@@ -29,7 +39,7 @@ class RecordViolationController extends Controller
         'location' => 'required|string|max:255',
         'date_of_violation' => 'required|date',
         'time_of_violation' => 'required|date_format:H:i',
-        'violators.*.violator' => 'required|string|max:255', 
+        'violators.*.violator' => 'required|string|max:255',
         'violators.*.sex' => 'required|string|in:Male,Female', // Assuming only these values
         'violators.*.address' => 'nullable|string|max:255', // Optional
         // Add other necessary validations as required
@@ -58,14 +68,14 @@ class RecordViolationController extends Controller
 }
 
 
-  
+
     public function listviolation()
 {
     // Fetch all violations with their associated violators
     $violations = RecordViolation::with('violators')->get();
 
     return view('violation.list', compact('violations'));
-    
+
 }
 
 
@@ -100,7 +110,7 @@ public function update(Request $request, $id)
 public function search(Request $request)
 {
     $query = $request->input('query');
-    
+
     // Fetch violators with related record violations based on the search query
     $violators = Violator::with('recordViolation')
         ->where('first_name', 'LIKE', "%{$query}%")

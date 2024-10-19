@@ -4,8 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Users\CTRLFeedbacks;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AnalyticsController;
-use App\Http\Controllers\Admin\UserController; 
-use App\Http\Controllers\HistoryController; 
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\LocalReportController;
 use App\Http\Controllers\RecordViolationController;
 use App\Http\Controllers\TurnoverReceiptController;
@@ -53,26 +53,31 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
     Route::resource('/users', UserController::class, ['except' => ['create', 'store', 'destroy']]);
     Route::get('/admin/dashboard', [UserController::class, 'dashboard'])->name('admin.dashboard');
    // Route for analytics dashboard
-   
+
    Route::get('/analytics', [AnalyticsController::class, 'dashboard'])->name('analytics.dashboard');
 
     // Route for viewing user feedbacks
     Route::get('/userfeedbacks', [UserController::class, 'userfeedback'])->name('userfeedback');
-    
+
     // Route for admin users report
     Route::get('/report', [UserController::class, 'usersReport'])->name('report');
     Route::get('/referrals', [UserController::class, 'viewReferrals'])->name('referrals');
 
     Route::get('/viewed_reports', [UserController::class, 'viewedReports'])->name('viewed_reports');
-   
+
     // Route for logs
     Route::get('/logs', [UserController::class, 'showLogs'])->name('logs');
 
 // Route to show the registration form
-Route::get('register', [UserController::class, 'showRegisterForm'])->name('register');
+Route::get('register/create', [UserController::class, 'showRegisterForm'])->name('register');
 
 // Route to handle the registration form submission
 Route::post('register', [UserController::class, 'register'])->name('register.store');
+
+
+
+Route::get('/violations/{id}/edits', [UserController::class, 'edits'])->name('violation.edits');
+
 });
 
 
