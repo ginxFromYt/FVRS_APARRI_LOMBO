@@ -38,7 +38,6 @@ class LocalReportController extends Controller
         return redirect()->route('welcome')->with('success', 'Report submitted successfully.');
     }
 
-   
 
 
 

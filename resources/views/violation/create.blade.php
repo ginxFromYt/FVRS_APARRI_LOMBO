@@ -36,8 +36,8 @@
     </style>
 
     <div class="container mt-5">
-         <!-- Display Validation Errors -->
-         @if ($errors->any())
+        <!-- Display Validation Errors -->
+        @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
                     @foreach ($errors->all() as $error)
@@ -67,7 +67,7 @@
 
             <div class="form-group">
                 <label for="time_of_violation">Time of Violation:</label>
-                <input type="time" name="time_of_violation" value=" {{ $referrals->time }}" class="form-control "
+                <input type="text" name="time_of_violation" value="{{ $referrals->time }}" class="form-control "
                     required>
             </div>
 

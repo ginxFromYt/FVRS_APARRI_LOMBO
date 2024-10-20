@@ -124,11 +124,12 @@ Route::put('/violation/{id}', [RecordViolationController::class, 'update'])->nam
 
 Route::get('/report', [LocalReportController::class, 'showReportForm'])->name('report.form');
 Route::post('/report', [LocalReportController::class, 'store'])->name('report.store');
-// Define route for resolved reports
-Route::get('/report/resolved', [ReportController::class, 'resolved'])->name('report.resolved');
 
-// Define route for cancelled reports
-Route::get('/report/cancelled/{id}', [ReportController::class, 'cancelled'])->name('report.cancelled');
+// Define route for ReportController
+Route::post('/report/{id}/resolved', [ReportController::class, 'resolved'])->name('report.resolved');
+Route::post('report/{id}/cancelled', [ReportController::class, 'cancelled'])->name('report.cancelled');
+Route::get('/cancelled-reports', [ReportController::class, 'showcancelled'])->name('cancelled.reports');
+
 
 
 

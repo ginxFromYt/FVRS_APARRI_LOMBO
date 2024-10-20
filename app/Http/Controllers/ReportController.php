@@ -16,7 +16,7 @@ class ReportController extends Controller
     {
         // Fetch all reports
         $reports = Report::all();
-        
+
         // Return view with reports data
         return view('reports.myreports', ['myreports' => $reports]);
     }
@@ -55,7 +55,7 @@ class ReportController extends Controller
         $validatedData['violation'] = $validatedData['violation'] ?? null;
         $validatedData['status'] = $validatedData['status'] ?? null;
         $validatedData['educationalbackground'] = $validatedData['educationalbackground'] ?? null;
-     
+
         // Create a new report instance and save it to the database
         $report = new Report();
         $report->nameofbanca = $validatedData['nameofbanca'];
@@ -71,7 +71,7 @@ class ReportController extends Controller
         $report->gridcoordinate = $validatedData['gridcoordinate'];
         $report->amount = $validatedData['amount'];
         $report->save();
-     
+
         // Redirect to the 'myreports' route after storing
         return redirect()->route('users.myreports');
     }
@@ -134,8 +134,8 @@ class ReportController extends Controller
         $report->engineno = $validatedData['engineno'];
         $report->gridcoordinate = $validatedData['gridcoordinate'];
         $report->amount = $validatedData['amount'];
-        
-        
+
+
         $report->save();
 
         // Redirect to the 'myreports' route after updating
@@ -160,7 +160,7 @@ class ReportController extends Controller
     public function myreports()
     {
         $myreports = Report::all(); // Retrieve all reports from the database
-    
+
         return view('users.myreports', compact('myreports'));
     }
 
@@ -169,7 +169,7 @@ class ReportController extends Controller
         $report = Report::findOrFail($id);
         return view('users.referral', compact('report'));
     }
-    
+
 
     public function getReferralDetails($id)
     {
@@ -214,11 +214,11 @@ class ReportController extends Controller
     public function userReports()
     {
         // Fetch all user reports from the database
-        $userReports = UserReport::all();
-        
+        $userReports = UserReport::where('status', 'pending')->get();
+
         // Get the count of user reports
         $reportCount = $userReports->count();
-        
+
         // Return the view with user reports data and count
         return view('report.userreports', [
             'userreports' => $userReports,
@@ -227,13 +227,13 @@ class ReportController extends Controller
     }
 
 
-    
+
     public function showUserReport($id)
     {
         $report = Report::findOrFail($id); // Fetch the report or show a 404 error
         return view('report.view', compact('report')); // Return the show view with the report data
     }
-  
+
     public function showTurnoverReceiptForm($id)
     {
         $report = Report::findOrFail($id);
@@ -250,7 +250,7 @@ class ReportController extends Controller
         'name_of_violation' => 'required|string|max:255',
         'investigator_pnco' => 'required|string|max:255',
     ]);
-    
+
 
     // Process the data (e.g., save to database)
 
@@ -274,6 +274,34 @@ public function showDisplayTurnoverReceipt(Request $request)
     return view('users.display_turnover_receipt', compact('turnoverData'));
 }
 
+    public function resolved() {
+        // Update the report status to resolved
+        $report = UserReport::find(request('id'));
+        $report->status ='resolved';
+        $report->save();
 
+        // Redirect to the user reports list
+        return redirect()->back()->with('success', 'Report has been resolved successfully.');
+    }
+
+    public function cancelled() {
+        // Update the report status to resolved
+        $report = UserReport::find(request('id'));
+        $report->status ='cancelled';
+        $report->save();
+
+        // Redirect to the user reports list
+        return redirect()->back()->with('success', 'Report has been resolved successfully.');
+    }
+
+
+
+    public function showcancelled() {
+        // fetch cancelled reports
+        $data = UserReport::where('status', 'cancelled')->get();
+
+        // Redirect to the user reports list
+        return view('report.cancelled', compact('data'));
+    }
 
 }

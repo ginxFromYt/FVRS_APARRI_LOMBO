@@ -38,9 +38,9 @@ class RecordViolationController extends Controller
         'violation' => 'required|string|max:255',
         'location' => 'required|string|max:255',
         'date_of_violation' => 'required|date',
-        'time_of_violation' => 'required|date_format:H:i',
+        'time_of_violation' => 'required|',
         'violators.*.violator' => 'required|string|max:255',
-        'violators.*.sex' => 'required|string|in:Male,Female', 
+        'violators.*.sex' => 'required|string|in:Male,Female',
         'violators.*.address' => 'nullable|string|max:255',
     ]);
 
@@ -54,7 +54,7 @@ class RecordViolationController extends Controller
 
     // Save violators with the associated record violation ID
     foreach ($request->violators as $violatorData) {
-       
+
         if (!empty($violatorData['violator'])) {
             $recordViolation->violators()->create(array_merge($violatorData, [
                 'record_violations_id' => $recordViolation->id // Link the violator to the violation record
