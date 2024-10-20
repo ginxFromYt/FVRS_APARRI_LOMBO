@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('contact_number'); // Contact number of the user
             $table->text('information'); // Additional information about the report
             $table->string('photo')->nullable(); // Optional photo field
+            $table->enum('status', ['pending', 'resolved', 'cancelled'])->default('pending'); // Status column
             $table->timestamps(); // Timestamps for created_at and updated_at
         });
     }

@@ -225,6 +225,8 @@ class ReportController extends Controller
             'reportCount' => $reportCount,
         ]);
     }
+
+
     
     public function showUserReport($id)
     {

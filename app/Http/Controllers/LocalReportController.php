@@ -38,13 +38,9 @@ class LocalReportController extends Controller
         return redirect()->route('welcome')->with('success', 'Report submitted successfully.');
     }
 
-    public function updateStatus(Request $request, $id, $status)
-{
-    $report = UserReport::findOrFail($id);
-    $report->status = $status;
-    $report->save();
+   
 
-    return redirect()->route('userreports.index')->with('success', 'Report status updated successfully.');
-}
+
+
 
 }

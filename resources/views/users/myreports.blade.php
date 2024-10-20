@@ -200,6 +200,18 @@
         <a href="{{ route('users.myreports') }}" class="btn" onclick="setActiveLink(this)">
             <i class="fas fa-file-alt"></i> Reports
         </a>
+        
+    <a href="{{ route('turnover.display') }}" class="btn">
+     <i class="fas fa-check-circle"></i> Turnover Receipt
+    </a>
+
+    <a href="" class="btn">
+        <i class="fas fa-check-circle"></i> Resolved Reports
+    </a>
+
+    <a href="" class="btn">
+        <i class="fas fa-times-circle"></i> Cancelled Reports
+    </a>
 
         <a href="" class="btn" onclick="setActiveLink(this)">
             <i class="fas fa-file-contract"></i> Terms and Conditions

@@ -9,8 +9,6 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\LocalReportController;
 use App\Http\Controllers\RecordViolationController;
 use App\Http\Controllers\TurnoverReceiptController;
-use App\Http\Controllers\ResolvedController;
-use App\Http\Controllers\CancelledController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -110,6 +108,7 @@ Route::get('/report/{id}', [ReportController::class, 'showUserReport'])->name('r
 
 Route::get('/record-violation', [RecordViolationController::class, 'recordviolation'])->name('violation.record');
 Route::post('/record-violation', [RecordViolationController::class, 'store'])->name('violation.store');
+
 Route::get('/list-of-records', [RecordViolationController::class, 'listviolation'])->name('violation.list');
 // Route::get('/record-violation/{id}/edit', [RecordViolationController::class, 'edit'])->name('violation.edit');
 // Route::put('/record-violation/{id}', [RecordViolationController::class, 'update'])->name('violation.update');
@@ -118,19 +117,21 @@ Route::get('/violation/{id}/edit', [RecordViolationController::class, 'edit'])->
 Route::get('/search-violators', [RecordViolationController::class, 'search'])->name('violation.search');
 Route::post('/violation/finish/{id}', [RecordViolationController::class, 'finish'])->name('violation.finish'); // For marking as finished
 Route::delete('/violation/{id}/delete', [RecordViolationController::class, 'destroy'])->name('violation.delete'); // For deleting a violation
-
+Route::get('/violation.barangays', [RecordViolationController::class, 'showBarangaysWithViolations'])->name('violation.barangays');
 
 // Update the violation
 Route::put('/violation/{id}', [RecordViolationController::class, 'update'])->name('violation.update');
 
 Route::get('/report', [LocalReportController::class, 'showReportForm'])->name('report.form');
 Route::post('/report', [LocalReportController::class, 'store'])->name('report.store');
+// Define route for resolved reports
+Route::get('/report/resolved', [ReportController::class, 'resolved'])->name('report.resolved');
+
+// Define route for cancelled reports
+Route::get('/report/cancelled/{id}', [ReportController::class, 'cancelled'])->name('report.cancelled');
 
 
 
-// Routes to view resolved and cancelled reports
-Route::get('/reports/resolved', [LocalReportController::class, 'viewResolvedReports'])->name('resolvedReports');
-Route::get('/reports/cancelled', [LocalReportController::class, 'viewCancelledReports'])->name('cancelledReports');
 
 Route::get('/turnover-receipt/{id}', [ReportController::class, 'showTurnoverReceiptForm'])->name('turnoverReceiptForm');
 Route::post('/submit-turnover-receipt', [ReportController::class, 'submitTurnoverReceipt'])->name('submitTurnoverReceipt');
@@ -144,12 +145,6 @@ Route::get('/turnover-receipt', [TurnoverReceiptController::class, 'show'])->nam
 Route::patch('/userreports/{id}/status/{status}', [LocalReportController::class, 'updateStatus'])->name('userreports.updateStatus');
 
 Route::get('/history', [HistoryController::class, 'index'])->name('admin.history');
-
-// Resolved routes
-Route::get('/resolved', [ResolvedController::class, 'index'])->name('resolved.index');
-
-// Cancelled routes
-Route::get('/cancelled', [CancelledController::class, 'index'])->name('cancelled.index');
 
 
 Route::get('/admin/dashboard', function () {

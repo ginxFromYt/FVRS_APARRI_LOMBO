@@ -110,13 +110,13 @@
 
 
 
-
-    <div class="row">
-        <div class="col-lg-4 col-md-6 mb-4">
+<div class="row">
+    <div class="col-lg-4 col-md-6 mb-4">
+        <a href="{{ route('violation.barangays') }}" class="text-decoration-none">
             <div class="box bg-success d-flex flex-column h-100">
                 <div class="box-header">
                     <i class="fas fa-map-marker-alt"></i>
-                    <h4>Barangays with Violations</ h4>
+                    <h4>Barangay with Violators</h4>
                 </div>
                 <div class="box-content mt-auto">
                     <h2 class="card-text">
@@ -124,7 +124,9 @@
                     </h2>
                 </div>
             </div>
-        </div>
+        </a>
+    </div>
+
 
         <div class="col-lg-4 col-md-6 mb-4">
             <div class="box bg-primary d-flex flex-column h-100">

@@ -36,17 +36,22 @@
     </style>
 
     <div class="container mt-5">
+         <!-- Display Validation Errors -->
+         @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <form action="{{ route('violation.store') }}" method="POST" class="bg-white p-4 rounded shadow">
             @csrf
 
             <div class="form-group">
                 <label for="violation">Violation:</label>
-                <select name="violation" id="violation" class="form-control" required>
-                    <option value="" disabled selected>{{ $referrals->violation }}</option>
-                    <option value="Illegal fishing">Section 33 (Unauthorized Fishing Activities)</option>
-                    <option value="Unauthorized docking">Unauthorized Docking</option>
-                    <option value="Overfishing">Overfishing</option>
-                </select>
+                <input type="text" name="violation" value="{{ $referrals->violation }}" class="form-control" required>
             </div>
 
             <div class="form-group">
@@ -62,10 +67,9 @@
 
             <div class="form-group">
                 <label for="time_of_violation">Time of Violation:</label>
-                <input type="" name="time_of_violation" value=" {{ $referrals->time }}" class="form-control"
+                <input type="time" name="time_of_violation" value=" {{ $referrals->time }}" class="form-control "
                     required>
             </div>
-
 
 
             <h3 class="mt-4">Violator Information</h3>
@@ -95,7 +99,7 @@
                 </div>
             </div>
 
-            <button type="button" id="add-violator" class="btn btn-secondary mt-2">Add Another Violator</button>
+            <!-- <button type="button" id="add-violator" class="btn btn-secondary mt-2">Add Another Violator</button> -->
             <button type="submit" class="btn btn-success mt-3">Submit</button>
         </form>
     </div>
@@ -126,5 +130,5 @@
             document.getElementById('violator-fields').appendChild(violatorDiv);
             violatorCount++;
         });
-    </script>
+    </script> -->
 </x-app-layout>

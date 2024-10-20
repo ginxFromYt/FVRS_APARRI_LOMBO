@@ -1,5 +1,4 @@
 <x-app-layout>
-
     <style>
         html,
         body {
@@ -25,10 +24,8 @@
         .table-wrapper {
             position: relative;
             max-height: calc(100% - 40px);
-            /* Adjust height considering the header */
             overflow: auto;
             padding-top: 50px;
-            /* Add space for the thin-container */
         }
 
         .table-scroll {
@@ -94,8 +91,7 @@
             </div>
         </div>
 
-        <!-- Table displaying violations -->
-        <div class="table-wrapper">
+       
             <div class="table-scroll">
                 <table class="table">
                     <thead class="table-header">
@@ -104,7 +100,6 @@
                             <th>Location</th>
                             <th>Date</th>
                             <th>Time</th>
-                            <th>Violator</th> <!-- Consolidated field -->
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -115,10 +110,9 @@
                                 <td>{{ $violation->location }}</td>
                                 <td>{{ $violation->date_of_violation }}</td>
                                 <td>{{ $violation->time_of_violation }}</td>
-
                                 <td>
                                     <button class="btn btn-primary" data-bs-toggle="collapse"
-                                        data-bs-target="#violators{{ $violation->id }}">
+                                        data-bs-target="#violators{{ $violation->id }}" aria-expanded="false">
                                         View Violators
                                     </button>
                                     <a href="{{ route('violation.edit', $violation->id) }}"
@@ -131,7 +125,7 @@
                                 </td>
                             </tr>
                             <tr class="collapse" id="violators{{ $violation->id }}">
-                                <td colspan="6">
+                                <td colspan="5">
                                     <table class="table">
                                         <thead>
                                             <tr>
@@ -156,9 +150,23 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+
     </div>
 
     <script src="/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Optional: Reset the collapse state when another button is clicked
+        document.querySelectorAll('.btn-primary').forEach(button => {
+            button.addEventListener('click', function () {
+                const target = this.getAttribute('data-bs-target');
+                const otherCollapses = document.querySelectorAll('.collapse.show');
 
+                otherCollapses.forEach(collapse => {
+                    if (collapse.id !== target.substring(1)) {
+                        collapse.classList.remove('show');
+                    }
+                });
+            });
+        });
+    </script>
 </x-app-layout>

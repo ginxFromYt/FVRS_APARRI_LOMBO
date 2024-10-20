@@ -191,6 +191,7 @@
             <i class="fas fa-file-alt"></i> Spot Reports
         </a>
 
+        
         <!-- Terms and Conditions Link -->
         <a href="#" class="btn">
             <i class="fas fa-file-contract"></i> Terms and Conditions

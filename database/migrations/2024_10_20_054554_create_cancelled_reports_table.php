@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('cancelled_reports', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('address')->nullable();
-            $table->string('contact_number'); 
-            $table->text('information'); 
-            $table->string('photo')->nullable(); 
+            $table->foreignId('user_reports_id')->constrained('user_reports')->onDelete('cascade'); // Foreign key linking to user_reports
+            $table->string('name'); // Name of the user who reported
+            $table->string('address'); // Address of the user who reported
+            $table->string('contact_number'); // Contact number of the user who reported
+            $table->text('information'); // Additional information related to the cancelled report
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

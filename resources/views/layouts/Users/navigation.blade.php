@@ -221,11 +221,11 @@
      <i class="fas fa-check-circle"></i> Turnover Receipt
     </a>
 
-    <a href="" class="btn">
+    <a href="{{ route('report.resolved') }}" class="btn">
         <i class="fas fa-check-circle"></i> Resolved Reports
     </a>
 
-    <a href="" class="btn">
+    <a href="{{ route('report.cancelled') }}" class="btn">
         <i class="fas fa-times-circle"></i> Cancelled Reports
     </a>
 

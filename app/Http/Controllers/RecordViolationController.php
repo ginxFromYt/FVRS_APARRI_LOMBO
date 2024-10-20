@@ -40,9 +40,8 @@ class RecordViolationController extends Controller
         'date_of_violation' => 'required|date',
         'time_of_violation' => 'required|date_format:H:i',
         'violators.*.violator' => 'required|string|max:255',
-        'violators.*.sex' => 'required|string|in:Male,Female', // Assuming only these values
-        'violators.*.address' => 'nullable|string|max:255', // Optional
-        // Add other necessary validations as required
+        'violators.*.sex' => 'required|string|in:Male,Female', 
+        'violators.*.address' => 'nullable|string|max:255',
     ]);
 
     // Create the record violation
@@ -55,7 +54,7 @@ class RecordViolationController extends Controller
 
     // Save violators with the associated record violation ID
     foreach ($request->violators as $violatorData) {
-        // Only create violator if the required 'violator' field is present
+       
         if (!empty($violatorData['violator'])) {
             $recordViolation->violators()->create(array_merge($violatorData, [
                 'record_violations_id' => $recordViolation->id // Link the violator to the violation record
@@ -164,4 +163,12 @@ public function list()
     return view('admin.history', compact('history')); // Make sure to change 'admin.history' to your actual view
 }
 
+
+public function showBarangaysWithViolations()
+{
+    // Fetch distinct barangays with violations
+    $barangays = Violator::select('address')->distinct()->get();
+
+    return view('violation.barangays', compact('barangays'));
+}
 }

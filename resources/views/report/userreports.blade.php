@@ -258,12 +258,16 @@
                                 </td>
 
                                 <td>
-    <!-- Resolved Button -->
-    <a href="{{ route('resolved.index') }}" class="btn btn-success">Resolved</a>
-    
-    <!-- Cancelled Button -->
-    <a href="{{ route('cancelled.index') }}" class="btn btn-danger">Cancelled</a>
-</td>
+                                <a href="{{ route('report.resolved') }}" class="btn">
+    <i class="fas fa-check-circle"></i> Resolved 
+</a>
+
+
+    <a href="{{ route('report.resolved') }}" class="btn">
+        <i class="fas fa-times-circle"></i>  Cancelled 
+    </a>
+
+                            </td>
 
                                
                             </tr>
