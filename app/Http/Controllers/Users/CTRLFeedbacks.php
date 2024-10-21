@@ -113,15 +113,5 @@ class CTRLFeedbacks extends Controller
         return view('users.myreports', ['myreports' => $myreports]);
     }
     
-    public function updateViewedStatus(Request $request, $id)
-    {
-        $report = Feedback::findOrFail($id);
-        
-        // Update viewed status
-        $report->viewed = true;
-        $report->save();
-
-        return response()->json(['message' => 'Viewed status updated successfully']);
-    }
 
 }

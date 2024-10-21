@@ -6,6 +6,7 @@ use App\Models\Report;
 use App\Models\RecordViolation;
 use App\Models\Violator;
 use App\Models\Referral;
+use App\Models\TurnoverReceipt;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Logs;
@@ -159,6 +160,13 @@ public function viewReferrals()
     $referrals = Referral::all(); // Fetch all referrals
 
     return view('admin.referrals', compact('referrals'));
+}
+
+public function viewturnoverreceipts()
+{
+    $turnoverreceipts = TurnoverReceipt::all();
+
+    return view('admin.turnover-receipts', compact('turnoverreceipts'));
 }
 
 public function edits($id)

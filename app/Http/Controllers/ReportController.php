@@ -178,39 +178,40 @@ class ReportController extends Controller
     }
 
     public function storeReferral(Request $request)
-{
-    // Validate the request data
-    $request->validate([
-        'report_id' => 'required|exists:reports,id',
-        'date' => 'required|date',
-        'time' => 'required',
-        'date_of_violation' => 'required|date',
-        'location' => 'required|string|max:255',
-        'complainant' => 'required|string|max:255',
-        'piece_of_evidence' => 'required|string',
-    ]);
-
-    // Fetch the report
-    $report = Report::find($request->report_id);
-
-    // Create a new Referral instance and store it in the database
-    Referral::create([
-        'report_id' => $request->report_id,
-        'date' => $request->date,
-        'violation' => $report->violation,  // Fetch the violation from the spot report
-        'time' => $request->time,
-        'date_of_violation' => $request->date_of_violation,
-        'location' => $request->location,
-        'complainant' => $request->complainant,
-        'violator' => $report->nameofskipper,  // Fetch the name of the skipper
-        'piece_of_evidence' => $request->piece_of_evidence,
-    ]);
-
-    // Redirect back to the reports list or any other appropriate location
-    return redirect()->route('users.myreports')->with('success', 'Referral added successfully!');
-}
-
-
+    {
+        // Validate the request data
+        $request->validate([
+            'report_id' => 'required|exists:reports,id',
+            'date' => 'required|date',
+            'time' => 'required',
+            'date_of_violation' => 'required|date',
+            'location' => 'required|string|max:255',
+            'complainant' => 'required|string|max:255',
+            'piece_of_evidence' => 'required|string',
+         
+        ]);
+    
+        // Fetch the report
+        $report = Report::find($request->report_id);
+    
+        // Create a new Referral instance and store it in the database
+        Referral::create([
+            'report_id' => $request->report_id,
+            'date' => $request->date,
+            'violation' => $report->violation,  // Fetch the violation from the spot report
+            'time' => $request->time,
+            'date_of_violation' => $request->date_of_violation,
+            'location' => $request->location,
+            'complainant' => $request->complainant,
+            'violator' => $report->nameofskipper,  // Fetch the name of the skipper
+            'piece_of_evidence' => $request->piece_of_evidence,
+          
+        ]);
+    
+        // Redirect back to the reports list or any other appropriate location
+        return redirect()->route('users.myreports')->with('success', 'Referral added successfully!');
+    }
+    
     public function userReports()
     {
         // Fetch all user reports from the database
@@ -237,26 +238,24 @@ class ReportController extends Controller
     public function showTurnoverReceiptForm($id)
     {
         $report = Report::findOrFail($id);
+
+        $referral = $report->referrals()->first();
         // Pass any additional data if necessary
-        return view('users.turnover_receipt', compact('report'));
+        return view('users.turnover_receipt', compact('report','referral'));
     }
 
-    public function submitTurnoverReceipt(Request $request)
-{
-    $request->validate([
-        'municipal_agriculturist' => 'required|string|max:255',
-        'date_of_violation' => 'required|date',
-        'time_of_violation' => 'required|date_format:H:i', // Time format (HH:MM)
-        'name_of_violation' => 'required|string|max:255',
-        'investigator_pnco' => 'required|string|max:255',
-    ]);
+//     public function submitTurnoverReceipt(Request $request)
+// {
+//     $request->validate([
+//         'municipal_agriculturist' => 'required|string|max:255',
+//         'date_of_violation' => 'required|date',
+//         'time_of_violation' => 'required|date_format:H:i', // Time format (HH:MM)
+//         'name_of_violation' => 'required|string|max:255',
+//         'investigator_pnco' => 'required|string|max:255',
+//     ]);
 
-
-    // Process the data (e.g., save to database)
-
-    // Redirect back with a success message
-    return redirect()->back()->with('success', 'Turnover Receipt submitted successfully.');
-}
+//     return redirect()->route('users.myreports')->with('success', 'Turnover Receipt submitted successfully.');
+// }
 
 public function showDisplayTurnoverReceipt(Request $request)
 {
@@ -294,6 +293,13 @@ public function showDisplayTurnoverReceipt(Request $request)
         return redirect()->back()->with('success', 'Report has been resolved successfully.');
     }
 
+    public function showresolved() {
+        // fetch cancelled reports
+        $data = UserReport::where('status', 'resolved')->get();
+
+        // Redirect to the user reports list
+        return view('report.resolved', compact('data'));
+    }
 
 
     public function showcancelled() {
@@ -303,5 +309,7 @@ public function showDisplayTurnoverReceipt(Request $request)
         // Redirect to the user reports list
         return view('report.cancelled', compact('data'));
     }
+
+    
 
 }

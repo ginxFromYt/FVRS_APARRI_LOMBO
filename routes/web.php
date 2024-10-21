@@ -3,9 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Users\CTRLFeedbacks;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\LocalReportController;
 use App\Http\Controllers\RecordViolationController;
 use App\Http\Controllers\TurnoverReceiptController;
@@ -60,6 +60,7 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
     // Route for admin users report
     Route::get('/report', [UserController::class, 'usersReport'])->name('report');
     Route::get('/referrals', [UserController::class, 'viewReferrals'])->name('referrals');
+    Route::get('/turnover-receipts', [UserController::class, 'viewturnoverreceipts'])->name('turnoverreceipts');
 
     Route::get('/viewed_reports', [UserController::class, 'viewedReports'])->name('viewed_reports');
 
@@ -129,6 +130,7 @@ Route::post('/report', [LocalReportController::class, 'store'])->name('report.st
 Route::post('/report/{id}/resolved', [ReportController::class, 'resolved'])->name('report.resolved');
 Route::post('report/{id}/cancelled', [ReportController::class, 'cancelled'])->name('report.cancelled');
 Route::get('/cancelled-reports', [ReportController::class, 'showcancelled'])->name('cancelled.reports');
+Route::get('/resolved-reports', [ReportController::class, 'showresolved'])->name('resolved.reports');
 
 
 
@@ -136,6 +138,8 @@ Route::get('/cancelled-reports', [ReportController::class, 'showcancelled'])->na
 
 Route::get('/turnover-receipt/{id}', [ReportController::class, 'showTurnoverReceiptForm'])->name('turnoverReceiptForm');
 Route::post('/submit-turnover-receipt', [ReportController::class, 'submitTurnoverReceipt'])->name('submitTurnoverReceipt');
+
+
 
 Route::post('/display-turnover-receipt', [ReportController::class, 'showDisplayTurnoverReceipt'])->name('turnover.display');
 Route::get('/turnover-receipt', [ReportController::class, 'showDisplayTurnoverReceipt'])->name('turnover.display');

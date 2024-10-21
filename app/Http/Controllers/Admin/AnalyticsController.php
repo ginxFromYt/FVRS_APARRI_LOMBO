@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
 
 use App\Models\RecordViolation;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class AnalyticsController extends Controller
 {
-    public function dashboard(Request $request)
+
+    public function dashboard()
     {
         $monthlyViolationsCount = RecordViolation::whereMonth('date_of_violation', now()->month)
             ->whereYear('date_of_violation', now()->year)
@@ -29,21 +30,8 @@ class AnalyticsController extends Controller
             ->orderBy('month')
             ->get();
 
-                 // Initialize search variables
-        $searchTerm = $request->input('search', '');
-
-
-        // Search Violations by Address if a search term is provided
-        $violations = [];
-        if ($searchTerm) {
-            $violations = RecordViolation::whereHas('violators', function ($query) use ($searchTerm) {
-                $query->where('address', 'LIKE', "%$searchTerm%");
-            })->get();
-        }
-
-        return view('dashboard', compact('monthlyViolationsCount', 'yearlyViolationsCount', 'monthlyViolationsData', 'yearlyViolationsData','searchTerm'));
+        return view('admin.dashboard', compact('monthlyViolationsCount', 'yearlyViolationsCount', 'monthlyViolationsData', 'yearlyViolationsData'));
     }}
-
 
 
 

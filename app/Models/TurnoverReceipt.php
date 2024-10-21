@@ -10,6 +10,7 @@ class TurnoverReceipt extends Model
     use HasFactory;
 
     protected $fillable = [
+        'report_id',
         'municipal_agriculturist',
         'date_of_violation',
         'time_of_violation',

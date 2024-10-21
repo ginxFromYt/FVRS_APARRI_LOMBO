@@ -103,7 +103,7 @@
             margin-top: 50px;
             margin-left: 300px;
             max-width: 600px;
-            height: calc(100vh - 50px);
+            height: calc(100vh - 10px);
             box-sizing: border-box;
         }
 
@@ -251,6 +251,12 @@
                     <label for="piece_of_evidence">Piece of Evidence</label>
                     <textarea class="form-control" id="piece_of_evidence" name="piece_of_evidence" required></textarea>
                 </div>
+
+                <div class="form-group">
+                    <label for="attach_evidence">Attach Evidence (Upload Photo)</label>
+                    <input type="file" class="form-control" id="attach_evidence" name="attach_evidence[]" accept="image/*" multiple>
+                </div>
+
 
                 <div class="submit-container">
                     <button type="submit" class="btn btn-orange" style="width: 5rem;">Submit</button>

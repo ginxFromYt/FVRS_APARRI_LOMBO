@@ -12,7 +12,7 @@
         <i class="fas fa-file-alt"></i> Spot Reports
     </a>
 
-    <a href="" class="btn">
+    <a href="{{ route('resolved.reports') }}" class="btn">
         <i class="fas fa-check-circle"></i> Resolved Reports
     </a>
 

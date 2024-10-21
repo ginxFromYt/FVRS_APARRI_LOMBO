@@ -10,6 +10,7 @@ class TurnoverReceiptController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
+            'report_id' => 'required|exists:reports,id',
             'municipal_agriculturist' => 'required|string',
             'date_of_violation' => 'required|date',
             'time_of_violation' => 'required',
@@ -19,9 +20,12 @@ class TurnoverReceiptController extends Controller
             'investigator_pnco' => 'required|string',
         ]);
 
-        TurnoverReceipt::create($validatedData);
+        $validatedData['report_id'] = $request->input('report_id');
 
-        return redirect()->back()->with('success', 'Turnover Receipt created successfully.');
+        TurnoverReceipt::create($validatedData);
+        
+
+        return redirect()->route('users.myreports')->with('success', 'Turnover Receipt submitted successfully.');
     }
 
     public function show()

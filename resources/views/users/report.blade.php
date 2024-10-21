@@ -166,32 +166,10 @@
 </head>
 <body>
 
-    <div class="thin-container">
-        <h5 class="container-text">Maritime Police Aparri</h5>
-    </div>
-   
-    <div class="control-panel" id="controlPanel">
-        <div class="control-panel-header">
-            <img src="{{ asset('img/1.jpg') }}" alt="Logo"> 
-            <h2>Maritime Panel</h2>
-        </div>
+    
 
-        <a href="{{ route('dashboard') }}" class="btn">
-            <i class="fas fa-tachometer-alt"></i> Dashboard
-        </a>
-     
-        <a href="{{ route('users.myreports') }}" class="btn">
-            <i class="fas fa-file-alt"></i> Spot Reports
-        </a>
-
-        <a href="" class="btn">
-            <i class="fas fa-file-contract"></i> Terms and Conditions
-        </a>
-
-        <a href="{{ route('profile.edit') }}" class="btn">
-            <i class="fas fa-user"></i> Profile
-        </a>
-    </div>
+    <!-- Control Panel -->
+    @extends('layouts.Users.navigation')
 
     <div class="container">
         <div class="card">
@@ -211,14 +189,15 @@
                                 <input type="text" class="form-control" id="nameofskipper" name="nameofskipper">
                             </div>
 
+                    
                             <div class="mb-3">
-                                <label for="age">Age</label>
-                                <input type="text" class="form-control" id="age" name="age">
+                                <label for="birthdate">Date of Birth</label>
+                                <input type="date" class="form-control" id="birthdate" name="birthdate" oninput="calculateAge()">
                             </div>
 
                             <div class="mb-3">
-                                <label for="birthdate">Date of Birth</label>
-                                <input type="date" class="form-control" id="birthdate" name="birthdate">
+                                <label for="age">Age</label>
+                                <input type="text" class="form-control" id="age" name="age" readonly>
                             </div>
 
                             <div class="mb-3">
@@ -333,6 +312,20 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function calculateAge() {
+            var birthdate = document.getElementById('birthdate').value;
+            var birthDate = new Date(birthdate);
+            var today = new Date();
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var month = today.getMonth() - birthDate.getMonth();
+            if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            document.getElementById('age').value = age;
+        }
+    </script>
 
     <script src="/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 </body>

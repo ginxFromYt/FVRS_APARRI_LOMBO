@@ -335,6 +335,12 @@ return [
             'url' => 'admin/referrals',
             'icon' => 'fas fa-fw fa-lock',
         ],
+
+        [
+            'text' => 'Turn Over Receipts',
+            'url' => 'admin/turnover-receipts',
+            'icon' => 'fas fa-fw fa-lock',
+        ],
       
         [
             'text' => 'List of Records',
