@@ -14,7 +14,7 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Validation\Rules;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 use DB;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -216,4 +216,23 @@ public function register(Request $request)
 
 
 
+
+    public function generateReferralPDF()
+    {
+        $referal = Referral::with('report')->get();
+
+
+        $data = [
+            'referal' => $referal,
+        ];
+
+
+        // Load the view and pass data if needed
+        $pdf = PDF::loadView('admin.referral-pdf', $data);
+
+        // Download the PDF file
+        return $pdf->stream('referral_report.pdf');
+    }
 }
+
+

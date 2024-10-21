@@ -173,6 +173,12 @@
                                             Print
                                         </button>
 
+                                        <a href="{{ route('admin.pdf', $referral->id) }}" class="btn btn-primary"
+                                            target="_blank">
+                                            Download PDF
+                                        </a>
+
+
                                         <!-- Record Button (Form for Redirect) -->
                                         <form action="{{ route('admin.violation.edits', $referral->id) }}"
                                             method="GET" style="display:inline;">

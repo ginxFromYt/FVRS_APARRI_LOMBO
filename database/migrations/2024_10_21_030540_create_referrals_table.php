@@ -22,9 +22,11 @@ return new class extends Migration
             $table->string('complainant', 255);
             $table->string('violator', 255);
             $table->text('piece_of_evidence');
-            $table->string('attach_evidence')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
+
+
     }
 
     /**

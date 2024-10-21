@@ -180,20 +180,29 @@ class ReportController extends Controller
     public function storeReferral(Request $request)
     {
         // Validate the request data
-        $request->validate([
-            'report_id' => 'required|exists:reports,id',
-            'date' => 'required|date',
-            'time' => 'required',
-            'date_of_violation' => 'required|date',
-            'location' => 'required|string|max:255',
-            'complainant' => 'required|string|max:255',
-            'piece_of_evidence' => 'required|string',
-         
-        ]);
-    
+        // $request->validate([
+        //     'report_id' => 'required|exists:reports,id',
+        //     'date' => 'required|date',
+        //     'time' => 'required',
+        //     'date_of_violation' => 'required|date',
+        //     'location' => 'required|string|max:255',
+        //     'complainant' => 'required|string|max:255',
+        //     'piece_of_evidence' => 'required|string',
+
+        // ]);
+
         // Fetch the report
         $report = Report::find($request->report_id);
-    
+
+        $imageName = null;
+        if ($request->hasFile('image')) {
+            foreach ($request->file('image') as $image) {
+                // Generate a unique name for the image
+                $imageName = time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('evidence'), $imageName);
+
+            }
+        }
         // Create a new Referral instance and store it in the database
         Referral::create([
             'report_id' => $request->report_id,
@@ -205,13 +214,13 @@ class ReportController extends Controller
             'complainant' => $request->complainant,
             'violator' => $report->nameofskipper,  // Fetch the name of the skipper
             'piece_of_evidence' => $request->piece_of_evidence,
-          
+          'image' => $imageName,
         ]);
-    
+
         // Redirect back to the reports list or any other appropriate location
         return redirect()->route('users.myreports')->with('success', 'Referral added successfully!');
     }
-    
+
     public function userReports()
     {
         // Fetch all user reports from the database
@@ -310,6 +319,6 @@ public function showDisplayTurnoverReceipt(Request $request)
         return view('report.cancelled', compact('data'));
     }
 
-    
+
 
 }

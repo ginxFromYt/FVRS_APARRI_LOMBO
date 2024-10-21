@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link href="/bootstrap-5.3.3-dist/css/bootstrap.css" rel="stylesheet">
     <link href="{{ asset('fontawesome-free-5.15.4-web/css/all.min.css') }}" rel="stylesheet">
@@ -141,7 +142,8 @@
             z-index: 1001;
         }
 
-        h5, h2 {
+        h5,
+        h2 {
             color: white;
         }
 
@@ -165,9 +167,9 @@
             justify-content: center;
             margin-top: 20px;
         }
-
     </style>
 </head>
+
 <body>
 
     <div class="thin-container">
@@ -185,13 +187,13 @@
         <a href="{{ route('dashboard') }}" class="btn">
             <i class="fas fa-tachometer-alt"></i> Dashboard
         </a>
-        
+
         <!-- Spot Reports Link -->
         <a href="{{ route('users.myreports') }}" class="btn">
             <i class="fas fa-file-alt"></i> Spot Reports
         </a>
 
-        
+
         <!-- Terms and Conditions Link -->
         <a href="#" class="btn">
             <i class="fas fa-file-contract"></i> Terms and Conditions
@@ -212,7 +214,7 @@
     <div class="container">
         <div class="form-container">
             <h5 class="text-center text-primary">Violator {{ $report->nameofskipper }}</h5>
-            <form action="{{ route('storeReferral') }}" method="POST">
+            <form action="{{ route('storeReferral') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="report_id" value="{{ $report->id }}">
 
@@ -224,7 +226,8 @@
 
                 <div class="form-group">
                     <label for="violation">Violation</label>
-                    <input type="text" class="form-control" name="violation" value="{{ $report->violation }}" readonly>
+                    <input type="text" class="form-control" name="violation" value="{{ $report->violation }}"
+                        readonly>
                 </div>
 
                 <div class="form-group">
@@ -253,8 +256,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="attach_evidence">Attach Evidence (Upload Photo)</label>
-                    <input type="file" class="form-control" id="attach_evidence" name="attach_evidence[]" accept="image/*" multiple>
+                    <label for="image">Attach Evidence (Upload Photo)</label>
+                    <input type="file" class="form-control" id="" name="image[]" accept="image/*" multiple>
                 </div>
 
 
@@ -281,4 +284,5 @@
 
     <script src="/bootstrap-5.3.3-dist/js/bootstrap.js"></script>
 </body>
+
 </html>

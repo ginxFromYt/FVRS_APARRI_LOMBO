@@ -60,6 +60,8 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
     // Route for admin users report
     Route::get('/report', [UserController::class, 'usersReport'])->name('report');
     Route::get('/referrals', [UserController::class, 'viewReferrals'])->name('referrals');
+    Route::get('/referral-report', [UserController::class, 'generateReferralPDF'])->name('pdf');
+
     Route::get('/turnover-receipts', [UserController::class, 'viewturnoverreceipts'])->name('turnoverreceipts');
 
     Route::get('/viewed_reports', [UserController::class, 'viewedReports'])->name('viewed_reports');

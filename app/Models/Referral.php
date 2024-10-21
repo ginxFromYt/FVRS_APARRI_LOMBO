@@ -19,7 +19,7 @@ class Referral extends Model
         'complainant',
         'violator',
         'piece_of_evidence',
-        'attach_evidence',
+        'image',
     ];
 
 
