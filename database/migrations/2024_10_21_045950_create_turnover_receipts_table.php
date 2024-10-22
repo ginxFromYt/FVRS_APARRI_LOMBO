@@ -13,15 +13,18 @@ return new class extends Migration
     {
         Schema::create('turnover_receipts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('report_id')->constrained('reports')->onDelete('cascade');
+            $table->unsignedBigInteger('report_id')->nullable();
             $table->string('municipal_agriculturist');
             $table->date('date_of_violation');
-            $table->time('time_of_violation'); 
-            $table->string('name_of_violation'); 
-            $table->string('name_of_skipper'); 
-            $table->string('name_of_banca'); 
-            $table->string('investigator_pnco'); 
+            $table->time('time_of_violation');
+            $table->string('name_of_violation');
+            $table->string('name_of_skipper');
+            $table->string('name_of_banca');
+            $table->string('investigator_pnco');
             $table->timestamps();
+
+            $table->foreign('report_id')->references('id')->on('reports')->onDelete('cascade');
+
         });
     }
 

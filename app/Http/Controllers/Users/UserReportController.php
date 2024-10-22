@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Users;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Users\Feedbacks;
-use Gate;
+
 use DB;
 use Auth;
+use Illuminate\Support\Facades\Gate;
 
 class UserReportController extends Controller
 {
@@ -47,14 +48,14 @@ class UserReportController extends Controller
             'information' => ['required', 'string', 'max:255'],
             'contact_number' => ['required', 'string', 'max:20'],
         ]);
-    
+
         // Handle photo upload
         if ($request->hasFile('photo')) {
             $photoPath = $request->file('photo')->store('photos', 'public');
         } else {
             $photoPath = null;
         }
-    
+
         // Create feedback instance
         $report = Feedbacks::create([
             'photo' => $photoPath,
@@ -62,21 +63,21 @@ class UserReportController extends Controller
             'information' => $request->information,
             'contact_number' => $request->contact_number,
         ]);
-    
+
         // Redirect back with success message
         return redirect()->route('users.myreports')->with('status', 'Report submitted successfully!');
     }
-  
-  
+
+
     public function myReports()
     {
-    
+
         $myreports = Feedbacks::where('id', auth()->user()->id)->take(5)->get();
-        
+
         $myreports = Feedbacks::all(); // Assuming your model is named Feedback and you want to fetch all feedbacks
-    
+
         return view('users.myreports', ['myreports' => $myreports]);
     }
-    
+
 
 }

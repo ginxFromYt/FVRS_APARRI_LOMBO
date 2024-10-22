@@ -53,8 +53,8 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
     Route::get('/analytics', [AnalyticsController::class, 'dashboard'])->name('analytics.dashboard');
     Route::get('/report', [UserController::class, 'usersReport'])->name('report');
     Route::get('/referrals', [UserController::class, 'viewReferrals'])->name('referrals');
-    Route::get('/referral-report', [UserController::class, 'generateReferralPDF'])->name('referralpdf');
-    Route::get('/spot-report', [UserController::class, 'generateReportsPDF'])->name('spotpdf');
+    Route::get('/referral-report/{id}', [UserController::class, 'generateReferralPDF'])->name('referralpdf');
+    Route::get('/spot-report/{id}', [UserController::class, 'generateReportsPDF'])->name('spotpdf');
     Route::get('/receipt/{id}/pdf', [UserController::class, 'generateReceiptPDF'])->name('receiptpdf');
     Route::get('/turnover-receipts', [UserController::class, 'viewturnoverreceipts'])->name('turnoverreceipts');
     Route::get('/viewed_reports', [UserController::class, 'viewedReports'])->name('viewed_reports');
