@@ -28,4 +28,10 @@ class Referral extends Model
     {
         return $this->belongsTo(Report::class);
     }
+
+    public function turnoverReceipts()
+    {
+        return $this->hasMany(TurnoverReceipt::class, 'report_id');
+    }
+
 }

@@ -25,6 +25,7 @@
                             <th class="py-2 px-4 border-b">Name of Skipper</th>
                             <th class="py-2 px-4 border-b">Name of Banca</th>
                             <th class="py-2 px-4 border-b">Investigator PNCO</th>
+                            <th class="py-2 px-4 border-b">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,6 +39,12 @@
                                 <td class="py-2 px-4 border-b">{{ $receipt->name_of_skipper }}</td>
                                 <td class="py-2 px-4 border-b">{{ $receipt->name_of_banca }}</td>
                                 <td class="py-2 px-4 border-b">{{ $receipt->investigator_pnco }}</td>
+                                <td class="py-2 px-4 border-b">
+                                <a href="{{ route('admin.receiptpdf', $receipt->id) }}" class="btn btn-primary"
+                                     target="_blank">
+                                    Download PDF
+                                </a>
+
                             </tr>
                         @endforeach
                     </tbody>

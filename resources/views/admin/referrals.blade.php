@@ -129,6 +129,7 @@
                                 <th>Complainant</th>
                                 <th>Violator</th>
                                 <th>Piece of Evidence</th>
+                                <th>Attached Evidences</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -146,8 +147,13 @@
                                     <td>{{ $referral->violator }}</td>
                                     <td>{{ $referral->piece_of_evidence }}</td>
                                     <td>
-                                        <!-- View Button -->
-                                        <button class="btn btn-success view-referral"
+                                        <img src="{{ asset('evidence/' . $referral->image) }}" alt="Referral Image" style="width: 100px; height: 100px;">
+                                    </td>
+
+                                    <td>
+
+
+                                        <!-- <button class="btn btn-success view-referral"
                                             data-referral-id="{{ $referral->id }}"
                                             data-referral-date="{{ $referral->date }}"
                                             data-referral-violation="{{ $referral->violation }}"
@@ -165,24 +171,19 @@
                                             View
                                         </button>
 
-
-
-                                        <!-- Print Button -->
                                         <button class="btn btn-warning print-referral"
                                             data-referral-id="{{ $referral->id }}">
                                             Print
-                                        </button>
+                                        </button> -->
 
-                                        <a href="{{ route('admin.pdf', $referral->id) }}" class="btn btn-primary"
+                                        <a href="{{ route('admin.referralpdf', $referral->id) }}" class="btn btn-primary"
                                             target="_blank">
-                                            Download PDF
+                                          View
                                         </a>
 
-
-                                        <!-- Record Button (Form for Redirect) -->
                                         <form action="{{ route('admin.violation.edits', $referral->id) }}"
                                             method="GET" style="display:inline;">
-                                            <button type="submit" class="btn btn-primary">
+                                            <button type="submit" class="btn btn-success">
                                                 Record
                                             </button>
                                         </form>

@@ -19,5 +19,10 @@ class TurnoverReceipt extends Model
         'name_of_banca',
         'investigator_pnco',
     ];
+
+    public function report()
+    {
+        return $this->belongsTo(Report::class, 'report_id');
+    }
 }
 

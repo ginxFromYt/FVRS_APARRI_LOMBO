@@ -29,4 +29,9 @@ class Report extends Model
     {
         return $this->hasMany(Referral::class);
     }
+
+    public function turnoverReceipts()
+    {
+        return $this->hasMany(TurnoverReceipt::class, 'report_id');
+    }
 }

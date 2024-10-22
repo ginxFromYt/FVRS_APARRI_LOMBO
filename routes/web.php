@@ -1,14 +1,14 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Users\CTRLFeedbacks;
-use App\Http\Controllers\ReportController;
+use App\Http\Controllers\Users\UserReportController;
+use App\Http\Controllers\Users\ReportController;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\LocalReportController;
-use App\Http\Controllers\RecordViolationController;
-use App\Http\Controllers\TurnoverReceiptController;
+use App\Http\Controllers\Admin\RecordViolationController;
+use App\Http\Controllers\Users\TurnoverReceiptController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,34 +50,17 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
     // Add routes here for admin
     Route::resource('/users', UserController::class, ['except' => ['create', 'store', 'destroy']]);
     Route::get('/admin/dashboard', [UserController::class, 'dashboard'])->name('admin.dashboard');
-   // Route for analytics dashboard
-
-   Route::get('/analytics', [AnalyticsController::class, 'dashboard'])->name('analytics.dashboard');
-
-    // Route for viewing user feedbacks
-    Route::get('/userfeedbacks', [UserController::class, 'userfeedback'])->name('userfeedback');
-
-    // Route for admin users report
+    Route::get('/analytics', [AnalyticsController::class, 'dashboard'])->name('analytics.dashboard');
     Route::get('/report', [UserController::class, 'usersReport'])->name('report');
     Route::get('/referrals', [UserController::class, 'viewReferrals'])->name('referrals');
-    Route::get('/referral-report', [UserController::class, 'generateReferralPDF'])->name('pdf');
-
+    Route::get('/referral-report', [UserController::class, 'generateReferralPDF'])->name('referralpdf');
+    Route::get('/spot-report', [UserController::class, 'generateReportsPDF'])->name('spotpdf');
+    Route::get('/receipt/{id}/pdf', [UserController::class, 'generateReceiptPDF'])->name('receiptpdf');
     Route::get('/turnover-receipts', [UserController::class, 'viewturnoverreceipts'])->name('turnoverreceipts');
-
     Route::get('/viewed_reports', [UserController::class, 'viewedReports'])->name('viewed_reports');
-
-    // Route for logs
-    Route::get('/logs', [UserController::class, 'showLogs'])->name('logs');
-
-// Route to show the registration form
-Route::get('register/create', [UserController::class, 'showRegisterForm'])->name('register');
-
-// Route to handle the registration form submission
-Route::post('register', [UserController::class, 'register'])->name('register.store');
-
-
-
-Route::get('/violations/{id}/edits', [UserController::class, 'edits'])->name('violation.edits');
+    Route::get('register/create', [UserController::class, 'showRegisterForm'])->name('register');
+    Route::post('register', [UserController::class, 'register'])->name('register.store');
+    Route::get('/violations/{id}/edits', [UserController::class, 'edits'])->name('violation.edits');
 
 });
 
@@ -88,10 +71,9 @@ Route::namespace('App\Http\Controllers\Users')
     ->name('users.')
     ->middleware('can:user-access')
     ->group(function () {
-        Route::get('/report', [CTRLFeedbacks::class, 'create'])->name('report');
-        Route::post('/report', [CTRLFeedbacks::class, 'store'])->name('report.store');
-        Route::get('/myreports', [CTRLFeedbacks::class, 'myreports'])->name('myreports');
-        Route::put('/report/{id}/viewed', [CTRLFeedbacks::class, 'updateViewedStatus'])->name('report.viewed');
+        Route::get('/report', [UserReportController::class, 'create'])->name('report');
+        Route::post('/report', [UserReportController::class, 'store'])->name('report.store');
+        Route::get('/myreports', [UserReportController::class, 'myreports'])->name('myreports');
     });
 
 // Route for creating and storing reports
@@ -115,7 +97,7 @@ Route::post('/record-violation', [RecordViolationController::class, 'store'])->n
 Route::get('/list-of-records', [RecordViolationController::class, 'listviolation'])->name('violation.list');
 // Route::get('/record-violation/{id}/edit', [RecordViolationController::class, 'edit'])->name('violation.edit');
 // Route::put('/record-violation/{id}', [RecordViolationController::class, 'update'])->name('violation.update');
-// Display the edit form
+
 Route::get('/violation/{id}/edit', [RecordViolationController::class, 'edit'])->name('violation.edit');
 Route::get('/search-violators', [RecordViolationController::class, 'search'])->name('violation.search');
 Route::post('/violation/finish/{id}', [RecordViolationController::class, 'finish'])->name('violation.finish'); // For marking as finished
@@ -125,8 +107,6 @@ Route::get('/violation.barangays', [RecordViolationController::class, 'showBaran
 // Update the violation
 Route::put('/violation/{id}', [RecordViolationController::class, 'update'])->name('violation.update');
 
-Route::get('/report', [LocalReportController::class, 'showReportForm'])->name('report.form');
-Route::post('/report', [LocalReportController::class, 'store'])->name('report.store');
 
 // Define route for ReportController
 Route::post('/report/{id}/resolved', [ReportController::class, 'resolved'])->name('report.resolved');
@@ -153,6 +133,8 @@ Route::patch('/userreports/{id}/status/{status}', [LocalReportController::class,
 
 Route::get('/history', [HistoryController::class, 'index'])->name('admin.history');
 
+Route::get('/report', [LocalReportController::class, 'showReportForm'])->name('report.form');
+Route::post('/report', [LocalReportController::class, 'store'])->name('report.store');
 
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');

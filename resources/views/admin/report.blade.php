@@ -210,6 +210,11 @@
                                         data-time="{{ $report->referrals->isNotEmpty() ? $report->referrals->first()->time : 'N/A' }}">
                                         View
                                     </button>
+
+                                    <a href="{{ route('admin.spotpdf', $report->id) }}" class="btn btn-primary"
+                                            target="_blank">
+                                            Download PDF
+                                        </a>
                                 </td>
                             </tr>
                         @endforeach

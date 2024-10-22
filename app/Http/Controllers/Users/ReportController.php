@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
+use App\Http\Controllers\Controller;
+
 
 use App\Models\Report;
 use App\Models\UserReport;
@@ -214,7 +216,7 @@ class ReportController extends Controller
             'complainant' => $request->complainant,
             'violator' => $report->nameofskipper,  // Fetch the name of the skipper
             'piece_of_evidence' => $request->piece_of_evidence,
-          'image' => $imageName,
+            'image' => $imageName,
         ]);
 
         // Redirect back to the reports list or any other appropriate location

@@ -96,67 +96,32 @@
     @foreach ($referal as $data)
     @endforeach
     <div class="content">
-        {{--  <h4>Referral Records</h4>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Referral Date</th>
-                    <th>Violation</th>
-                    <th>Time</th>
-                    <th>Date of Violation</th>
-                    <th>Location</th>
-                    <th>Complainant</th>
-                    <th>Violator</th>
-                    <th>Piece of Evidence</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>2024-10-19</td>
-                    <td></td>
-                    <td>18:55:00</td>
-                    <td>2024-10-19</td>
-                    <td>asasas</td>
-                    <td>asasa</td>
-                    <td>qw qwqw</td>
-                    <td>asasas</td>
-                </tr>
-                <!-- Add other rows here -->
-            </tbody>
-        </table>  --}}
+      
+        <p>{{ \Carbon\Carbon::now()->format('F j, Y') }}</p>
 
-        <h4>Referral Letter</h4>
-        <p>2024-10-21</p>
 
         <p>MRS. MARITES L. ROBINION<br>Municipal Agriculturist<br>Municipal Agriculturist Office<br>Aparri, Cagayan</p>
 
         <p>Greetings:</p>
 
         <p>I have the honor to refer your office for administrative proceedings, the record of investigation related to
-            the case for Section 33 of Municipal Ordinance No. 2015-152 committed at about {{ $data->time }} of
-            {{ $data->date_of_violation }} at
+            the case for {{ $data->violation}} at about {{ \Carbon\Carbon::parse($data->time)->format('g:i A') }}
+            of {{ \Carbon\Carbon::parse($data->date_of_violation)->format('F j, Y') }} at
             Municipal Waters of Aparri, Cagayan.</p>
 
-        <p>Complainant: PCMS Oliver Rivera (Team Leader)<br>
-
-            Violator: <br> <span class="span">{{ $data->violator }}</span>, {{ $data->report->age }} years old, DOB
-            {{ $data->report->birthdate }},
+       <span>Complainant: {{ $data->complainant}}</span><br>
+        <p>   Violator: <br> <span class="span">1. <strong>{{ $data->violator }}</strong></span>, {{ $data->report->age }} years old, DOB
+        {{ \Carbon\Carbon::parse($data->report->birthdate)->format('F j, Y') }},
             {{ $data->report->status }},
-            {{ $data->report->educationalbackground }},
-            {{ $data->report->resident }}
+            {{ $data->report->educationalbackground }}, of Brgy. {{ $data->report->resident }}, Aparri, Cagayan.
         </p>
 
-        <p>Piece of Evidence: One Motorized Fishing Banca <span>"</span>
-            <span style="font-weight: 800;">{{ $data->piece_of_evidence }}</span><span>"</span>
-        </p>
+        <p><span class="span">Piece of Evidence: One Motorized Fishing Banca "<strong>{{ $data->piece_of_evidence }}</strong>"</span> </p>
 
-        <p>Facts of the Case Personnel of Aparri MLET led by PSMS Herold D Alviar, conducted a seaborne patrol operation
+        <p>Facts of the Case Personnel of Aparri MLET led by {{ $data->report->turnoverReceipts->first()->investigator_pnco ?? 'N/A' }}, conducted a seaborne patrol operation
             along seawaters
-            of Cagayan River Brgy. dada, Aparri, Cagayan. The team intercepted (1) one motorized fishing banca without
-            necessary license/permit for the violation of Section 33 of Aparri Municipal Ordinance No. 2015-152
-            (Unauthorized Fishing Activities) of Aparri, Cagayan.</p>
+            of Cagayan River Brgy. Macanaya, Punta, Sanja and Bisagu, Aparri, Cagayan, the team intercepted (1) One motorized fishing banca without
+            necessary license/permit for the violation of {{$data->violation}} of Aparri, Cagayan.</p>
 
         <h4>Enclosures</h4>
         <ul>
@@ -165,11 +130,14 @@
             <li>Others to be presented later</li>
         </ul>
 
-        <p>This violation of Municipal Ordinance will be presented to you by PMSg Herold D Alviar, Investigator-On-Case
+        <p>This violation of Municipal Ordinance will be presented to you by {{ $data->report->turnoverReceipts->first()->investigator_pnco}} Investigator-On-Case
             of this Office, for your appropriate action and disposition.</p>
 
-        <p>PSMS Herold D Alviar<br>Investigator PNCO</p>
-    </div>
+         <p style="text-align: right;"> 
+    <strong>{{ $data->report->turnoverReceipts->first()->investigator_pnco}}</strong><br>
+    Investigator PNCO</p> 
+
+
 </body>
 
 </html>

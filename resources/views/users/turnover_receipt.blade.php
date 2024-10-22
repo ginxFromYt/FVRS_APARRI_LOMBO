@@ -165,26 +165,9 @@
             <img src="{{ asset('img/1.jpg') }}" alt="Logo" class="logo-main">
             <h2 class="control-panel-title">Turnover Receipt</h2>
         </div>
+    <!-- Control Panel -->
+    @extends('layouts.Users.navigation')
 
-        <!-- Dashboard Link -->
-        <a href="{{ route('dashboard') }}" class="btn">
-            <i class="fas fa-tachometer-alt"></i> Dashboard
-        </a>
-        
-        <!-- Spot Reports Link -->
-        <a href="{{ route('users.myreports') }}" class="btn">
-            <i class="fas fa-file-alt"></i> Spot Reports
-        </a>
-
-        <!-- Terms and Conditions Link -->
-        <a href="#" class="btn">
-            <i class="fas fa-file-contract"></i> Terms and Conditions
-        </a>
-
-        <!-- Profile Link -->
-        <a href="{{ route('profile.edit') }}" class="btn">
-            <i class="fas fa-user"></i> Profile
-        </a>
     </div>
 
     <!-- Toggle button -->
