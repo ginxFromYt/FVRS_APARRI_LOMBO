@@ -32,6 +32,6 @@ class Report extends Model
 
     public function turnoverReceipts()
     {
-        return $this->hasMany(TurnoverReceipt::class, 'report_id');
+        return $this->belongsTo(TurnoverReceipt::class);
     }
 }

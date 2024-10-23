@@ -93,35 +93,45 @@
         </tr>
     </table>
 
-    @foreach ($referal as $data)
-    @endforeach
+
     <div class="content">
-      
+
         <p>{{ \Carbon\Carbon::now()->format('F j, Y') }}</p>
 
 
-        <p>MRS. MARITES L. ROBINION<br>Municipal Agriculturist<br>Municipal Agriculturist Office<br>Aparri, Cagayan</p>
+        <p>MRS. MARITES L. ROBINION<br>Municipal Agriculturist<br>Municipal Agriculturist Office<br>Aparri, Cagayan
+        </p>
 
         <p>Greetings:</p>
 
-        <p>I have the honor to refer your office for administrative proceedings, the record of investigation related to
-            the case for {{ $data->violation}} at about {{ \Carbon\Carbon::parse($data->time)->format('g:i A') }}
+        <p>I have the honor to refer your office for administrative proceedings, the record of investigation related
+            to
+            the case for {{ $data->violation }} at about {{ \Carbon\Carbon::parse($data->time)->format('g:i A') }}
             of {{ \Carbon\Carbon::parse($data->date_of_violation)->format('F j, Y') }} at
             Municipal Waters of Aparri, Cagayan.</p>
 
-       <span>Complainant: {{ $data->complainant}}</span><br>
-        <p>   Violator: <br> <span class="span">1. <strong>{{ $data->violator }}</strong></span>, {{ $data->report->age }} years old, DOB
-        {{ \Carbon\Carbon::parse($data->report->birthdate)->format('F j, Y') }},
+        <span>Complainant: {{ $data->complainant }}</span><br>
+        <p> Violator: <br> <span class="span">1. <strong>{{ $data->violator }}</strong></span>,
+            {{ $data->report->age }} years old, DOB
+            {{ \Carbon\Carbon::parse($data->report->birthdate)->format('F j, Y') }},
             {{ $data->report->status }},
             {{ $data->report->educationalbackground }}, of Brgy. {{ $data->report->resident }}, Aparri, Cagayan.
         </p>
 
-        <p><span class="span">Piece of Evidence: One Motorized Fishing Banca "<strong>{{ $data->piece_of_evidence }}</strong>"</span> </p>
+        <p><span class="span">Piece of Evidence: One Motorized Fishing Banca
+                "<strong>{{ $data->piece_of_evidence }}</strong>"</span> </p>
 
+<<<<<<< HEAD
         <p>Facts of the Case Personnel of Aparri MLET led by {{ $data->investigator_pnco}}, conducted a seaborne patrol operation
+=======
+        <p>Facts of the Case Personnel of Aparri MLET led by
+            {{ $data->investigator_pnco ?? 'N/A' }}, conducted a seaborne patrol
+            operation
+>>>>>>> f63dd6b4f9d7e5f67e7df55b187793a8f2d1de36
             along seawaters
-            of Cagayan River Brgy. Macanaya, Punta, Sanja and Bisagu, Aparri, Cagayan, the team intercepted (1) One motorized fishing banca without
-            necessary license/permit for the violation of {{$data->violation}} of Aparri, Cagayan.</p>
+            of Cagayan River Brgy. Macanaya, Punta, Sanja and Bisagu, Aparri, Cagayan, the team intercepted (1) One
+            motorized fishing banca without
+            necessary license/permit for the violation of {{ $data->violation }} of Aparri, Cagayan.</p>
 
         <h4>Enclosures</h4>
         <ul>
@@ -130,12 +140,23 @@
             <li>Others to be presented later</li>
         </ul>
 
+<<<<<<< HEAD
         <p>This violation of Municipal Ordinance will be presented to you by {{ $data->investigator_pnco}} Investigator-On-Case
             of this Office, for your appropriate action and disposition.</p>
 
          <p style="text-align: right;"> 
     <strong>{{ $data->investigator_pnco}}</strong><br>
     Investigator PNCO</p> 
+=======
+        <p>This violation of Municipal Ordinance will be presented to you by
+            {{ $data->investigator_pnco ?? 'N/A' }} Investigator-On-Case
+            of this Office, for your appropriate action and disposition.</p>
+
+        <p style="text-align: right;">
+            <strong>{{ $data->investigator_pnco ?? 'N/A' }}</strong><br>
+            Investigator PNCO
+        </p>
+>>>>>>> f63dd6b4f9d7e5f67e7df55b187793a8f2d1de36
 
 
 </body>

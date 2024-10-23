@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Referral Report</title>
+    <title>Turnover Receipt Report</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -116,10 +116,13 @@
     <p>Madam:</p><br>
     <p>Greetings of Peace!</p>
 
-    <p>This referes to the apprehension conducted by operatives Aparri MLET on {{ \Carbon\Carbon::parse($receipt->date_of_violation)->format('jS \\d\\a\\y \\o\\f F Y') }} at about {{ \Carbon\Carbon::parse($receipt->time_of_violation)->format('g:i A') }}
-    at the Municipality Waters of Aparri Cagayan for <strong>{{ $receipt->name_of_violation}}</strong> .</p>
+    <p>This referes to the apprehension conducted by operatives Aparri MLET on
+        {{ \Carbon\Carbon::parse($receipt->date_of_violation)->format('jS \\d\\a\\y \\o\\f F Y') }} at about
+        {{ \Carbon\Carbon::parse($receipt->time_of_violation)->format('g:i A') }}
+        at the Municipality Waters of Aparri Cagayan for <strong>{{ $receipt->name_of_violation }}</strong> .</p>
 
-    <p>In this connection, this unit respectfully turn over the following Motorized Fishing Banca's and Fishing Paraphernalia's of apprehendeed fisher folks violator to wit.</p>
+    <p>In this connection, this unit respectfully turn over the following Motorized Fishing Banca's and Fishing
+        Paraphernalia's of apprehendeed fisher folks violator to wit.</p>
 
     <table class="table">
         <thead>
@@ -131,32 +134,38 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{ $receipt->name_of_skipper}}</td>
-                <td> <strong>"{{$receipt->name_of_banca}}" </strong> </td>
+                <td>{{ $receipt->name_of_skipper }}</td>
+                <td> <strong>"{{ $receipt->name_of_banca }}" </strong> </td>
                 <td></td>
             </tr>
-         </tbody>
+        </tbody>
 
     </table><br>
 
     <p style="text-align: right;">
-    Turned over by:<br>
-    <strong>{{$receipt->investigator_pnco}}</strong><br>
-    Investigator PNCO</p> 
-  <hr style="border: 1px solid black; margin: 0;"><br>
+        Turned over by:<br>
+        <strong>{{ $receipt->investigator_pnco }}</strong><br>
+        Investigator PNCO
+    </p>
+    <hr style="border: 1px solid black; margin: 0;"><br>
 
 
-<strong><p style="text-align: center;">ACCEPTANCE RECEIPT</p></strong><br>
+    <strong>
+        <p style="text-align: center;">ACCEPTANCE RECEIPT</p>
+    </strong><br>
 
-<p>I hereby acknowledge receipt of the above-mentioned Units/Items this {{ \Carbon\Carbon::now()->format('jS \\d\\a\\y \\o\\f F Y') }} at the Municipal Agriculturist Office, Aparri, Cagayan.</p><br>
+    <p>I hereby acknowledge receipt of the above-mentioned Units/Items this
+        {{ \Carbon\Carbon::now()->format('jS \\d\\a\\y \\o\\f F Y') }} at the Municipal Agriculturist Office, Aparri,
+        Cagayan.</p><br>
 
-<p style="text-align: right;">Received by:</p><br>
+    <p style="text-align: right;">Received by:</p><br>
 
-<div style="text-align: right; margin: 0;">
-    <p><span style="border-top: 1px solid black; width: 30%; display: inline-block; margin-right: 5px;"></p>
-    <span style="display: inline-block;">Signature Over Printed Name</span>
-</div>
+    <div style="text-align: right; margin: 0;">
+        <p><span style="border-top: 1px solid black; width: 30%; display: inline-block; margin-right: 5px;"></p>
+        <span style="display: inline-block;">Signature Over Printed Name</span>
+    </div>
 
 
 </body>
+
 </html>

@@ -217,17 +217,17 @@ public function register(Request $request)
 
 
 
-public function generateReferralPDF()
+public function generateReferralPDF($id)
 {
     // Fetch all referrals with their respective reports and associated turnover receipts
-    $referal = Referral::with(['report', 'report.turnoverReceipts'])->get();
+    $data = Referral::with('report')->findOrFail($id);
 
-    $data = [
-        'referal' => $referal,
+    $datas = [
+        'data' => $data,
     ];
 
     // Load the view and pass the data to it
-    $pdf = PDF::loadView('admin.referral-pdf', $data);
+    $pdf = PDF::loadView('admin.referral-pdf', $datas);
 
     // Stream the generated PDF back to the browser
     return $pdf->stream('referral_report.pdf');
@@ -235,20 +235,20 @@ public function generateReferralPDF()
 
 
 
-    
-    public function generateReportsPDF()
+
+    public function generateReportsPDF($id)
     {
         // Fetch all reports with their associated referrals
-        $report = Report::with('referrals')->get();
-    
+        $data = Report::findOrFail($id);
+
         // Prepare data for the view
-        $data = [
-            'reports' => $report,
+        $datas = [
+            'data' => $data,
         ];
-    
+
         // Load the view and pass data if needed
-        $pdf = PDF::loadView('admin.reports-pdf', $data);
-    
+        $pdf = PDF::loadView('admin.reports-pdf', $datas);
+
         // Stream the PDF file
         return $pdf->stream('spot_report.pdf');
     }
