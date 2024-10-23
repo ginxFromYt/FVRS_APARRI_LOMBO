@@ -225,6 +225,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="investigator_pnco">Investigator PNCO</label>
+                    <input type="text" class="form-control" id="investigator_pnco" name="investigator_pnco" required>
+                </div>
+
+                <div class="form-group">
                     <label for="piece_of_evidence">Piece of Evidence</label>
                     <textarea class="form-control" id="piece_of_evidence" name="piece_of_evidence" required></textarea>
                 </div>

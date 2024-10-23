@@ -17,6 +17,7 @@ class Referral extends Model
         'date_of_violation',
         'location',
         'complainant',
+        'investigator_pnco',
         'violator',
         'piece_of_evidence',
         'image',

@@ -205,16 +205,17 @@ class ReportController extends Controller
 
             }
         }
-        // Create a new Referral instance and store it in the database
+        
         Referral::create([
             'report_id' => $request->report_id,
             'date' => $request->date,
-            'violation' => $report->violation,  // Fetch the violation from the spot report
+            'violation' => $report->violation, 
             'time' => $request->time,
             'date_of_violation' => $request->date_of_violation,
             'location' => $request->location,
             'complainant' => $request->complainant,
-            'violator' => $report->nameofskipper,  // Fetch the name of the skipper
+            'investigator_pnco' =>$request->investigator_pnco,
+            'violator' => $report->nameofskipper, 
             'piece_of_evidence' => $request->piece_of_evidence,
             'image' => $imageName,
         ]);

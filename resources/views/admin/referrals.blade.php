@@ -127,6 +127,7 @@
                                 <th>Date of Violation</th>
                                 <th>Location</th>
                                 <th>Complainant</th>
+                                <th>Investigator PNCO</th>
                                 <th>Violator</th>
                                 <th>Piece of Evidence</th>
                                 <th>Attached Evidences</th>
@@ -144,6 +145,7 @@
                                     <td>{{ $referral->date_of_violation }}</td>
                                     <td>{{ $referral->location }}</td>
                                     <td>{{ $referral->complainant }}</td>
+                                    <td>{{ $referral->investigator_pnco}}</td>
                                     <td>{{ $referral->violator }}</td>
                                     <td>{{ $referral->piece_of_evidence }}</td>
                                     <td>

@@ -118,7 +118,7 @@
 
         <p><span class="span">Piece of Evidence: One Motorized Fishing Banca "<strong>{{ $data->piece_of_evidence }}</strong>"</span> </p>
 
-        <p>Facts of the Case Personnel of Aparri MLET led by {{ $data->report->turnoverReceipts->first()->investigator_pnco ?? 'N/A' }}, conducted a seaborne patrol operation
+        <p>Facts of the Case Personnel of Aparri MLET led by {{ $data->investigator_pnco}}, conducted a seaborne patrol operation
             along seawaters
             of Cagayan River Brgy. Macanaya, Punta, Sanja and Bisagu, Aparri, Cagayan, the team intercepted (1) One motorized fishing banca without
             necessary license/permit for the violation of {{$data->violation}} of Aparri, Cagayan.</p>
@@ -130,11 +130,11 @@
             <li>Others to be presented later</li>
         </ul>
 
-        <p>This violation of Municipal Ordinance will be presented to you by {{ $data->report->turnoverReceipts->first()->investigator_pnco}} Investigator-On-Case
+        <p>This violation of Municipal Ordinance will be presented to you by {{ $data->investigator_pnco}} Investigator-On-Case
             of this Office, for your appropriate action and disposition.</p>
 
          <p style="text-align: right;"> 
-    <strong>{{ $data->report->turnoverReceipts->first()->investigator_pnco}}</strong><br>
+    <strong>{{ $data->investigator_pnco}}</strong><br>
     Investigator PNCO</p> 
 
 
