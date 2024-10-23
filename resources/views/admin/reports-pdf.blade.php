@@ -90,51 +90,48 @@
         </tr>
     </table>
 
-    {{-- Fetch only the first report --}}
-    {{--  @if ($reports->first())
-        @php
-            $data = $reports->first();
-        @endphp  --}}
-
     <div class="content">
 
         <p><strong>MEMORANDUM</strong></p>
         <p>FOR: C, RMU2 <br>(Attn: Invest/OPN Section)</p>
         <p>FROM: Team Leader, Aparri MLET</p>
-        <p id="subjectLine">SUBJECT:<strong>Spot Report re Violation of {{ $data->violation }}
+        <p id="subjectLine">SUBJECT: <strong>Spot Report re Violation of {{ $data->violation }}
                 (Unauthorized fishing activities)
                 of Aparri, Cagayan against {{ $data->nameofskipper }}</strong></p>
         <br>
-
-
 
         <div style="width: 100%;">
             <span>DATE: {{ \Carbon\Carbon::parse($data->date)->format('F j, Y') }}</span>
         </div>
         <hr style="border: 1px solid black; margin: 0;">
 
-
         <p>1. References:<br>
             a. Implementation of E.O. 305 (Boat Registration of 3GT and below to Municipal/City Government); and
-            acted on the Letter from the Office of the Municipal Mayor thru Mrs. Marites L. Robinion,Municipal
+            acted on the Letter from the Office of the Municipal Mayor thru Mrs. Marites L. Robinion, Municipal
             Agriculturist, Aparri, Cagayan dated Juned 8, 2020 and <br>
             b. PNP P.A.T.R.O.L Plan 2030/MG P.A.T.R.O.L Plan 2030
         </p>
 
-        <p>2. In connection with the above references please be informed that on
-            {{ \Carbon\Carbon::parse($data->date_of_violation)->format('F j, Y') }} at about
-            {{ \Carbon\Carbon::parse($data->time)->format('g:i A') }} personnel of
-            Aparri MLET led by PSMS N/A, conducted seaborne
-            patrol
-            operation along Cagayan
-            River
-            of Brgy. Macanaya, Minanga, Punta, Sanja and Bisagu Aparri, Cagayan which resulted to the
-            apprehension of One (1) Motorized Fishing Banca for Violation of {{ $data->violation }} of Aparri,
-            Cagayan in relation to EO.305.</p>
+        @if($data->referrals && $data->referrals->count() > 0)
+            @foreach ($data->referrals as $referral)
+                <p>2. In connection with the above references, please be informed that on
+                    {{ \Carbon\Carbon::parse($referral->date_of_violation)->format('F j, Y') }} at about
+                    {{ \Carbon\Carbon::parse($referral->time)->format('g:i A') }} personnel of
+                    Aparri MLET led by {{ $referral->investigator_pnco }} , conducted seaborne
+                    patrol
+                    operation along Cagayan
+                    River
+                    of Brgy. Macanaya, Minanga, Punta, Sanja and Bisagu Aparri, Cagayan which resulted in the
+                    apprehension of One (1) Motorized Fishing Banca for Violation of {{ $data->violation }} of Aparri,
+                    Cagayan in relation to EO.305.</p>
+            @endforeach
+        @else
+            <p>No referral data available.</p>
+        @endif
 
         <p>A. Name of Banca : {{ $data->nameofbanca }}<br>
             Skipper: {{ $data->nameofskipper }}, {{ $data->age }} years old, DOB {{ $data->birthdate }},
-            {{ $data->status }},RELIGION,{{ $data->educationalbackground }},HANAPBUHAY, and resident of Brgy.
+            {{ $data->status }}, {{$data->religion}}, {{ $data->educationalbackground }}, {{$data->occupation}}, and resident of Brgy.
             {{ $data->resident }}, Aparri, Cagayan <br>
             Engine: {{ $data->engine }}<br>
             Engine no. : {{ $data->engineno }}<br>
@@ -142,11 +139,6 @@
             Estimated Amount of Banca: ({{ $data->amount }})</p>
     </div>
 
-
-
-    {{--  @else
-        <p>No reports available.</p>
-    @endif  --}}
 </body>
 
 </html>

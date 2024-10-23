@@ -43,7 +43,9 @@ class ReportController extends Controller
             'age' => ['required', 'string', 'max:255'],
             'birthdate' => ['nullable', 'date'],
             'status' => ['nullable', 'string', 'max:255'],
+            'religion' => ['required', 'string', 'max:255'],
             'educationalbackground' => ['nullable', 'string', 'max:255'],
+            'occupation' => ['required', 'string', 'max:255'],
             'resident' => ['nullable', 'string', 'max:255'],
             'violation' => ['nullable', 'string', 'max:255'],
             'engine' => ['required', 'string', 'max:255'],
@@ -65,7 +67,9 @@ class ReportController extends Controller
         $report->age = $validatedData['age'];
         $report->birthdate = $validatedData['birthdate'];
         $report->status = $validatedData['status'];
+        $report->religion = $validatedData['religion'];
         $report->educationalbackground = $validatedData['educationalbackground'];
+        $report->occupation = $validatedData['occupation'];
         $report->resident = $validatedData['resident'];
         $report->violation = $validatedData['violation'];
         $report->engine = $validatedData['engine'];
@@ -108,7 +112,9 @@ class ReportController extends Controller
             'age' => ['required', 'string', 'max:255'],
             'birthdate' => ['nullable', 'date'],
             'status' => ['nullable', 'string', 'max:255'],
+            'religion' => ['nullable', 'string', 'max:255'],
             'educationalbackground' => ['nullable', 'string', 'max:255'],
+            'occupation' => ['nullable', 'string', 'max:255'],
             'resident' => ['nullable', 'string', 'max:255'],
             'violation' => ['nullable', 'string', 'max:255'],
             'engine' => ['required', 'string', 'max:255'],

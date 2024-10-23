@@ -239,7 +239,7 @@ public function generateReferralPDF($id)
     public function generateReportsPDF($id)
     {
         // Fetch all reports with their associated referrals
-        $data = Report::findOrFail($id);
+        $data = Report::with('referrals')->findOrFail($id);
 
         // Prepare data for the view
         $datas = [
@@ -251,7 +251,7 @@ public function generateReferralPDF($id)
 
         // Stream the PDF file
         return $pdf->stream('spot_report.pdf');
-    }
+    } 
 
     public function generateReceiptPDF($id)
     {

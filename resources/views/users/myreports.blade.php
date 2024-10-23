@@ -222,7 +222,9 @@
                             <th>Age</th>
                             <th>Birthdate</th>
                             <th>Status</th>
+                            <th>Religion</th>
                             <th>Educational Background</th>
+                            <th>Occupation</th>
                             <th>Barangay</th>
                             <th>Violation</th>
                             <th>Engine</th>
@@ -241,7 +243,9 @@
                                 <td>{{ $report->age }}</td>
                                 <td>{{ $report->birthdate }}</td>
                                 <td>{{ $report->status }}</td>
+                                <td>{{ $report->religion }}</td>
                                 <td>{{ $report->educationalbackground }}</td>
+                                <td>{{ $report->occupation }}</td>
                                 <td>{{ $report->resident }}</td>
                                 <td>{{ $report->violation }}</td>
                                 <td>{{ $report->engine }}</td>

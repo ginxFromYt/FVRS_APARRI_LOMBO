@@ -81,7 +81,7 @@
             padding: 20px;
             height: 100vh; 
             overflow-y: hidden; 
-            margin-top: 60px; 
+            margin-top: 10px; 
         }
 
         .card {
@@ -90,9 +90,9 @@
         }
 
         .form-control {
-            width: calc(100% - 20px); 
+            width: calc(100% - 10px); 
             padding: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
@@ -210,6 +210,13 @@
                                     <option value="Divorced">Divorced</option>
                                 </select>
                             </div>
+                            
+                            <div class="mb-3">
+                                <label for="religion">Religion</label>
+                                <input type="text" class="form-control" id="religion" name="religion">
+                            </div>
+
+
 
                             <div class="mb-3">
                                 <label for="educationalbackground">Educational Background</label>
@@ -224,6 +231,11 @@
                         </div>
 
                         <div class="col-md-6">
+                        <div class="mb-3">
+                                <label for="occupation">Occupation</label>
+                                <input type="text" class="form-control" id="occupation" name="occupation">
+                            </div>
+
                             <div class="mb-3">
                                 <label for="resident">Barangay</label>
                                 <select class="form-control" id="resident" name="resident">
@@ -272,7 +284,7 @@
 
                                 </select>
                             </div>
-
+                         
                             <div class="mb-3">
                                 <label for="violation">Violation</label>
                                 <select class="form-control" id="violation" name="violation">
@@ -297,12 +309,16 @@
                                 <input type="text" class="form-control" id="gridcoordinate" name="gridcoordinate">
                             </div>
 
+
+
                             <div class="mb-3">
                                 <label for="amount">Estimate Amount of Banca</label>
                                 <input type="text" class="form-control" id="amount" name="amount">
                             </div>
                         </div>
                     </div>
+
+                    
 
 
                     <div class="button-container">

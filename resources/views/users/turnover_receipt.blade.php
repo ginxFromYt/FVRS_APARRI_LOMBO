@@ -216,7 +216,7 @@
 
                 <div class="form-group">
                     <label for="investigator_pnco">Investigator PNCO</label>
-                    <input type="text" class="form-control" name="investigator_pnco" required>
+                    <input type="text" class="form-control" name="investigator_pnco" value="{{ $referral->investigator_pnco	}}" required>
                 </div>
 
                 <div class="submit-container">
