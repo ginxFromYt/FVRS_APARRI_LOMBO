@@ -172,7 +172,7 @@
     </div>
 
     <div class="logo">
-        <img src="{{ asset('img/homepagelogo.jpg') }}" alt="Logo" class="img-fluid">
+        <img src="{{ asset('img/pagelogo.jpg') }}" alt="Logo" class="img-fluid">
     </div>
 
     <div class="welcome-text">Fisherfolks Violation Records System</div>
