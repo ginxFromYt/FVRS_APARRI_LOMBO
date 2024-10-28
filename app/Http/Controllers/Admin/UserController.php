@@ -127,13 +127,6 @@ public function edit(User $user)
     }
 
 
-    public function viewedReports()
-    {
-        $viewedReports = Report::where('viewed', true)->get();
-
-        return view('admin.viewed_reports', compact('viewedReports'));
-    }
-
 private function logAction($action, $description)
     {
         $user = auth()->user(); // Get the current user
@@ -175,12 +168,6 @@ public function edits($id)
 
     return view('violation.create', compact('referrals'));
 }
-// public function dashboard()
-// {
-
-//     // Pass the variables to the view
-//     return view('admin.dashboard', compact('totalViolations', 'barangaysWithViolators', 'monthlyCounts', 'months'));
-// }
 
 
 

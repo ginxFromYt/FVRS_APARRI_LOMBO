@@ -28,7 +28,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-// redirects to specific dashboard based on the role of the user
+
 Route::get('/dashboard', function () {
     if (Auth::user()->roles[0]->name == "admin") {
         return redirect()->route('admin.analytics.dashboard');
@@ -38,107 +38,102 @@ Route::get('/dashboard', function () {
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+    Route::middleware('auth')->group(function () {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    });
 
 
-// admin routes here
-Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:admin-access')->group(function () {
-    // Add routes here for admin
-    Route::resource('/users', UserController::class, ['except' => ['create', 'store', 'destroy']]);
-    Route::get('/admin/dashboard', [UserController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/analytics', [AnalyticsController::class, 'dashboard'])->name('analytics.dashboard');
-    Route::get('/report', [UserController::class, 'usersReport'])->name('report');
-    Route::get('/referrals', [UserController::class, 'viewReferrals'])->name('referrals');
-    Route::get('/referral-report/{id}', [UserController::class, 'generateReferralPDF'])->name('referralpdf');
-    Route::get('/spot-report/{id}', [UserController::class, 'generateReportsPDF'])->name('spotpdf');
-    Route::get('/receipt/{id}/pdf', [UserController::class, 'generateReceiptPDF'])->name('receiptpdf');
-    Route::get('/turnover-receipts', [UserController::class, 'viewturnoverreceipts'])->name('turnoverreceipts');
-    Route::get('/viewed_reports', [UserController::class, 'viewedReports'])->name('viewed_reports');
-    Route::get('register/create', [UserController::class, 'showRegisterForm'])->name('register');
-    Route::post('register', [UserController::class, 'register'])->name('register.store');
-    Route::get('/violations/{id}/edits', [UserController::class, 'edits'])->name('violation.edits');
+    Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:admin-access')->group(function () {
+        Route::resource('/users', UserController::class, ['except' => ['create', 'store', 'destroy']]);    
+       });
 
-});
+    Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:admin-access')->group(function () {
+        Route::get('/violations/{id}/edits', [UserController::class, 'edits'])->name('violation.edits');
+    });  
+
+    Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:admin-access')->group(function () {
+         Route::get('register/create', [UserController::class, 'showRegisterForm'])->name('register');
+        Route::post('register', [UserController::class, 'register'])->name('register.store');
+    });
+
+    Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:admin-access')->group(function () {
+        Route::get('/receipt/{id}/pdf', [UserController::class, 'generateReceiptPDF'])->name('receiptpdf');
+        Route::get('/turnover-receipts', [UserController::class, 'viewturnoverreceipts'])->name('turnoverreceipts');
+    });
+
+    Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:admin-access')->group(function () {
+        Route::get('/report', [UserController::class, 'usersReport'])->name('report');
+        Route::get('/spot-report/{id}', [UserController::class, 'generateReportsPDF'])->name('spotpdf');
+    });
+
+    Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:admin-access')->group(function () {
+        Route::get('/referrals', [UserController::class, 'viewReferrals'])->name('referrals');
+        Route::get('/referral-report/{id}', [UserController::class, 'generateReferralPDF'])->name('referralpdf');
+    });
+    Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:admin-access')->group(function () {
+        Route::get('/analytics', [AnalyticsController::class, 'dashboard'])->name('analytics.dashboard');
+    });
+
+    Route::namespace('App\Http\Controllers\Admin')->middleware('can:admin-access')->group(function () {
+        Route::get('/record-violation', [RecordViolationController::class, 'recordviolation'])->name('violation.record');
+        Route::post('/record-violation', [RecordViolationController::class, 'store'])->name('violation.store');            
+        Route::get('/record-violation/{id}/edit', [RecordViolationController::class, 'edit'])->name('violation.edit');
+        Route::get('/list-of-records', [RecordViolationController::class, 'listviolation'])->name('violation.list');
+        Route::get('/violation/{id}/edit', [RecordViolationController::class, 'edit'])->name('violation.edit');
+        Route::get('/search-violators', [RecordViolationController::class, 'search'])->name('violation.search');
+    });
 
 
-// users routes here
-Route::namespace('App\Http\Controllers\Users')
-    ->prefix('users')
-    ->name('users.')
-    ->middleware('can:user-access')
-    ->group(function () {
+    Route::namespace('App\Http\Controllers\Users')->prefix('users')->name('users.')->middleware('can:user-access')->group(function () {
         Route::get('/report', [UserReportController::class, 'create'])->name('report');
         Route::post('/report', [UserReportController::class, 'store'])->name('report.store');
         Route::get('/myreports', [UserReportController::class, 'myreports'])->name('myreports');
     });
 
-// Route for creating and storing reports
-Route::get('/reports/create', [ReportController::class, 'create'])->name('reports.create');
-Route::post('/reports/store', [ReportController::class, 'store'])->name('reports.store');
-Route::get('/myreports', [ReportController::class, 'myreports'])->name('myreports');
-Route::get('/reports/{id}', [ReportController::class, 'show'])->name('reports.show');
-Route::get('/users/myreports', [ReportController::class, 'myreports'])->name('users.myreports');
-Route::get('/reports/addReferral/{id}', [ReportController::class, 'addReferral'])->name('addReferral');
-Route::post('/reports/store-referral', [ReportController::class, 'storeReferral'])->name('storeReferral');
-Route::get('/admin/referrals/{id}', [ReportController::class, 'getReferralDetails']);
-Route::get('/user-reports', [ReportController::class, 'userReports'])->name('report.userreports');
-Route::get('/report/{id}', [ReportController::class, 'showUserReport'])->name('report.view');
+    Route::namespace('App\Http\Controllers\Users')->middleware('can:user-access')->group(function () {
+        Route::post('/turnover-receipt/store', [TurnoverReceiptController::class, 'store'])->name('turnover.store');
+        Route::get('/turnover-receipt', [TurnoverReceiptController::class, 'show'])->name('turnover.display');
+    });
+
+
+    Route::namespace('App\Http\Controllers\Users')->middleware('can:user-access')->group(function () {
+        Route::get('/reports/create', [ReportController::class, 'create'])->name('reports.create');
+        Route::post('/reports/store', [ReportController::class, 'store'])->name('reports.store');
+        Route::get('/myreports', [ReportController::class, 'myreports'])->name('myreports');
+        Route::get('/reports/{id}', [ReportController::class, 'show'])->name('reports.show');
+        Route::get('/users/myreports', [ReportController::class, 'myreports'])->name('users.myreports');
+        Route::get('/reports/addReferral/{id}', [ReportController::class, 'addReferral'])->name('addReferral');
+        Route::post('/reports/store-referral', [ReportController::class, 'storeReferral'])->name('storeReferral');
+        Route::get('/user-reports', [ReportController::class, 'userReports'])->name('report.userreports');
+    });
+
+    Route::namespace('App\Http\Controllers\Admin')->middleware('can:admin-access')->group(function () {
+        Route::get('/history', [HistoryController::class, 'index'])->name('admin.history');
+        Route::post('/violation/finish/{id}', [RecordViolationController::class, 'finish'])->name('violation.finish');
+    });
+
+    
+    Route::namespace('App\Http\Controllers\Admin')->middleware('can:admin-access')->group(function () {
+       Route::get('/violation.barangays', [RecordViolationController::class, 'showBarangaysWithViolations'])->name('violation.barangays');
+    });
+
+    Route::namespace('App\Http\Controllers\Users')->middleware('can:user-access')->group(function () {
+        Route::get('/turnover-receipt/{id}', [ReportController::class, 'showTurnoverReceiptForm'])->name('turnoverReceiptForm');
+        Route::post('/submit-turnover-receipt', [ReportController::class, 'submitTurnoverReceipt'])->name('submitTurnoverReceipt');
+    });
 
 
 
+    Route::get('/report', [LocalReportController::class, 'showReportForm'])->name('report.form');
+    Route::post('/report', [LocalReportController::class, 'store'])->name('report.store');
+    Route::get('/cancelled-reports', [ReportController::class, 'showcancelled'])->name('cancelled.reports');
+    Route::get('/resolved-reports', [ReportController::class, 'showresolved'])->name('resolved.reports');
 
-Route::get('/record-violation', [RecordViolationController::class, 'recordviolation'])->name('violation.record');
-Route::post('/record-violation', [RecordViolationController::class, 'store'])->name('violation.store');
-
-Route::get('/list-of-records', [RecordViolationController::class, 'listviolation'])->name('violation.list');
-// Route::get('/record-violation/{id}/edit', [RecordViolationController::class, 'edit'])->name('violation.edit');
-// Route::put('/record-violation/{id}', [RecordViolationController::class, 'update'])->name('violation.update');
-
-Route::get('/violation/{id}/edit', [RecordViolationController::class, 'edit'])->name('violation.edit');
-Route::get('/search-violators', [RecordViolationController::class, 'search'])->name('violation.search');
-Route::post('/violation/finish/{id}', [RecordViolationController::class, 'finish'])->name('violation.finish'); // For marking as finished
-Route::delete('/violation/{id}/delete', [RecordViolationController::class, 'destroy'])->name('violation.delete'); // For deleting a violation
-Route::get('/violation.barangays', [RecordViolationController::class, 'showBarangaysWithViolations'])->name('violation.barangays');
-
-// Update the violation
-Route::put('/violation/{id}', [RecordViolationController::class, 'update'])->name('violation.update');
-
-
-// Define route for ReportController
-Route::post('/report/{id}/resolved', [ReportController::class, 'resolved'])->name('report.resolved');
-Route::post('report/{id}/cancelled', [ReportController::class, 'cancelled'])->name('report.cancelled');
-Route::get('/cancelled-reports', [ReportController::class, 'showcancelled'])->name('cancelled.reports');
-Route::get('/resolved-reports', [ReportController::class, 'showresolved'])->name('resolved.reports');
-
-
-
-
-
-Route::get('/turnover-receipt/{id}', [ReportController::class, 'showTurnoverReceiptForm'])->name('turnoverReceiptForm');
-Route::post('/submit-turnover-receipt', [ReportController::class, 'submitTurnoverReceipt'])->name('submitTurnoverReceipt');
-
-
-
-Route::post('/display-turnover-receipt', [ReportController::class, 'showDisplayTurnoverReceipt'])->name('turnover.display');
-Route::get('/turnover-receipt', [ReportController::class, 'showDisplayTurnoverReceipt'])->name('turnover.display');
-
-Route::post('/turnover-receipt/store', [TurnoverReceiptController::class, 'store'])->name('turnover.store');
-Route::get('/turnover-receipt', [TurnoverReceiptController::class, 'show'])->name('turnover.display');
-
-Route::patch('/userreports/{id}/status/{status}', [LocalReportController::class, 'updateStatus'])->name('userreports.updateStatus');
-
-Route::get('/history', [HistoryController::class, 'index'])->name('admin.history');
-
-Route::get('/report', [LocalReportController::class, 'showReportForm'])->name('report.form');
-Route::post('/report', [LocalReportController::class, 'store'])->name('report.store');
-
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard');
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
 
 
 

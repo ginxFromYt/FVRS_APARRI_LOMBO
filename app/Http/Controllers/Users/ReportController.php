@@ -178,13 +178,6 @@ class ReportController extends Controller
         return view('users.referral', compact('report'));
     }
 
-
-    public function getReferralDetails($id)
-    {
-        $referral = Referral::findOrFail($id); // Fetch the referral by its ID
-        return view('partials.referral_details', compact('referral'))->render(); // Render the partial view
-    }
-
     public function storeReferral(Request $request)
     {
         // Validate the request data
@@ -245,14 +238,6 @@ class ReportController extends Controller
         ]);
     }
 
-
-
-    public function showUserReport($id)
-    {
-        $report = Report::findOrFail($id); // Fetch the report or show a 404 error
-        return view('report.view', compact('report')); // Return the show view with the report data
-    }
-
     public function showTurnoverReceiptForm($id)
     {
         $report = Report::findOrFail($id);
@@ -275,41 +260,8 @@ class ReportController extends Controller
 //     return redirect()->route('users.myreports')->with('success', 'Turnover Receipt submitted successfully.');
 // }
 
-public function showDisplayTurnoverReceipt(Request $request)
-{
-    // Fetch the data to display in the turnover receipt
-    $turnoverData = (object) [
-        'municipal_agriculturist' => $request->municipal_agriculturist,
-        'date_of_violation' => $request->date_of_violation,
-        'time_of_violation' => $request->time_of_violation,
-        'name_of_violation' => $request->name_of_violation,
-        'name_of_skipper' => $request->name_of_skipper,
-        'name_of_banca' => $request->name_of_banca,
-        'investigator_pnco' => $request->investigator_pnco,
-    ];
 
-    return view('users.display_turnover_receipt', compact('turnoverData'));
-}
 
-    public function resolved() {
-        // Update the report status to resolved
-        $report = UserReport::find(request('id'));
-        $report->status ='resolved';
-        $report->save();
-
-        // Redirect to the user reports list
-        return redirect()->back()->with('success', 'Report has been resolved successfully.');
-    }
-
-    public function cancelled() {
-        // Update the report status to resolved
-        $report = UserReport::find(request('id'));
-        $report->status ='cancelled';
-        $report->save();
-
-        // Redirect to the user reports list
-        return redirect()->back()->with('success', 'Report has been resolved successfully.');
-    }
 
     public function showresolved() {
         // fetch cancelled reports
