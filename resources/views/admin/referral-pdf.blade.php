@@ -121,13 +121,8 @@
         <p><span class="span">Piece of Evidence: One Motorized Fishing Banca
                 "<strong>{{ $data->piece_of_evidence }}</strong>"</span> </p>
 
-<<<<<<< HEAD
-        <p>Facts of the Case Personnel of Aparri MLET led by {{ $data->investigator_pnco}}, conducted a seaborne patrol operation
-=======
-        <p>Facts of the Case Personnel of Aparri MLET led by
-            {{ $data->investigator_pnco ?? 'N/A' }}, conducted a seaborne patrol
-            operation
->>>>>>> f63dd6b4f9d7e5f67e7df55b187793a8f2d1de36
+        <p>Facts of the Case Personnel of Aparri MLET led by {{ $data->investigator_pnco }}, conducted a seaborne
+            patrol operation
             along seawaters
             of Cagayan River Brgy. Macanaya, Punta, Sanja and Bisagu, Aparri, Cagayan, the team intercepted (1) One
             motorized fishing banca without
@@ -140,14 +135,6 @@
             <li>Others to be presented later</li>
         </ul>
 
-<<<<<<< HEAD
-        <p>This violation of Municipal Ordinance will be presented to you by {{ $data->investigator_pnco}} Investigator-On-Case
-            of this Office, for your appropriate action and disposition.</p>
-
-         <p style="text-align: right;"> 
-    <strong>{{ $data->investigator_pnco}}</strong><br>
-    Investigator PNCO</p> 
-=======
         <p>This violation of Municipal Ordinance will be presented to you by
             {{ $data->investigator_pnco ?? 'N/A' }} Investigator-On-Case
             of this Office, for your appropriate action and disposition.</p>
@@ -155,8 +142,11 @@
         <p style="text-align: right;">
             <strong>{{ $data->investigator_pnco ?? 'N/A' }}</strong><br>
             Investigator PNCO
+
         </p>
->>>>>>> f63dd6b4f9d7e5f67e7df55b187793a8f2d1de36
+
+        <img src="{{ public_path('evidence/' . $data->image) }}" alt="Report Image"
+            style="width: 200px; height: auto;">
 
 
 </body>
