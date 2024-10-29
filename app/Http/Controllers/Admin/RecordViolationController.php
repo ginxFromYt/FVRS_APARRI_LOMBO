@@ -12,7 +12,14 @@ use Illuminate\Http\Request;
 class RecordViolationController extends Controller
 {
     // Method to show the create violation form
+    public function recordviolation()
+    {
+        // Fetch all referrals to be displayed in the violation form
+        $referrals = Referral::all();
 
+        // Pass the referrals to the view
+        return view('violation.create', compact('referrals')); // Adjust the view name if necessary
+    }
 
 
     public function edits($id)
@@ -24,6 +31,27 @@ class RecordViolationController extends Controller
         return view('violation.create', compact('referrals')); // Adjust the view name if necessary
     }
 
+    public function update(Request $request, $id)
+    {
+        $violation = RecordViolation::findOrFail($id);
+        $violation->update($request->only(['violation', 'location', 'date_of_violation', 'time_of_violation']));
+    
+        // Update or create violators
+        if ($request->has('violators')) {
+            foreach ($request->violators as $violatorData) {
+                // If there's an ID, update the violator
+                if (isset($violatorData['id'])) {
+                    $violator = Violator::findOrFail($violatorData['id']);
+                    $violator->update($violatorData);
+                } else {
+                    // Create new violator if no ID is set (this part is optional based on your requirements)
+                    $violation->violators()->create($violatorData);
+                }
+            }
+        }
+    
+        return redirect()->route('violation.list')->with('success', 'Record updated successfully');
+    }
 
     // Method to store the violation record
    public function store(Request $request)

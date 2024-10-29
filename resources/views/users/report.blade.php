@@ -93,6 +93,7 @@
     </style>
 </head>
 <body>
+    
     <div id="controlPanel">
         @extends('layouts.Users.navigation')
     </div>

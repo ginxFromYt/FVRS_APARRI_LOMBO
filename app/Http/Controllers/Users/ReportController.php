@@ -262,6 +262,11 @@ class ReportController extends Controller
 
 
 
+public function showUserReport($id)
+{
+    $report = Report::findOrFail($id); // Fetch the report or show a 404 error
+    return view('report.view', compact('report')); // Return the show view with the report data
+}
     public function showresolved() {
         // fetch cancelled reports
         $data = UserReport::where('status', 'resolved')->get();
