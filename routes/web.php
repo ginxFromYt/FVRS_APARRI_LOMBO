@@ -46,14 +46,14 @@ Route::middleware('auth')->group(function () {
 
 
 Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:admin-access')->group(function () {
-    Route::resource('/users', UserController::class, ['except' => ['create', 'store', 'destroy']]);    
+    Route::resource('/users', UserController::class, ['except' => ['create', 'store', 'destroy']]);
    });
 
 Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:admin-access')->group(function () {
     Route::get('/violations/{id}/edits', [UserController::class, 'edits'])->name('violation.edits');
     Route::put('/violation/{id}', [RecordViolationController::class, 'update'])->name('violation.update');
 
-});  
+});
 
 Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:admin-access')->group(function () {
      Route::get('register/create', [UserController::class, 'showRegisterForm'])->name('register');
@@ -80,9 +80,9 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
 
 Route::namespace('App\Http\Controllers\Admin')->middleware('can:admin-access')->group(function () {
     Route::get('/record-violation', [RecordViolationController::class, 'recordviolation'])->name('violation.record');
-    Route::post('/record-violation', [RecordViolationController::class, 'store'])->name('violation.store');     
+    Route::post('/record-violation', [RecordViolationController::class, 'store'])->name('violation.store');
     Route::get('/record-violation', [RecordViolationController::class, 'recordviolation'])->name('violation.record');
-    Route::post('/record-violation', [RecordViolationController::class, 'store'])->name('violation.store');        
+    Route::post('/record-violation', [RecordViolationController::class, 'store'])->name('violation.store');
     Route::get('/record-violation/{id}/edit', [RecordViolationController::class, 'edit'])->name('violation.edit');
     Route::get('/list-of-records', [RecordViolationController::class, 'listviolation'])->name('violation.list');
     Route::get('/violation/{id}/edit', [RecordViolationController::class, 'edit'])->name('violation.edit');
@@ -135,8 +135,8 @@ Route::namespace('App\Http\Controllers\Users')->middleware('can:user-access')->g
 
 
 // Define route for ReportController
-Route::post('/report/{id}/resolved', [ReportController::class, 'showresolved'])->name('report.resolved');
-Route::post('report/{id}/cancelled', [ReportController::class, 'showcancelled'])->name('report.cancelled');
+Route::post('/report/{id}/resolved', [ReportController::class, 'resolved'])->name('report.resolved');
+Route::post('report/{id}/cancelled', [ReportController::class, 'cancelled'])->name('report.cancelled');
 Route::get('/cancelled-reports', [ReportController::class, 'showcancelled'])->name('cancelled.reports');
 Route::get('/resolved-reports', [ReportController::class, 'showresolved'])->name('resolved.reports');
 

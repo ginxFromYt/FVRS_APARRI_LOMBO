@@ -262,6 +262,7 @@ class ReportController extends Controller
 
 
 
+
 public function showUserReport($id)
 {
     $report = Report::findOrFail($id); // Fetch the report or show a 404 error
@@ -274,6 +275,28 @@ public function showUserReport($id)
         // Redirect to the user reports list
         return view('report.resolved', compact('data'));
     }
+
+
+    public function resolved() {
+        // Update the report status to resolved
+        $report = UserReport::find(request('id'));
+        $report->status ='resolved';
+        $report->save();
+
+        // Redirect to the user reports list
+        return redirect()->back()->with('success', 'Report has been resolved successfully.');
+    }
+
+    public function cancelled() {
+        // Update the report status to resolved
+        $report = UserReport::find(request('id'));
+        $report->status ='cancelled';
+        $report->save();
+
+        // Redirect to the user reports list
+        return redirect()->back()->with('success', 'Report has been resolved successfully.');
+    }
+
 
 
     public function showcancelled() {
