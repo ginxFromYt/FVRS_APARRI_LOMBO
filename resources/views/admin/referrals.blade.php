@@ -145,11 +145,17 @@
                                     <td>{{ $referral->date_of_violation }}</td>
                                     <td>{{ $referral->location }}</td>
                                     <td>{{ $referral->complainant }}</td>
-                                    <td>{{ $referral->investigator_pnco}}</td>
+                                    <td>{{ $referral->investigator_pnco }}</td>
                                     <td>{{ $referral->violator }}</td>
                                     <td>{{ $referral->piece_of_evidence }}</td>
                                     <td>
-                                        <img src="{{ asset('evidence/' . $referral->image) }}" alt="Referral Image" style="width: 100px; height: 100px;">
+
+                                        @if ($referral && !empty($referral->image) && is_array($referral->image))
+                                            <img src="{{ asset(str_replace('public/', 'storage/', $referral->image[0])) }}"
+                                                alt="Image" style="width: 100px; height: 70px;">
+                                        @else
+                                            <p>No images found.</p>
+                                        @endif
                                     </td>
 
                                     <td>
@@ -178,9 +184,9 @@
                                             Print
                                         </button> -->
 
-                                        <a href="{{ route('admin.referralpdf', $referral->id) }}" class="btn btn-primary"
-                                            target="_blank">
-                                          View
+                                        <a href="{{ route('admin.referralpdf', $referral->id) }}"
+                                            class="btn btn-primary" target="_blank">
+                                            View
                                         </a>
 
                                         <form action="{{ route('admin.violation.edits', $referral->id) }}"

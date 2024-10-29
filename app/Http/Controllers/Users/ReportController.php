@@ -195,28 +195,27 @@ class ReportController extends Controller
         // Fetch the report
         $report = Report::find($request->report_id);
 
-        $imageName = null;
+        $imagePaths = [];
+
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $image) {
-                // Generate a unique name for the image
-                $imageName = time().'_'.uniqid().'.'.$image->getClientOriginalExtension();
-                $image->move(public_path('evidence'), $imageName);
-
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $path = $image->storeAs('public/evidence', $imageName);
+                $imagePaths[] = $path;
             }
         }
-        
         Referral::create([
             'report_id' => $request->report_id,
             'date' => $request->date,
-            'violation' => $report->violation, 
+            'violation' => $report->violation,
             'time' => $request->time,
             'date_of_violation' => $request->date_of_violation,
             'location' => $request->location,
             'complainant' => $request->complainant,
             'investigator_pnco' =>$request->investigator_pnco,
-            'violator' => $report->nameofskipper, 
+            'violator' => $report->nameofskipper,
             'piece_of_evidence' => $request->piece_of_evidence,
-            'image' => $imageName,
+            'image' => $imagePaths,
         ]);
 
         // Redirect back to the reports list or any other appropriate location

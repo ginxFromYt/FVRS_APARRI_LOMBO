@@ -145,9 +145,14 @@
 
         </p>
 
-        <img src="{{ public_path('evidence/' . $data->image) }}" alt="Report Image"
-            style="width: 200px; height: auto;">
-
+        @if ($data && !empty($data->image) && is_array($data->image))
+            @foreach ($data->image as $imagePath)
+                <img src="{{ public_path(str_replace('public/', 'storage/', $imagePath)) }}" alt="Image"
+                    style="width: 100px; height: 100px;">
+            @endforeach
+        @else
+            <p>No images found.</p>
+        @endif
 
 </body>
 

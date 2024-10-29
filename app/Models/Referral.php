@@ -9,6 +9,10 @@ class Referral extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'image' => 'array',
+    ];
+
     protected $fillable = [
         'report_id',
         'date',
