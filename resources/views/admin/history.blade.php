@@ -83,6 +83,12 @@
             color: #666;
             padding: 20px;
         }
+        .table-title {
+            font-size: 1.75rem;
+            color: black;
+            text-align: center;
+            margin-bottom: 20px;
+        }
     </style>
 
     <div class="table-container">
@@ -92,8 +98,10 @@
 
         <!-- Table displaying violation histories -->
         <div class="table-wrapper">
+        <h2 class="table-title">History of Violations</h2>
             <div class="table-scroll">
                 <table class="table">
+                
                     <thead class="table-header">
                         <tr>
                             <th>Violation</th>
