@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'Mao_Aparri',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => 'MAO',
+    'logo' => 'MAO_Aparri',
     'logo_img' => 'img/maologo.jpg',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -299,102 +299,53 @@ return [
     */
 
     'menu' => [
-        // Navbar items:
-        [
-            'type' => 'navbar-search',
-            'text' => 'search',
-            'topnav_right' => true,
-        ],
-        [
-            'type' => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
-
-        // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
+            'icon' => 'fas fa-fw fa-search', // Changed to a search icon
         ],
         [
             'text' => 'blog',
             'url' => 'admin/blog',
             'can' => 'manage-blog',
+            'icon' => 'fas fa-fw fa-blog', // Changed to a blog icon
         ],
         [
             'text' => 'Dashboard',
             'url' => 'dashboard',
-            'icon' => 'far fa-fw fa-file',
+            'icon' => 'fas fa-fw fa-tachometer-alt', // Changed to a dashboard icon
         ],
         [
             'text' => 'Maritime Reports',
             'url' => 'admin/report',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-fw fa-ship', // Changed to a ship icon to represent maritime
         ],
         [
             'text' => 'View Referrals',
             'url' => 'admin/referrals',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-fw fa-address-book', // Changed to an address book icon
         ],
-
         [
             'text' => 'Turn Over Receipts',
             'url' => 'admin/turnover-receipts',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-fw fa-receipt', // Changed to a receipt icon
         ],
-      
         [
             'text' => 'List of Records',
             'url' => '/list-of-records',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-fw fa-list-alt', // Changed to a list icon
         ],
         [
             'text' => 'History',
             'url' => '/history',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-fw fa-history', // Changed to a history icon
         ],
         [
             'text' => 'Register',
             'url' => 'admin/register/create',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-fw fa-user-plus', // Changed to a user-plus icon for registration
         ],
-        [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-            ],
-        ],
+        
     ],
 
     /*

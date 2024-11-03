@@ -12,6 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link href="{{ asset('fontawesome-free-5.15.4-web/css/all.min.css') }}" rel="stylesheet">
     <style>
+         body {
+                font-family: 'Merriweather', serif;
+            }
         .welcome-text {
             color: black;
             font-family: 'Times New Roman', serif;
@@ -64,10 +67,12 @@
         .btn-login {
             background-color: orange;
             color: white;
+            font-family: 'Merriweather', serif;
         }
         .btn-register {
             background-color: darkgreen;
             color: white;
+            font-family: 'Merriweather', serif;
         }
         .btn-report {
             background-color: red;
@@ -76,6 +81,7 @@
             font-size: 12px;
             display: inline-flex;
             align-items: center;
+            font-family: 'Merriweather', serif;
         }
         .btn-login:hover, .btn-register:hover, .btn-report:hover {
             opacity: 0.8;

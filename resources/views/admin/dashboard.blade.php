@@ -221,4 +221,3 @@
             });
         </script>
 </x-app-layout>
-

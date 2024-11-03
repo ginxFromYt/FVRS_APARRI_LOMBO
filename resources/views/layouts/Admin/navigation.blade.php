@@ -3,7 +3,7 @@
         <div class="control-panel-header text-center">
             <img src="{{ asset('img/maologo.jpg') }}" alt="Logo" class="rounded-circle"
                 style="width: 100px; height: 100px;">
-            <h2 class="control-panel-title" style="font-size: 1.25rem; color: white;">Admin Panel</h2>
+            <h2 class="control-panel-title" style="font-size: 1.25rem; color: white;">Admin </h2>
         </div>
 
         <a href="{{ route('dashboard') }}" class="btn">
@@ -46,3 +46,4 @@
         </form>
     </div>
 </div>  --}}
+

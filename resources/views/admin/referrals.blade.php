@@ -1,9 +1,8 @@
 <x-app-layout>
-    <style>
+<style>
         body {
             font-family: 'Merriweather', serif;
-            font-weight: bold;
-            /* Bold text */
+            
         }
 
         .control-panel {
@@ -110,17 +109,36 @@
             margin-left: 15px;
             vertical-align: top;
         }
-    </style>
+        /* Table styling */
+        .referrals-table th {
+            background-color: #28a745; /* Green color for the table header */
+            color: white; /* White text for contrast */
+            text-align: center;
+            vertical-align: middle;
+            padding: 10px;
+        }
 
+        table th, table td {
+            white-space: nowrap; 
+        }
+
+        /* Title styling */
+        .table-title {
+            font-size: 1.75rem;
+            color: black;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
     <div class="container-fluid">
         <div class="main-content">
             <div class="container mt-4">
+            <h2 class="table-title">Referrals</h2>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <!-- <th>Referral ID</th> -->
                                 <th>Referral Date</th>
                                 <th>Violation</th>
                                 <th>Time</th>

@@ -1,158 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <link href="/bootstrap-5.3.3-dist/css/bootstrap.css" rel="stylesheet">
     <link href="{{ asset('fontawesome-free-5.15.4-web/css/all.min.css') }}" rel="stylesheet">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit Referral</title>
     <style>
-        /* Control Panel Styling */
+        /* Styling */
         body {
             font-family: 'Merriweather', serif;
             font-weight: bold;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            background-color: #f8f9fa;
         }
 
-        .control-panel {
-            position: fixed;
-            top: 40px;
-            left: 0;
-            width: 300px;
-            height: calc(100% - 10px);
-            background-color: lightblue;
-            color: #0d6efd;
-            padding: 20px;
-            border-right: 1px solid #0d6efd;
-            z-index: 1000;
-            transition: transform 0.3s ease;
-        }
-
-        /* Hide the control panel when not visible */
-        .control-panel.hidden {
-            transform: translateX(-100%);
-        }
-
-        .control-panel-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .control-panel-header img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 15px;
-        }
-
-        .control-panel-header h2 {
-            color: blue;
-            font-weight: bold;
-            font-size: 24px;
-            margin-top: 10px;
-        }
-
-        /* Style for each link with a white background */
-        .control-panel a.btn {
-            display: block;
-            margin-bottom: 15px;
-            color: #007bff;
-            text-decoration: none;
-            font-size: 20px;
-            border: 1px solid #007bff;
-            background-color: white;
-            padding: 11px;
-            border-radius: 5px;
-            text-align: left;
-            position: relative;
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            margin-bottom: 10px;
-            color: #0d6efd;
-            text-align: left;
-            background-color: white;
-            padding: 10px;
-            text-decoration: none;
-            border: 1px solid #0d6efd;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn i {
-            margin-right: 10px;
-            color: #0d6efd;
-        }
-
-        .btn:hover {
-            background-color: #0d6efd;
-            color: white;
-        }
-
-        /* Form Container Styling */
         .form-container {
             border: 1px solid #0d6efd;
             padding: 20px;
-            margin-top: 50px;
-            margin-left: 300px;
-            max-width: 600px;
-            height: calc(100vh - 10px);
-            box-sizing: border-box;
-        }
-
-        .submit-container {
-            margin-top: 10px;
-        }
-
-        .title {
-            margin-top: 20px;
-        }
-
-        /* Toggle button */
-        .toggle-button {
-            font-size: 15px;
-            color: gray;
-            border: none;
-            padding: 5px 10px;
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            cursor: pointer;
-            z-index: 1100;
-            background-color: transparent;
-        }
-
-        .thin-container {
-            background-color: gray;
-            height: 40px;
+            margin-top: 100px;
+            max-width: 1080px;
             width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            z-index: 1001;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
 
-        h5,
-        h2 {
-            color: white;
-        }
-
-        /* Button Styling */
         .btn-orange {
             background-color: orange;
             color: white;
             border: 1px solid orange;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 5px;
             font-size: 16px;
             transition: background-color 0.3s ease;
@@ -162,106 +42,123 @@
             background-color: darkorange;
         }
 
-        .submit-container {
+        .toggle-button {
+            position: fixed;
+            top: 20px;
+            left: 10px;
+            z-index: 1100;
+            cursor: pointer;
+        }
+
+        #controlPanel {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            background-color: lightgray;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        #controlPanel.hidden {
+            transform: translateX(-100%);
+        }
+
+        .content-wrapper {
+            margin-left: 270px; /* Adjust margin to make room for the navigation panel */
             display: flex;
-            justify-content: center;
-            margin-top: 20px;
+            justify-content: flex-start;
+        }
+
+        .submit-container {
+            display: flex;          /* Use flexbox */
+            justify-content: center; /* Center the button */
+            margin-top: 15px;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="thin-container">
-        <h5 class="container-text">Maritime Police Aparri</h5>
+<div id="controlPanel">
+    @extends('layouts.Users.navigation')
+</div>
+
+<div class="content-wrapper">
+    <div class="form-container">
+        <h5 class="text-center font-weight-bold">Violator: {{ $report->nameofskipper }}</h5>
+
+        <form action="{{ route('storeReferral') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="report_id" value="{{ $report->id }}">
+            <div class="row">
+                <!-- Left half of the form -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" class="form-control" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="violation">Violation</label>
+                        <input type="text" class="form-control" name="violation" value="{{ $report->violation }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Time</label>
+                        <input type="time" class="form-control" id="time" name="time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_of_violation">Date of Violation</label>
+                        <input type="date" class="form-control" id="date_of_violation" name="date_of_violation" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" class="form-control" id="location" name="location" required>
+                    </div>
+                </div>
+
+                <!-- Right half of the form -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="complainant">Complainant</label>
+                        <input type="text" class="form-control" id="complainant" name="complainant" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="investigator_pnco">Investigator PNCO</label>
+                        <input type="text" class="form-control" id="investigator_pnco" name="investigator_pnco" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="piece_of_evidence">Piece of Evidence</label>
+                        <textarea class="form-control" id="piece_of_evidence" name="piece_of_evidence" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Attach Evidence (Upload Photo)</label>
+                        <input type="file" class="form-control" id="image" name="image[]" accept="image/*" multiple>
+                    </div>
+                </div>
+            </div>
+            <div class="submit-container mt-3">
+                <button type="submit" class="btn btn-orange" style="width: 5rem;">Submit</button>
+            </div>
+        </form>
     </div>
+</div>
 
-       <!-- Control Panel -->
-       @extends('layouts.Users.navigation')
-
-    <!-- Toggle button -->
+<div class="d-flex align-items-center mt-3">
     <button class="toggle-button" onclick="toggleControlPanel()">
-        <i class="fas fa-bars"></i> <!-- Large icon in black -->
+        <i class="fas fa-bars"></i>
     </button>
+</div>
 
-    <!-- Form container for referral submission -->
-    <div class="container">
-        <div class="form-container">
-            <h5 class="text-center text-primary">Violator {{ $report->nameofskipper }}</h5>
-            <form action="{{ route('storeReferral') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="report_id" value="{{ $report->id }}">
+<script>
+    function toggleControlPanel() {
+        var controlPanel = document.getElementById("controlPanel");
+        controlPanel.classList.toggle("hidden");
+    }
+</script>
 
-                <!-- Date (auto-filled with current date) -->
-                <div class="form-group">
-                    <label for="date">Date</label>
-                    <input type="date" class="form-control" id="date" name="date" readonly required>
-                </div>
-
-                <div class="form-group">
-                    <label for="violation">Violation</label>
-                    <input type="text" class="form-control" name="violation" value="{{ $report->violation }}"
-                        readonly>
-                </div>
-
-                <div class="form-group">
-                    <label for="time">Time</label>
-                    <input type="time" class="form-control" id="time" name="time" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="date_of_violation">Date of Violation</label>
-                    <input type="date" class="form-control" id="date_of_violation" name="date_of_violation" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="location">Location</label>
-                    <input type="text" class="form-control" id="location" name="location" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="complainant">Complainant</label>
-                    <input type="text" class="form-control" id="complainant" name="complainant" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="investigator_pnco">Investigator PNCO</label>
-                    <input type="text" class="form-control" id="investigator_pnco" name="investigator_pnco" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="piece_of_evidence">Piece of Evidence</label>
-                    <textarea class="form-control" id="piece_of_evidence" name="piece_of_evidence" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="image">Attach Evidence (Upload Photo)</label>
-                    <input type="file" class="form-control" id="" name="image[]" accept="image/*" multiple>
-                </div>
-
-
-                <div class="submit-container">
-                    <button type="submit" class="btn btn-orange" style="width: 5rem;">Submit</button>
-                </div>
-
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function toggleControlPanel() {
-            var controlPanel = document.getElementById("controlPanel");
-            controlPanel.classList.toggle("hidden");
-        }
-
-        // Set the date input field to today's date
-        document.addEventListener("DOMContentLoaded", function() {
-            var today = new Date().toISOString().split('T')[0];
-            document.getElementById("date").value = today;
-        });
-    </script>
-
-    <script src="/bootstrap-5.3.3-dist/js/bootstrap.js"></script>
+<script src="/bootstrap-5.3.3-dist/js/bootstrap.js"></script>
 </body>
-
 </html>
+

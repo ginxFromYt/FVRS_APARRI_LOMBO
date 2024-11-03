@@ -6,17 +6,12 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: white;
         }
 
         .table {
             width: 100%;
             border-collapse: collapse;
-        }
-
-        .table,
-        .table th,
-        .table td {
-            border: 1px solid black;
         }
 
         .table th,
@@ -39,7 +34,6 @@
 
         .header {
             width: 100%;
-            border-collapse: collapse;
             margin-bottom: 20px;
         }
 
@@ -66,6 +60,28 @@
 
         .span {
             margin-left: 30px;
+        }
+
+        .data-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            border: none;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 10px;
+            border: none;
+        }
+
+        .data-table th {
+            background-color: white;
+            text-align: left;
+        }
+
+        .data-table td {
+            vertical-align: top;
         }
     </style>
 </head>
@@ -108,7 +124,7 @@
         <p>1. References:<br>
             a. Implementation of E.O. 305 (Boat Registration of 3GT and below to Municipal/City Government); and
             acted on the Letter from the Office of the Municipal Mayor thru Mrs. Marites L. Robinion, Municipal
-            Agriculturist, Aparri, Cagayan dated Juned 8, 2020 and <br>
+            Agriculturist, Aparri, Cagayan dated June 8, 2020 and <br>
             b. PNP P.A.T.R.O.L Plan 2030/MG P.A.T.R.O.L Plan 2030
         </p>
 
@@ -118,10 +134,8 @@
                     {{ \Carbon\Carbon::parse($referral->date_of_violation)->format('F j, Y') }} at about
                     {{ \Carbon\Carbon::parse($referral->time)->format('g:i A') }} personnel of
                     Aparri MLET led by {{ $referral->investigator_pnco }} , conducted seaborne
-                    patrol
-                    operation along Cagayan
-                    River
-                    of Brgy. Macanaya, Minanga, Punta, Sanja and Bisagu Aparri, Cagayan which resulted in the
+                    patrol operation along Cagayan
+                    River of Brgy. Macanaya, Minanga, Punta, Sanja and Bisagu Aparri, Cagayan which resulted in the
                     apprehension of One (1) Motorized Fishing Banca for Violation of {{ $data->violation }} of Aparri,
                     Cagayan in relation to EO.305.</p>
             @endforeach
@@ -129,14 +143,33 @@
             <p>No referral data available.</p>
         @endif
 
-        <p>A. Name of Banca : {{ $data->nameofbanca }}<br>
-            Skipper: {{ $data->nameofskipper }}, {{ $data->age }} years old, DOB {{ $data->birthdate }},
-            {{ $data->status }}, {{$data->religion}}, {{ $data->educationalbackground }}, {{$data->occupation}}, and resident of Brgy.
-            {{ $data->resident }}, Aparri, Cagayan <br>
-            Engine: {{ $data->engine }}<br>
-            Engine no. : {{ $data->engineno }}<br>
-            Grid Coordinate : {{ $data->gridcoordinate }}<br>
-            Estimated Amount of Banca: ({{ $data->amount }})</p>
+        <table class="data-table">
+            <tr>
+                <th>Name of Banca:</th>
+                <td>{{ $data->nameofbanca }}</td>
+            </tr>
+            <tr>
+                <th>Skipper:</th>
+                <td>{{ $data->nameofskipper }}, {{ $data->age }} years old, DOB {{ $data->birthdate }}, {{ $data->status }}, {{$data->religion}}, {{ $data->educationalbackground }}, {{$data->occupation}}, and resident of Brgy. {{ $data->resident }}, Aparri, Cagayan</td>
+            </tr>
+            <tr>
+                <th>Engine:</th>
+                <td>{{ $data->engine }}</td>
+            </tr>
+            <tr>
+                <th>Engine No.:</th>
+                <td>{{ $data->engineno }}</td>
+            </tr>
+            <tr>
+                <th>Grid Coordinate:</th>
+                <td>{{ $data->gridcoordinate }}</td>
+            </tr>
+            <tr>
+                <th>Estimated Amount of Banca:</th>
+                <td>{{ $data->amount }}</td>
+            </tr>
+        </table>
+
     </div>
 
 </body>

@@ -125,7 +125,7 @@
                                     <td>{{ $history->location }}</td>
                                     <td>{{ $history->date_of_violation }}</td>
                                     <td>{{ $history->time_of_violation }}</td>
-                                    <td>{{ $history->violator }}</td> <!-- Changed to use the violator field -->
+                                    <td>{{ $history->violator }}</td> 
                                     <td>{{ $history->sex }}</td>
                                     <td>{{ $history->address }}</td>
                                 </tr>

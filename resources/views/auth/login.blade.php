@@ -7,14 +7,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Moon+Dance&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
     <link href="/bootstrap-5.3.3-dist/css/bootstrap.css" rel="stylesheet">
-
+        <style>
+             .container {
+                font-family: 'Merriweather', serif;
+            }
+        </style>
     <div class="container">
-        <div class="text-center mb-8">
+        <div class="text-center mb-2">
             <img src="{{ asset('img/logodouble.png') }}" alt="Logo" class="w-25 h-25 mx-auto mb-1 rounded-full">
-            <h3 class="text-success" style="font-family: 'Roboto', sans-serif;">Login</h3>
+            <h3 class="text-success">Login</h3>
         </div>
 
-        <form method="POST" action="{{ route('login') }}" class="space-y-6 p-8 rounded-md"> 
+        <form method="POST" action="{{ route('login') }}" class="space-y-3 p-6 rounded-md"> 
             @csrf
 
             <!-- Email Address -->

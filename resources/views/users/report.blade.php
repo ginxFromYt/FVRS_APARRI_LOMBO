@@ -16,76 +16,41 @@
             overflow: hidden; 
         }
 
-        .control-panel {
-            height: 100vh;
-            width: 300px; 
+        .toggle-button {
+            position: fixed;
+            top: 20px;
+            left: 10px;
+            z-index: 1100;
+            cursor: pointer;
+        }
+
+        #controlPanel {
+            width: 250px;
             position: fixed;
             top: 0;
             left: 0;
-            background-color: #ADD8E6;
-            padding-top: 60px; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-y: hidden; 
+            height: 100vh;
+            background-color: lightgray;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: transform 0.3s ease;
         }
 
-        .control-panel-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 40px; 
-        }
-
-        .control-panel-header img {
-            width: 50px; 
-            height: 50px; 
-            border-radius: 50%;
-            margin-right: 15px;
-        }
-
-        .control-panel-header h2 {
-            color: blue;
-            font-weight: bold;
-            font-size: 24px; 
-            margin-top: 10px;
-        }
-
-        .control-panel a {
-            width: 90%;
-            margin: 15px 0; 
-            padding: 10px; 
-            text-decoration: none;
-            font-size: 20px; 
-            color: blue;
-            border: 1px solid blue;
-            display: flex;
-            align-items: center;
-            background-color: #fff;
-            justify-content: flex-start;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .control-panel a i {
-            margin-right: 15px; 
-            color: blue;
-            font-size: 20px; 
-        }
-
-        .control-panel a:hover {
-            background-color: #ddd;
+        #controlPanel.hidden {
+            transform: translateX(-100%);
         }
 
         .container {
-            margin-left: 260px; 
-            padding: 20px;
-            height: 100vh; 
-            overflow-y: hidden; 
-            margin-top: 10px; 
-        }
+        margin-left: 260px;
+        width: 100%; 
+        max-width: 1000px; 
+        height: auto;
+        overflow-y: auto; 
+        padding: 10px;
+    }
 
         .card {
-            max-width: 800px; 
+            max-width: 700px; 
             margin: auto; 
         }
 
@@ -147,17 +112,7 @@
             font-size: 20px; 
         }
 
-        .thin-container {
-            background-color: gray;
-            height: 40px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            z-index: 1001;
-        }
+        
 
         h5, h2 {
             color: white;
@@ -167,9 +122,9 @@
 <body>
 
     
-
-    <!-- Control Panel -->
+<div id="controlPanel">
     @extends('layouts.Users.navigation')
+</div>
 
     <div class="container">
         <div class="card">
@@ -329,6 +284,12 @@
         </div>
     </div>
 
+    <div class="d-flex align-items-center mt-3">
+    <button class="toggle-button" onclick="toggleControlPanel()">
+        <i class="fas fa-bars"></i>
+    </button>
+    </div>
+
     <script>
         function calculateAge() {
             var birthdate = document.getElementById('birthdate').value;
@@ -341,6 +302,11 @@
             }
             document.getElementById('age').value = age;
         }
+
+        function toggleControlPanel() {
+        var controlPanel = document.getElementById("controlPanel");
+        controlPanel.classList.toggle("hidden");
+    }
     </script>
 
     <script src="/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>

@@ -120,7 +120,7 @@
                                     <form action="{{ route('violation.finish', $violation->id) }}" method="POST"
                                         class="d-inline">
                                         @csrf
-                                        <button type="submit" class="btn btn-success">Finished</button>
+                                        <button type="submit" class="btn btn-success">Finished Violation</button>
                                     </form>
                                 </td>
                             </tr>
@@ -170,3 +170,4 @@
         });
     </script>
 </x-app-layout>
+

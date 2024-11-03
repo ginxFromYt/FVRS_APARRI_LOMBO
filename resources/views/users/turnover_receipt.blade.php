@@ -6,14 +6,6 @@
     <title>Turnover Receipt</title>
     <!-- Include Bootstrap CSS -->
     <link href="/bootstrap-5.3.3-dist/css/bootstrap.css" rel="stylesheet">
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Turnover Receipt</title>
-    <!-- Include Bootstrap CSS -->
-    <link href="/bootstrap-5.3.3-dist/css/bootstrap.css" rel="stylesheet">
     <link href="{{ asset('fontawesome-free-5.15.4-web/css/all.min.css') }}" rel="stylesheet">
 
     <style>
@@ -26,47 +18,7 @@
             box-sizing: border-box;
         }
 
-        .control-panel {
-            position: fixed;
-            top: 40px;
-            left: 0;
-            width: 300px;
-            height: calc(100% - 10px);
-            background-color: lightblue;
-            color: #0d6efd;
-            padding: 20px;
-            border-right: 1px solid #0d6efd;
-            z-index: 1000;
-            transition: transform 0.3s ease;
-        }
-
-        /* Hide the control panel when not visible */
-        .control-panel.hidden {
-            transform: translateX(-100%);
-        }
-
-        .control-panel-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .control-panel-header img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 15px;
-        }
-
-        .control-panel-header h2 {
-            color: blue;
-            font-weight: bold;
-            font-size: 24px;
-            margin-top: 10px;
-        }
-
-        /* Style for each link with a white background */
-        .btn {
+                .btn {
             display: block;
             width: 100%;
             margin-bottom: 10px;
@@ -91,16 +43,18 @@
             color: white;
         }
 
-        /* Form Container Styling */
         .form-container {
-            border: 1px solid #0d6efd;
-            padding: 20px;
-            margin-top: 50px;
-            margin-left: 300px;
-            max-width: 600px;
-            height: calc(100vh - 10px);
-            box-sizing: border-box;
-        }
+    border: 1px solid #0d6efd;
+    padding: 20px;
+    margin-top: 50px;
+    margin-left: 400px;
+    max-width: 500px;
+    /* Removed the height setting */
+    max-height: 80vh; /* Set a maximum height */
+    overflow-y: auto; /* Add scrolling if content exceeds max height */
+    box-sizing: border-box;
+}
+
 
         .submit-container {
             margin-top: 10px;
@@ -110,16 +64,11 @@
 
         /* Toggle button */
         .toggle-button {
-            font-size: 15px;
-            color: gray;
-            border: none;
-            padding: 5px 10px;
             position: fixed;
-            top: 15px;
-            left: 15px;
-            cursor: pointer;
+            top: 20px;
+            left: 10px;
             z-index: 1100;
-            background-color: transparent;
+            cursor: pointer;
         }
 
         .thin-container {
@@ -130,8 +79,7 @@
             justify-content: center;
             align-items: center;
             position: fixed;
-            top: 0;
-            z-index: 1001;
+            height: auto;
         }
 
         h5 {
@@ -152,30 +100,34 @@
             background-color: darkorange;
         }
 
+        #controlPanel {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            background-color: lightgray;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        #controlPanel.hidden {
+            transform: translateX(-100%); /* Hide the panel */
+        }
     </style>
 </head>
 <body>
-    <div class="thin-container">
-        <h5 class="container-text">Maritime Police Aparri</h5>
+<div id="controlPanel"> <!-- Navigation Panel -->
+        @extends('layouts.Users.navigation')
+</div>
+
+    <div class="d-flex align-items-center mt-3">
+        <button class="toggle-button" onclick="toggleControlPanel()">
+            <i class="fas fa-bars"></i>
+        </button>
     </div>
-
-    <!-- Left-side control panel -->
-    <div id="controlPanel" class="control-panel">
-        <div class="control-panel-header">
-            <img src="{{ asset('img/1.jpg') }}" alt="Logo" class="logo-main">
-            <h2 class="control-panel-title">Turnover Receipt</h2>
-        </div>
-    <!-- Control Panel -->
-    @extends('layouts.Users.navigation')
-
-    </div>
-
-    <!-- Toggle button -->
-    <button class="toggle-button" onclick="toggleControlPanel()">
-        <i class="fas fa-bars"></i> <!-- Large icon in black -->
-    </button>
-
-    <!-- Form container for turnover receipt submission -->
+    
     <div class="container">
         <div class="form-container">
             <h2 class="text-center text-primary">Turnover Receipt Form</h2>
@@ -190,19 +142,18 @@
 
                 <div class="form-group">
                     <label for="date_of_violation">Date of Violation</label>
-                    <input type="date" class="form-control" name="date_of_violation" value="{{ $referral->date_of_violation	 }}"required>
+                    <input type="date" class="form-control" name="date_of_violation" value="{{ $referral->date_of_violation  }}"required>
                 </div>
 
                 <div class="form-group">
                     <label for="time_of_violation">Time of Violation</label>
-                    <input type="time" class="form-control" name="time_of_violation" value="{{ $referral->time	 }}" required>
+                    <input type="time" class="form-control" name="time_of_violation" value="{{ $referral->time   }}" required>
                 </div>
 
                 <div class="form-group">
                     <label for="name_of_violation">Name of Violation</label>
                     <input type="text" class="form-control" name="name_of_violation" value="{{ $report->violation }}" readonly>
                 </div>
-
 
                 <div class="form-group">
                     <label for="name_of_skipper">Name of Skipper</label>
@@ -216,7 +167,7 @@
 
                 <div class="form-group">
                     <label for="investigator_pnco">Investigator PNCO</label>
-                    <input type="text" class="form-control" name="investigator_pnco" value="{{ $referral->investigator_pnco	}}" required>
+                    <input type="text" class="form-control" name="investigator_pnco" value="{{ $referral->investigator_pnco }}" required>
                 </div>
 
                 <div class="submit-container">
@@ -226,10 +177,22 @@
         </div>
     </div>
 
-    <script>
+    
+
+<script>
         function toggleControlPanel() {
             var controlPanel = document.getElementById("controlPanel");
+            var containerContent = document.querySelector(".container-content");
+
+            // Toggle the hidden class on the navigation panel
             controlPanel.classList.toggle("hidden");
+
+            // Adjust main content margin based on panel visibility
+            if (controlPanel.classList.contains("hidden")) {
+                containerContent.style.marginLeft = "0";
+            } else {
+                containerContent.style.marginLeft = "250px";
+            }
         }
     </script>
 
@@ -238,5 +201,4 @@
 </body>
 </html>
 </head>
-
 

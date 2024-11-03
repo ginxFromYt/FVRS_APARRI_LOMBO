@@ -27,9 +27,7 @@
     <link href="/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('fontawesome-free-5.15.4-web/css/all.min.css') }}" rel="stylesheet">
     <style>
-        .font {
-            font-family: 'Nunito';
-        }
+        
     </style>
 </head>
 

@@ -20,8 +20,7 @@
         }
 
         .table-wrapper {
-            margin-left: 320px;
-            /* Increased margin to start beside the control panel */
+            margin-left: 290px;
             margin-right: 10px;
             /* Reduced space on the right side */
             margin-top: 5px;
@@ -70,80 +69,7 @@
             max-width: 80px;
             height: auto;
         }
-
-        /* Control Panel Styles */
-        .control-panel {
-            position: fixed;
-            left: 0;
-            /* Set to 0 to be visible by default */
-            top: 0;
-            width: 300px;
-            height: 100%;
-            background-color: lightblue;
-            padding: 20px;
-            padding-top: 80px;
-            /* Increased space above the logo */
-            box-shadow: rgba(0, 123, 255, 0.8) 0px 0px 15px;
-            z-index: 1000;
-            transition: left 0.3s ease;
-            font-family: 'Merriweather', serif;
-            font-weight: bold;
-        }
-
-        .control-panel-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            /* Space below the logo */
-        }
-
-        .control-panel-header img {
-            width: 40px;
-            /* Set the logo width to 40px */
-            height: 40px;
-            /* Set the logo height to 40px */
-            border-radius: 50%;
-            /* Make the logo rounded */
-            margin-right: 10px;
-            /* Add space between logo and text */
-        }
-
-        .control-panel-header h2 {
-            color: blue;
-            font-weight: bold;
-            font-size: 24px;
-            margin-top: 0;
-            /* Remove the top margin */
-        }
-
-        .control-panel a {
-            width: 90%;
-            margin: 10px 0;
-            padding: 10px;
-            text-decoration: none;
-            font-size: 18px;
-            color: blue;
-            /* Set link text color to blue */
-            background-color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s;
-            /* Added transition for color change */
-        }
-
-        .control-panel a i {
-            margin-right: 10px;
-        }
-
-        .control-panel a:hover {
-            background-color: #ddd;
-            color: blue;
-            /* Change text color to blue on hover */
-        }
-
-        .logout-btn {
+                .logout-btn {
             background-color: #fff;
             /* Set background color to white */
             color: blue;
@@ -161,24 +87,6 @@
             /* Align text to the left */
         }
 
-        .toggle-button {
-            position: fixed;
-            top: 20px;
-            left: 10px;
-            z-index: 1100;
-            cursor: pointer;
-            color: gray;
-            padding: 15px;
-            border-radius: 5px;
-            font-size: 20px;
-        }
-
-        .toggle-button i {
-            font-size: 24px;
-            color: black;
-        }
-
-        /* Button Styles */
         .action-btn {
             width: 80px;
             /* Reduced width */
@@ -195,19 +103,45 @@
             cursor: pointer;
             text-decoration: underline;
         }
+
+        .toggle-button {
+            position: fixed;
+            top: 20px;
+            left: 10px;
+            z-index: 1100;
+            cursor: pointer;
+        }
+
+        /* Navigation panel styling */
+        #controlPanel {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            background-color: lightgray;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        #controlPanel.hidden {
+            transform: translateX(-100%); /* Hide the panel */
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- Toggle Button -->
-    <div class="toggle-button" id="toggleButton">
-        <i class="fas fa-bars"></i>
+    <div id="controlPanel"> <!-- Navigation Panel -->
+        @extends('layouts.Users.navigation')
     </div>
 
-    <!-- Control Panel -->
-    @extends('layouts.Users.navigation')
-
+    <div class="d-flex align-items-center mt-3">
+        <button class="toggle-button" onclick="toggleControlPanel()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
     <div>
         <!-- Success Message -->
         @if (session('success'))
@@ -320,17 +254,21 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        // Toggle Control Panel visibility
-        const toggleButton = document.getElementById('toggleButton');
-        const controlPanel = document.getElementById('controlPanel');
+        
+        function toggleControlPanel() {
+            var controlPanel = document.getElementById("controlPanel");
+            var containerContent = document.querySelector(".container-content");
 
-        toggleButton.addEventListener('click', () => {
-            if (controlPanel.style.left === '0px') {
-                controlPanel.style.left = '-300px'; // Hide control panel
+            // Toggle the hidden class on the navigation panel
+            controlPanel.classList.toggle("hidden");
+
+            // Adjust main content margin based on panel visibility
+            if (controlPanel.classList.contains("hidden")) {
+                containerContent.style.marginLeft = "0";
             } else {
-                controlPanel.style.left = '0px'; // Show control panel
+                containerContent.style.marginLeft = "250px";
             }
-        });
+        }
 
         // Show violation details in a modal
         document.querySelectorAll('.see-more').forEach(item => {
