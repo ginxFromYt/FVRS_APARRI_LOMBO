@@ -1,6 +1,6 @@
 <x-app-layout>
     <style>
-       <style>
+       
         body {
             font-family: 'Merriweather', serif;
             
@@ -111,7 +111,7 @@
             text-align: center;
             margin-bottom: 20px;
         }
-    </style>
+
     </style>
     <div class="container-fluid">
         <div class="main-content">
