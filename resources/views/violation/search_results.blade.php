@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/bootstrap-5.3.3-dist/css/bootstrap.css" rel="stylesheet">
-    <link href="{{ asset('fontawesome-free-5.15.4-web/css/all.min.css') }}" rel="stylesheet">
-    <title>Search Results</title>
-
+<x-app-layout>
+<head></head>
+    
     <style>
         html, body {
             height: 100%;
@@ -116,40 +110,7 @@
             color: white;
         }
     </style>
-</head>
-<body>
 
-    <div class="thin-container">
-        <h5 class="container-text">Municipal Agriculture Office-Aparri</h5>
-    </div>
-
-    <div class="control-panel">
-        <div class="control-panel-header text-center">
-            <img src="{{ asset('img/maologo.jpg') }}" alt="Logo" class="rounded-circle" style="width: 100px; height: 100px;">
-            <h2 class="control-panel-title" style="font-size: 1.25rem;">Search Results</h2>
-        </div>
-        <a href="{{ route('dashboard') }}" class="btn mb-2">
-            <i class="fas fa-tachometer-alt"></i> Dashboard
-        </a>
-        <a href="{{ route('admin.report') }}" class="btn mb-2">
-            <i class="fas fa-file-alt"></i> Maritime Reports
-        </a>
-        <a href="{{ route('admin.referrals') }}" class="btn mb-2">
-            <i class="fas fa-share-square"></i> View Referrals
-        </a>
-        <a href="{{ route('violation.record') }}" class="btn mb-2">
-            <i class="fas fa-plus-square"></i> Record a Violation
-        </a>
-        <a href="{{ route('violation.list') }}" class="btn mb-2">
-            <i class="fas fa-list"></i> List of Records
-        </a>
-    </div>
-
-    <div class="table-container">
-        <!-- Display success message -->
-        @if(session('success'))
-            <p>{{ session('success') }}</p>
-        @endif
 
         <!-- Display the search results in a table format -->
         <div class="table-wrapper">
@@ -157,10 +118,7 @@
                 <table>
                     <thead class="table-header">
                         <tr>
-                            <th>First Name</th>
-                            <th>Middle Name</th>
-                            <th>Last Name</th>
-                            <th>Extension Name</th>
+                            <th>Violator</th>
                             <th>Sex</th>
                             <th>Address</th>
                             <th>Violation</th>
@@ -177,10 +135,7 @@
     @else
         @foreach($violators as $violator)
             <tr>
-                <td>{{ $violator->first_name }}</td>
-                <td>{{ $violator->middle_name }}</td>
-                <td>{{ $violator->last_name }}</td>
-                <td>{{ $violator->extension_name }}</td>
+                <td>{{ $violator->violator }}</td>
                 <td>{{ $violator->sex }}</td>
                 <td>{{ $violator->address }}</td>
                 <td>{{ $violator->recordViolation->violation ?? 'N/A' }}</td>
@@ -198,5 +153,5 @@
     </div>
 
     <script src="/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+
+</x-app-layout>

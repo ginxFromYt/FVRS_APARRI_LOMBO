@@ -94,7 +94,7 @@ class RecordViolationController extends Controller
     public function listviolation()
 {
     // Fetch all violations with their associated violators
-    $violations = RecordViolation::with('violators')->get();
+    $violations = RecordViolation::with('violators')->paginate(5);
 
     return view('violation.list', compact('violations'));
 
@@ -112,8 +112,7 @@ public function search(Request $request)
 
     // Fetch violators with related record violations based on the search query
     $violators = Violator::with('recordViolation')
-        ->where('first_name', 'LIKE', "%{$query}%")
-        ->orWhere('last_name', 'LIKE', "%{$query}%")
+        ->where('violator', 'LIKE', "%{$query}%")
         ->orWhere('address', 'LIKE', "%{$query}%")
         ->get();
 

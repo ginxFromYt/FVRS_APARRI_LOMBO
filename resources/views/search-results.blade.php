@@ -53,10 +53,7 @@
                     <th>Location</th>
                     <th>Date of Violation</th>
                     <th>Time of Violation</th>
-                    <th>First Name</th>
-                    <th>Middle Name</th>
-                    <th>Last Name</th>
-                    <th>Extension</th>
+                    <th>Name of Skipper</th>
                     <th>Sex</th>
                     <th>Address</th>
                 </tr>
@@ -68,10 +65,7 @@
                     <td>{{ $result->location }}</td>
                     <td>{{ $result->dateofviolation }}</td>
                     <td>{{ $result->timeofviolation }}</td>
-                    <td>{{ $result->firstname }}</td>
-                    <td>{{ $result->middlename }}</td>
-                    <td>{{ $result->lastname }}</td>
-                    <td>{{ $result->extension }}</td>
+                    <td>{{ $result->violator }}</td>
                     <td>{{ $result->sex }}</td>
                     <td>{{ $result->address }}</td>
                 </tr>

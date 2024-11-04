@@ -120,7 +120,7 @@ public function edit(User $user)
     public function usersReport()
     {
         // Fetch all reports
-        $reports = Report::all();
+        $reports = Report::paginate(perPage:5);
 
         // Pass the reports to the view
         return view('admin.report', ['myreports' => $reports]);
@@ -150,14 +150,14 @@ private function logAction($action, $description)
 
 public function viewReferrals()
 {
-    $referrals = Referral::all(); // Fetch all referrals
+    $referrals = Referral::paginate(perPage:3);
 
     return view('admin.referrals', compact('referrals'));
 }
 
 public function viewturnoverreceipts()
 {
-    $turnoverreceipts = TurnoverReceipt::all();
+    $turnoverreceipts = TurnoverReceipt::paginate(perPage:3);
 
     return view('admin.turnover-receipts', compact('turnoverreceipts'));
 }

@@ -1,5 +1,5 @@
 <x-app-layout>
-
+<head></head>
     <style>
         html,
         body {
@@ -25,10 +25,8 @@
         .table-wrapper {
             position: relative;
             max-height: calc(100% - 40px);
-            /* Adjust height considering the header */
             overflow: auto;
-            padding-top: 50px;
-            /* Add space for the thin-container */
+            padding-top: 50px; /* Add space for the thin-container */
         }
 
         .table-scroll {
@@ -83,58 +81,87 @@
             color: #666;
             padding: 20px;
         }
+
         .table-title {
             font-size: 1.75rem;
             color: black;
             text-align: center;
-            margin-bottom: 20px;
+            margin-top: 0%;
+            margin-bottom: 10px;
+        }
+
+        /* Style for pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+            list-style-type: none;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            color: black;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .pagination a:hover {
+            background-color: #ddd;
+        }
+
+        .pagination .active a {
+            background-color: green;
+            color: white;
+            border: none;
         }
     </style>
 
-    <div class="table-container">
-        @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
-        <!-- Table displaying violation histories -->
-        <div class="table-wrapper">
+    <!-- Table displaying violation histories -->
+    <div class="table-wrapper">
         <h2 class="table-title">History of Violations</h2>
-            <div class="table-scroll">
-                <table class="table">
-                
-                    <thead class="table-header">
+        <div class="table-scroll">
+            <table class="table">
+                <thead class="table-header">
+                    <tr>
+                        <th>Violator</th>
+                        <th>Sex</th>
+                        <th>Address</th>
+                        <th>Violation</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (isset($histories) && $histories->isEmpty())
                         <tr>
-                            <th>Violation</th>
-                            <th>Location</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Violator</th> <!-- Updated to reflect single violator field -->
-                            <th>Sex</th>
-                            <th>Address</th>
+                            <td colspan="7" class="no-records">No records found.</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @if (isset($histories) && $histories->isEmpty())
+                    @else
+                        @foreach ($histories as $history)
                             <tr>
-                                <td colspan="7" class="no-records">No records found.</td>
+                                <td>{{ $history->violator }}</td>
+                                <td>{{ $history->sex }}</td>
+                                <td>{{ $history->address }}</td>
+                                <td>{{ $history->violation }}</td>
+                                <td>{{ $history->location }}</td>
+                                <td>{{ $history->date_of_violation }}</td>
+                                <td>{{ $history->time_of_violation }}</td>
                             </tr>
-                        @else
-                            @foreach ($histories as $history)
-                                <tr>
-                                    <td>{{ $history->violation }}</td>
-                                    <td>{{ $history->location }}</td>
-                                    <td>{{ $history->date_of_violation }}</td>
-                                    <td>{{ $history->time_of_violation }}</td>
-                                    <td>{{ $history->violator }}</td> 
-                                    <td>{{ $history->sex }}</td>
-                                    <td>{{ $history->address }}</td>
-                                </tr>
-                            @endforeach
-                        @endif
-                    </tbody>
-                </table>
-            </div>
+                        @endforeach
+                    @endif
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination Links -->
+        <div class="pagination">
+            {{ $histories->links() }}
         </div>
     </div>
-
 </x-app-layout>

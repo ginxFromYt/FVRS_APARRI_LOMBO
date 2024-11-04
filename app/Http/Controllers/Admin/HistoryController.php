@@ -14,7 +14,7 @@ class HistoryController extends Controller
     public function index()
     {
         // Fetch all history records
-        $histories = History::all();
+        $histories = History::paginate(perPage:5);
 
         // Return the view with the history records
         return view('admin.history', compact('histories'));
