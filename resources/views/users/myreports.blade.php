@@ -15,8 +15,7 @@
             box-sizing: border-box;
         }
 
-        th,
-        td {
+        th, td {
             padding: 12px;
             border: 1px solid #ddd;
             white-space: nowrap;
@@ -41,7 +40,7 @@
             font-weight: 400;
             text-align: center;
             cursor: pointer;
-            background-color: orange;
+            background-color: blue;
             color: #fff;
             border-radius: 4px;
             text-decoration: none;
@@ -52,7 +51,7 @@
         }
 
         .container-content {
-            margin-left: 250px; /* Start with navigation open */
+            margin-left: 250px;
             padding: 20px;
             padding-top: 80px;
             max-height: calc(100vh - 80px);
@@ -71,17 +70,8 @@
             z-index: 1001;
         }
 
-        h5,
-        h2 {
+        h5, h2 {
             color: white;
-        }
-
-        .toggle-button {
-            position: fixed;
-            top: 20px;
-            left: 10px;
-            z-index: 1100;
-            cursor: pointer;
         }
 
         /* Navigation panel styling */
@@ -98,24 +88,40 @@
         }
 
         #controlPanel.hidden {
-            transform: translateX(-100%); /* Hide the panel */
+            transform: translateX(-100%);
+        }
+
+        /* Style for toggle button */
+        .toggle-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1002;
+            font-size: 20px;
+            color: #333;
+            background-color: lightgray;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
 
 <body>
-    <div id="controlPanel"> <!-- Navigation Panel -->
-        @extends('layouts.Users.navigation')
+    <!-- Toggle Button -->
+    <button class="toggle-button" onclick="togglePanel()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navigation Panel -->
+    <div id="controlPanel">
+        @include('layouts.Users.navigation')
     </div>
 
-    <div class="d-flex align-items-center mt-3">
-        <button class="toggle-button" onclick="toggleControlPanel()">
-            <i class="fas fa-bars"></i>
-        </button>
-    </div>
-
-    <div class="container-content">
+    <div class="container-content" id="mainContent">
         <div class="table-responsive">
+
+        <h3 class="font-weight-bold mb-2">List of Spot Reports</h3>
+
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -167,19 +173,11 @@
     </div>
 
     <script>
-        function toggleControlPanel() {
-            var controlPanel = document.getElementById("controlPanel");
-            var containerContent = document.querySelector(".container-content");
-
-            // Toggle the hidden class on the navigation panel
-            controlPanel.classList.toggle("hidden");
-
-            // Adjust main content margin based on panel visibility
-            if (controlPanel.classList.contains("hidden")) {
-                containerContent.style.marginLeft = "0";
-            } else {
-                containerContent.style.marginLeft = "250px";
-            }
+        function togglePanel() {
+            const panel = document.getElementById('controlPanel');
+            const mainContent = document.getElementById('mainContent');
+            panel.classList.toggle('hidden');
+            mainContent.style.marginLeft = panel.classList.contains('hidden') ? '0' : '250px';
         }
     </script>
 

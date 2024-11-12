@@ -31,6 +31,13 @@
             /* Enable vertical scrolling if needed */
             overflow-x: hidden;
             /* Disable horizontal scrolling */
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+
+        .table-wrapper.expanded {
+            margin-left: auto;
+            margin-right: auto;
+            width: 80%; /* Adjust to desired width */
         }
 
         .table {
@@ -69,7 +76,8 @@
             max-width: 80px;
             height: auto;
         }
-                .logout-btn {
+
+        .logout-btn {
             background-color: #fff;
             /* Set background color to white */
             color: blue;
@@ -105,10 +113,14 @@
         }
 
         .toggle-button {
-            position: fixed;
-            top: 20px;
+            position: absolute;
+            top: 10px;
             left: 10px;
-            z-index: 1100;
+            z-index: 1002;
+            font-size: 20px;
+            color: #333;
+            background-color: lightgray;
+            border: none;
             cursor: pointer;
         }
 
@@ -133,15 +145,16 @@
 
 <body>
 
-    <div id="controlPanel"> <!-- Navigation Panel -->
-        @extends('layouts.Users.navigation')
+    <!-- Toggle Button -->
+    <button class="toggle-button" onclick="togglePanel()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navigation Panel -->
+    <div id="controlPanel">
+        @include('layouts.Users.navigation')
     </div>
 
-    <div class="d-flex align-items-center mt-3">
-        <button class="toggle-button" onclick="toggleControlPanel()">
-            <i class="fas fa-bars"></i>
-        </button>
-    </div>
     <div>
         <!-- Success Message -->
         @if (session('success'))
@@ -150,9 +163,8 @@
             </div>
         @endif
 
-
-
-        <div class="table-wrapper">
+        <!-- Table Wrapper -->
+        <div id="tableWrapper" class="table-wrapper">
             <table class="table table-bordered">
                 <thead class="table-header">
                     <tr>
@@ -191,7 +203,6 @@
                                         </a>
                                     @endif
                                 </td>
-
                                 <td>
                                     <!-- Resolved button with check icon -->
                                     <form action="{{ route('report.resolved', $report->id) }}" method="POST"
@@ -210,10 +221,7 @@
                                             <i class="fas fa-times-circle text-danger"></i>
                                         </button>
                                     </form>
-
                                 </td>
-
-
                             </tr>
                         @endforeach
                     @else
@@ -222,11 +230,8 @@
                         </div>
                     @endif
                 </tbody>
-
-
             </table>
         </div>
-
     </div>
 
     <!-- Modal for Viewing Violation Details -->
@@ -254,20 +259,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        
-        function toggleControlPanel() {
-            var controlPanel = document.getElementById("controlPanel");
-            var containerContent = document.querySelector(".container-content");
-
-            // Toggle the hidden class on the navigation panel
-            controlPanel.classList.toggle("hidden");
-
-            // Adjust main content margin based on panel visibility
-            if (controlPanel.classList.contains("hidden")) {
-                containerContent.style.marginLeft = "0";
-            } else {
-                containerContent.style.marginLeft = "250px";
-            }
+        function togglePanel() {
+            const panel = document.getElementById('controlPanel');
+            const tableWrapper = document.getElementById('tableWrapper');
+            panel.classList.toggle('hidden');
+            tableWrapper.classList.toggle('expanded');
         }
 
         // Show violation details in a modal
@@ -278,18 +274,8 @@
                 $('#violationDetailsModal').modal('show');
             });
         });
-
-        // Show photo in a modal
-        document.querySelectorAll('.photo-link').forEach(item => {
-            item.addEventListener('click', function(event) {
-                event.preventDefault();
-                const photoSrc = this.getAttribute('data-photo');
-                const imgElement = `<img src="${photoSrc}" class="img-fluid" alt="User Photo">`;
-                document.getElementById('violationDetailsContent').innerHTML = imgElement;
-                $('#violationDetailsModal').modal('show');
-            });
-        });
     </script>
+
 </body>
 
 </html>

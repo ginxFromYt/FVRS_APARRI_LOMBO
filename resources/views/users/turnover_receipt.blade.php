@@ -62,15 +62,6 @@
             justify-content: center;
         }
 
-        /* Toggle button */
-        .toggle-button {
-            position: fixed;
-            top: 20px;
-            left: 10px;
-            z-index: 1100;
-            cursor: pointer;
-        }
-
         .thin-container {
             background-color: gray;
             height: 40px;
@@ -115,18 +106,32 @@
         #controlPanel.hidden {
             transform: translateX(-100%); /* Hide the panel */
         }
+
+        /* Style for toggle button */
+        .toggle-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1002;
+            font-size: 20px;
+            color: #333;
+            background-color: lightgray;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-<div id="controlPanel"> <!-- Navigation Panel -->
-        @extends('layouts.Users.navigation')
-</div>
+    <!-- Toggle Button -->
+    <button class="toggle-button" onclick="togglePanel()">
+        <i class="fas fa-bars"></i>
+    </button>
 
-    <div class="d-flex align-items-center mt-3">
-        <button class="toggle-button" onclick="toggleControlPanel()">
-            <i class="fas fa-bars"></i>
-        </button>
+    <!-- Navigation Panel -->
+    <div id="controlPanel">
+        @include('layouts.Users.navigation')
     </div>
+
     
     <div class="container">
         <div class="form-container">
@@ -177,22 +182,12 @@
         </div>
     </div>
 
-    
-
-<script>
-        function toggleControlPanel() {
-            var controlPanel = document.getElementById("controlPanel");
-            var containerContent = document.querySelector(".container-content");
-
-            // Toggle the hidden class on the navigation panel
-            controlPanel.classList.toggle("hidden");
-
-            // Adjust main content margin based on panel visibility
-            if (controlPanel.classList.contains("hidden")) {
-                containerContent.style.marginLeft = "0";
-            } else {
-                containerContent.style.marginLeft = "250px";
-            }
+    <script>
+        function togglePanel() {
+            const panel = document.getElementById('controlPanel');
+            const mainContent = document.getElementById('mainContent');
+            panel.classList.toggle('hidden');
+            mainContent.style.marginLeft = panel.classList.contains('hidden') ? '0' : '250px';
         }
     </script>
 

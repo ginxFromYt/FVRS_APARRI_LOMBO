@@ -42,13 +42,7 @@
             background-color: darkorange;
         }
 
-        .toggle-button {
-            position: fixed;
-            top: 20px;
-            left: 10px;
-            z-index: 1100;
-            cursor: pointer;
-        }
+        
 
         #controlPanel {
             width: 250px;
@@ -77,14 +71,31 @@
             justify-content: center; /* Center the button */
             margin-top: 15px;
         }
+
+        .toggle-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1002;
+            font-size: 20px;
+            color: #333;
+            background-color: lightgray;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
 
-<div id="controlPanel">
-    @extends('layouts.Users.navigation')
-</div>
+    <button class="toggle-button" onclick="togglePanel()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navigation Panel -->
+    <div id="controlPanel">
+        @include('layouts.Users.navigation')
+    </div>
 
 <div class="content-wrapper">
     <div class="form-container">
@@ -145,17 +156,15 @@
     </div>
 </div>
 
-<div class="d-flex align-items-center mt-3">
-    <button class="toggle-button" onclick="toggleControlPanel()">
-        <i class="fas fa-bars"></i>
-    </button>
-</div>
+
 
 <script>
-    function toggleControlPanel() {
-        var controlPanel = document.getElementById("controlPanel");
-        controlPanel.classList.toggle("hidden");
-    }
+    function togglePanel() {
+            const panel = document.getElementById('controlPanel');
+            const mainContent = document.getElementById('mainContent');
+            panel.classList.toggle('hidden');
+            mainContent.style.marginLeft = panel.classList.contains('hidden') ? '0' : '250px';
+        }
 </script>
 
 <script src="/bootstrap-5.3.3-dist/js/bootstrap.js"></script>

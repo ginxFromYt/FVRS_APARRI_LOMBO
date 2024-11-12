@@ -16,30 +16,7 @@
             overflow: hidden; 
         }
 
-        .toggle-button {
-            position: fixed;
-            top: 20px;
-            left: 10px;
-            z-index: 1100;
-            cursor: pointer;
-        }
-
-        #controlPanel {
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            background-color: lightgray;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            transition: transform 0.3s ease;
-        }
-
-        #controlPanel.hidden {
-            transform: translateX(-100%);
-        }
-
+        
         .container {
         margin-left: 260px;
         width: 100%; 
@@ -85,35 +62,34 @@
             margin-top: 0px; 
         }
 
-        .control-panel .btn:hover {
-            background-color: #0d6efd;
-            color: white;
+        .toggle-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1002;
+            font-size: 20px;
+            color: #333;
+            background-color: lightgray;
+            border: none;
+            cursor: pointer;
         }
 
-        .control-panel .btn:hover i {
-            color: white;
+        /* Navigation panel styling */
+        #controlPanel {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            background-color: lightgray;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: transform 0.3s ease;
         }
 
-        .control-panel .btn {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            width: 90%;
-            margin-bottom: 10px;
-            background-color: white;
-            color: #0d6efd;
-            border: 1px solid #0d6efd;
-            padding: 11px;
+        #controlPanel.hidden {
+            transform: translateX(-100%); /* Hide the panel */
         }
-
-        .control-panel .btn i {
-            margin-right: 10px;
-            color: #0d6efd;
-            font-size: 20px; 
-        }
-
-        
-
         h5, h2 {
             color: white;
         }
@@ -121,10 +97,15 @@
 </head>
 <body>
 
-    
-<div id="controlPanel">
-    @extends('layouts.Users.navigation')
-</div>
+ <!-- Toggle Button -->
+ <button class="toggle-button" onclick="togglePanel()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Navigation Panel -->
+    <div id="controlPanel">
+        @include('layouts.Users.navigation')
+    </div>
 
     <div class="container">
         <div class="card">
@@ -284,11 +265,7 @@
         </div>
     </div>
 
-    <div class="d-flex align-items-center mt-3">
-    <button class="toggle-button" onclick="toggleControlPanel()">
-        <i class="fas fa-bars"></i>
-    </button>
-    </div>
+    
 
     <script>
         function calculateAge() {
@@ -303,10 +280,21 @@
             document.getElementById('age').value = age;
         }
 
-        function toggleControlPanel() {
-        var controlPanel = document.getElementById("controlPanel");
-        controlPanel.classList.toggle("hidden");
-    }
+        function togglePanel() {
+            const panel = document.getElementById('controlPanel');
+            const tableWrapper = document.getElementById('tableWrapper');
+            panel.classList.toggle('hidden');
+            
+            if (panel.classList.contains('hidden')) {
+                tableWrapper.style.marginLeft = 'auto';
+                tableWrapper.style.marginRight = 'auto';
+                tableWrapper.style.width = '80%';
+            } else {
+                tableWrapper.style.marginLeft = '250px';
+                tableWrapper.style.marginRight = '10px';
+                tableWrapper.style.width = 'calc(100% - 260px)';
+            }
+        }
     </script>
 
     <script src="/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
