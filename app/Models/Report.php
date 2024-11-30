@@ -31,7 +31,10 @@ class Report extends Model
     {
         return $this->hasMany(Referral::class);
     }
-
+    public function releases()
+    {
+        return $this->hasMany(Release::class);
+    }
     public function turnoverReceipts()
     {
         return $this->belongsTo(TurnoverReceipt::class);

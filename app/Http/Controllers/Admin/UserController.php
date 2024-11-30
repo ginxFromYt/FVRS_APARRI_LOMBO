@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Models\Users\Feedbacks;
 use App\Models\Report;
+use App\Models\Release;
 use App\Models\RecordViolation;
 use App\Models\Violator;
 use App\Models\Referral;
@@ -240,6 +241,68 @@ public function generateReferralPDF($id)
         return $pdf->stream('spot_report.pdf');
     } 
 
+    
+    public function release($id)
+    {
+    $report = Report::with('referrals')->findOrFail($id);
+    $referral = $report->referrals->first();
+
+  
+    return view('admin.release', compact('report','referral'));
+    }
+
+    public function storeRelease(Request $request, $id)
+    {
+        // Validate incoming data
+        $validatedData = $request->validate([
+            'skipper_name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'violation' => 'required|string|max:255',
+            'date_of_violation' => 'required|date',
+            'time_of_violation' => 'required',
+            'date_of_release' => 'required|date',
+            'compensation' => 'nullable|string',
+            'agricultural_technologist' => 'required|string|max:255',
+            'municipal_agriculturist' => 'required|string|max:255',
+            'photo' => 'nullable|image|max:2048', // Allow image uploads
+        ]);
+           // Check if a Release already exists for the given report_id
+    $existingRelease = Release::where('report_id', $id)->first();
+
+    if ($existingRelease) {
+        // If a Release already exists, flash an error message and return
+        return redirect()->back()->withErrors('A Release Paper Report has already been submitted for this report.');
+    }
+    
+        // Create a new release record
+        $release = new Release();
+        $release->name_of_skipper = $validatedData['skipper_name'];
+        $release->address = $validatedData['address'];
+        $release->violation = $validatedData['violation'];
+        $release->date_of_violation = $validatedData['date_of_violation'];
+        $release->time_of_violation = $validatedData['time_of_violation'];
+        $release->date_of_release = $validatedData['date_of_release'];
+        $release->compensation = $validatedData['compensation'];
+        $release->agricultural_technologist = $validatedData['agricultural_technologist'];
+        $release->municipal_agriculturist = $validatedData['municipal_agriculturist'];
+        $release->report_id = $id;  
+    
+        // Save the photo if uploaded
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('photos', 'public');
+            $release->photo = $path;
+        }
+    
+        // Save the release record
+        $release->save();
+    
+        // Redirect back with success message
+        return redirect()->route('admin.report', $id)->with('success', 'Release paper details stored successfully!');
+    }
+    
+
+
+ 
     public function generateReceiptPDF($id)
     {
         // Fetch the receipt data by ID
@@ -251,6 +314,9 @@ public function generateReferralPDF($id)
         // Download the PDF file
         return $pdf->stream('receipt.pdf');
     }
+
+
+
 }
 
 

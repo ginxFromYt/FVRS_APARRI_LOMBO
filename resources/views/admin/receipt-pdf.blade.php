@@ -116,7 +116,7 @@
     <p>Madam:</p><br>
     <p>Greetings of Peace!</p>
 
-    <p>This referes to the apprehension conducted by operatives Aparri MLET on
+    <p>This refers to the apprehension conducted by operatives Aparri MLET on
         {{ \Carbon\Carbon::parse($receipt->date_of_violation)->format('jS \\d\\a\\y \\o\\f F Y') }} at about
         {{ \Carbon\Carbon::parse($receipt->time_of_violation)->format('g:i A') }}
         at the Municipality Waters of Aparri Cagayan for <strong>{{ $receipt->name_of_violation }}</strong> .</p>

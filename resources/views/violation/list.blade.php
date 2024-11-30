@@ -1,11 +1,9 @@
 <x-app-layout>
     <style>
-        html,
-        body {
+        html, body {
             height: 100%;
             margin: 0;
             overflow: hidden;
-            font-family: 'Merriweather', serif;
             background-color: #f4f4f4;
         }
 
@@ -42,8 +40,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        table th,
-        table td {
+        table th, table td {
             border: 1px solid #ccc;
             padding: 10px;
             text-align: left;
@@ -70,9 +67,26 @@
             border-color: #333;
         }
 
-        h2,
-        h5 {
+        h2, h5 {
             color: white;
+        }
+
+        /* Add a smoother transition for the collapsible content */
+        .collapse {
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* This will ensure the collapsible content stays open until clicked again */
+        .collapse.show {
+            opacity: 1;
+            visibility: visible;
+            height: auto; /* Ensures content is fully expanded */
+        }
+
+        .collapse:not(.show) {
+            opacity: 0;
+            visibility: hidden;
+            height: 0;
         }
     </style>
 
@@ -91,68 +105,65 @@
             </div>
         </div>
 
-       
-            <div class="table-scroll">
-                <table class="table">
-                    <thead class="table-header">
+        <div class="table-scroll">
+            <table class="table">
+                <thead class="table-header">
+                    <tr>
+                        <th>Violation</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($violations as $violation)
                         <tr>
-                            <th>Violation</th>
-                            <th>Location</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Actions</th>
+                            <td>{{ $violation->violation }}</td>
+                            <td>{{ $violation->location }}</td>
+                            <td>{{ $violation->date_of_violation }}</td>
+                            <td>{{ $violation->time_of_violation }}</td>
+                            <td>
+                                <button class="btn btn-primary" data-bs-toggle="collapse"
+                                    data-bs-target="#violators{{ $violation->id }}" aria-expanded="false">
+                                    View Violators
+                                </button>
+                                <form action="{{ route('violation.finish', $violation->id) }}" method="POST"
+                                    class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success">Resolved Violation</button>
+                                </form>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($violations as $violation)
-                            <tr>
-                                <td>{{ $violation->violation }}</td>
-                                <td>{{ $violation->location }}</td>
-                                <td>{{ $violation->date_of_violation }}</td>
-                                <td>{{ $violation->time_of_violation }}</td>
-                                <td>
-                                    <button class="btn btn-primary" data-bs-toggle="collapse"
-                                        data-bs-target="#violators{{ $violation->id }}" aria-expanded="false">
-                                        View Violators
-                                    </button>
-                                    <a href="{{ route('violation.edit', $violation->id) }}"
-                                        class="btn btn-primary">Edit</a>
-                                    <form action="{{ route('violation.finish', $violation->id) }}" method="POST"
-                                        class="d-inline">
-                                        @csrf
-                                        <button type="submit" class="btn btn-success">Finished Violation</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <tr class="collapse" id="violators{{ $violation->id }}">
-                                <td colspan="5">
-                                    <table class="table">
-                                        <thead>
+                        <tr class="collapse" id="violators{{ $violation->id }}">
+                            <td colspan="5">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Violator</th>
+                                            <th>Sex</th>
+                                            <th>Address</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($violation->violators as $violator)
                                             <tr>
-                                                <th>Violator</th>
-                                                <th>Sex</th>
-                                                <th>Address</th>
+                                                <td>{{ $violator->violator }}</td>
+                                                <td>{{ $violator->sex }}</td>
+                                                <td>{{ $violator->address }}</td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($violation->violators as $violator)
-                                                <tr>
-                                                    <td>{{ $violator->violator }}</td>
-                                                    <td>{{ $violator->sex }}</td>
-                                                    <td>{{ $violator->address }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <div class="mt-3">
-                    {{ $violations->links() }}
-                </div>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-3">
+            {{ $violations->links() }}
+        </div>
     </div>
 
     <script src="/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
@@ -172,4 +183,3 @@
         });
     </script>
 </x-app-layout>
-

@@ -2,8 +2,6 @@
 
     <style>
         body {
-            font-family: 'Merriweather', serif;
-            font-weight: bold;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;

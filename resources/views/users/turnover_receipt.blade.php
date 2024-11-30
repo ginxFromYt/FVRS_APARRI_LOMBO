@@ -11,7 +11,6 @@
     <style>
         /* Control Panel Styling */
         body {
-            font-family: 'Merriweather', serif;
             font-weight: bold;
             margin: 0;
             padding: 0;
@@ -44,16 +43,16 @@
         }
 
         .form-container {
-    border: 1px solid #0d6efd;
-    padding: 20px;
-    margin-top: 50px;
-    margin-left: 400px;
-    max-width: 500px;
-    /* Removed the height setting */
-    max-height: 80vh; /* Set a maximum height */
-    overflow-y: auto; /* Add scrolling if content exceeds max height */
-    box-sizing: border-box;
-}
+        border: 1px solid #0d6efd;
+        padding: 20px;
+        margin-top: 50px;
+        margin-left: 400px;
+        max-width: 500px;
+        /* Removed the height setting */
+        max-height: 80vh; /* Set a maximum height */
+        overflow-y: auto; /* Add scrolling if content exceeds max height */
+        box-sizing: border-box;
+    }
 
 
         .submit-container {
@@ -135,7 +134,18 @@
     
     <div class="container">
         <div class="form-container">
-            <h2 class="text-center text-primary">Turnover Receipt Form</h2>
+            <h2 class="text-center">Turnover Receipt Form</h2>
+
+                 <!-- Display Error Messages -->
+                 @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <form action="{{ route('turnover.store') }}" method="POST">
                 @csrf
 

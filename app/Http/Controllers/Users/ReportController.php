@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Report;
 use App\Models\UserReport;
 use App\Models\Referral;
+use App\Models\Release;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -178,6 +180,7 @@ class ReportController extends Controller
         return view('users.referral', compact('report'));
     }
 
+   
     public function storeReferral(Request $request)
     {
         // Validate the request data
@@ -308,5 +311,24 @@ public function showUserReport($id)
     }
 
 
+    public function releases()
+    {
+        // Fetch data from the 'releases' table
+        $releases = Release::all(); // You can adjust this query to fit your needs (e.g., paginate, filter, etc.)
+        
+        // Return a view with the releases data
+        return view('users.releases', compact('releases'));
+    }
 
+    public function generatePdf($id)
+    {
+        // Fetch specific releases or all releases as needed
+        $releases = Release::where('id', $id)->get(); // Example: filtering by ID
+    
+        // Generate the PDF
+        $pdf = PDF::loadView('users.releasepaperspdf', compact('releases'));
+    
+        // Stream the PDF file
+        return $pdf->stream('releasepapers.pdf');
+    }
 }

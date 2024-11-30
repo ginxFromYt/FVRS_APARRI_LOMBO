@@ -33,7 +33,10 @@ class Referral extends Model
     {
         return $this->belongsTo(Report::class);
     }
-
+    public function release()
+    {
+        return $this->hasOne(Release::class);
+    }
     public function turnoverReceipts()
     {
         return $this->belongsTo(TurnoverReceipt::class);

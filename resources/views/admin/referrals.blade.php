@@ -1,10 +1,5 @@
 <x-app-layout>
     <style>
-       
-        body {
-            font-family: 'Merriweather', serif;
-            
-        }
 
         .control-panel {
             width: 300px;

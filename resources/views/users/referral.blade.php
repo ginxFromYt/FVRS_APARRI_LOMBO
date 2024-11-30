@@ -9,7 +9,6 @@
     <style>
         /* Styling */
         body {
-            font-family: 'Merriweather', serif;
             font-weight: bold;
             margin: 0;
             padding: 0;
@@ -100,7 +99,18 @@
 <div class="content-wrapper">
     <div class="form-container">
         <h5 class="text-center font-weight-bold">Violator: {{ $report->nameofskipper }}</h5>
-
+  
+       <!-- Display Error Messages -->
+       @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+    
         <form action="{{ route('storeReferral') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="report_id" value="{{ $report->id }}">
@@ -165,6 +175,12 @@
             panel.classList.toggle('hidden');
             mainContent.style.marginLeft = panel.classList.contains('hidden') ? '0' : '250px';
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.getElementById('date');
+        const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+        dateInput.value = today;
+    });
 </script>
 
 <script src="/bootstrap-5.3.3-dist/js/bootstrap.js"></script>

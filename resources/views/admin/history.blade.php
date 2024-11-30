@@ -6,7 +6,6 @@
             height: 100%;
             margin: 0;
             overflow: hidden;
-            font-family: 'Merriweather', serif;
             background-color: #f4f4f4;
         }
 
@@ -26,7 +25,6 @@
             position: relative;
             max-height: calc(100% - 40px);
             overflow: auto;
-            padding-top: 50px; /* Add space for the thin-container */
         }
 
         .table-scroll {
@@ -134,7 +132,7 @@
                         <th>Violation</th>
                         <th>Location</th>
                         <th>Date</th>
-                        <th>Time</th>
+                        <!-- <th>Time</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -151,7 +149,7 @@
                                 <td>{{ $history->violation }}</td>
                                 <td>{{ $history->location }}</td>
                                 <td>{{ $history->date_of_violation }}</td>
-                                <td>{{ $history->time_of_violation }}</td>
+                                <!-- <td>{{ $history->time_of_violation }}</td> -->
                             </tr>
                         @endforeach
                     @endif

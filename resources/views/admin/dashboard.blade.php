@@ -4,8 +4,8 @@
     <script src="{{ asset('js/chart.umd.js') }}"></script>
     <style>
         body {
-            font-family: 'Merriweather', serif;
-            overflow: hidden; /* Remove scrollbar */
+           
+            overflow: hidden; 
         }
 
         .container-text {

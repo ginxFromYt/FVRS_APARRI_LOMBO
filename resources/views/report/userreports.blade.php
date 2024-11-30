@@ -15,7 +15,6 @@
             height: 100%;
             margin: 0;
             overflow: hidden;
-            font-family: 'Merriweather', serif;
             background-color: #f4f4f4;
         }
 
@@ -209,7 +208,7 @@
                                         style="display:inline;">
                                         @csrf
                                         <button type="submit" class="btn" style="border:none; background:none;">
-                                            <i class="fas fa-check-circle text-success"></i>
+                                            <i class="fas fa-check-circle text-success">Resolved</i>
                                         </button>
                                     </form>
 
@@ -218,7 +217,7 @@
                                         style="display:inline;">
                                         @csrf
                                         <button type="submit" class="btn" style="border:none; background:none;">
-                                            <i class="fas fa-times-circle text-danger"></i>
+                                            <i class="fas fa-times-circle text-danger">Cancelled</i>
                                         </button>
                                     </form>
                                 </td>

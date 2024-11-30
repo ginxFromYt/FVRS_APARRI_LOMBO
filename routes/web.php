@@ -68,6 +68,9 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
 Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:admin-access')->group(function () {
     Route::get('/report', [UserController::class, 'usersReport'])->name('report');
     Route::get('/spot-report/{id}', [UserController::class, 'generateReportsPDF'])->name('spotpdf');
+    Route::get('/release/{id}', [UserController::class, 'release'])->name('release');
+    Route::put('/release/{id}', [UserController::class, 'storeRelease'])->name('admin.release');
+
 });
 
 Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->middleware('can:admin-access')->group(function () {
@@ -113,6 +116,9 @@ Route::namespace('App\Http\Controllers\Users')->middleware('can:user-access')->g
     Route::post('/reports/store-referral', [ReportController::class, 'storeReferral'])->name('storeReferral');
     Route::get('/user-reports', [ReportController::class, 'userReports'])->name('report.userreports');
     Route::get('/report/{id}', [ReportController::class, 'showUserReport'])->name('report.view');
+  
+    Route::get('/users/releases', [ReportController::class, 'releases'])->name('users.releases');
+    Route::get('/releasepapers-pdf/{id}', [ReportController::class, 'generatePdf'])->name('releasepapers.pdf');
 
 });
 
@@ -124,6 +130,11 @@ Route::namespace('App\Http\Controllers\Admin')->middleware('can:admin-access')->
 
 Route::namespace('App\Http\Controllers\Admin')->middleware('can:admin-access')->group(function () {
    Route::get('/violation.barangays', [RecordViolationController::class, 'showBarangaysWithViolations'])->name('violation.barangays');
+   // Route for fetching violators based on barangay address
+Route::get('/violators/{barangay}', [RecordViolationController::class, 'getViolatorsByBarangay']);
+
+
+
 });
 
 Route::namespace('App\Http\Controllers\Users')->middleware('can:user-access')->group(function () {

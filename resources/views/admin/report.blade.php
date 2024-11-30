@@ -1,9 +1,7 @@
 <x-app-layout>
 <head></head>
     <style>
-        body {
-            font-family: 'Merriweather', serif;
-        }
+        
 
         .report-table {
             table-layout: auto;
@@ -42,7 +40,7 @@
     
     <div class="container-fluid">
         <div class="container-content">
-            <div class="container mt-4">
+            <div class="container mt-2">
                 <h2 class="table-title">Spot Reports</h2>
                 <div class="table-responsive">
                     <table class="table table-bordered report-table">
@@ -88,6 +86,13 @@
                                         <a href="{{ route('admin.spotpdf', $report->id) }}" class="btn btn-primary" target="_blank">
                                             Download PDF
                                         </a>
+                                        <br>
+                                                                        
+                                        <a href="{{ route('admin.release', $report->id) }}" class="btn btn-success mt-2">
+                                                Release Paper
+                                        </a>
+                                                                        
+
                                     </td>
                                 </tr>
                             @endforeach

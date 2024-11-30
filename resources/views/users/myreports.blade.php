@@ -6,10 +6,8 @@
     <link href="{{ asset('fontawesome-free-5.15.4-web/css/all.min.css') }}" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Incident Reports</title>
     <style>
         body {
-            font-family: 'Merriweather', serif;
             margin: 0;
             padding: 0;
             box-sizing: border-box;

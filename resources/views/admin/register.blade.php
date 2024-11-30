@@ -6,39 +6,37 @@
 
     <head>
         <style>
-            body {
-                font-family: 'Merriweather', serif;
-            }
+           
             .registration-container {
-                background-color: white; /* Set the background color to white */
-                padding: 20px; /* Reduced padding for smaller top and bottom */
-                border-radius: 8px; /* Round the corners */
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-                max-width: 400px; /* Limit the width of the box */
-                margin: auto; /* Center the box */
-                overflow: hidden; /* Remove scrollbar */
-                margin-top: 20px; /* Add some space above the container */
+                background-color: white; 
+                padding: 20px; 
+                border-radius: 8px; 
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+                max-width: 400px; 
+                margin: auto; 
+                overflow: hidden; 
+                margin-top: 20px;
             }
             .logo {
-                width: 50px; /* Adjust logo size */
-                height: auto; /* Maintain aspect ratio */
+                width: 50px;
+                height: auto; 
             }
             .register-title {
-                font-size: 20px; /* Adjust register text size */
+                font-size: 20px; 
             }
             .button-container {
                 display: flex; 
-                justify-content: space-between; /* Compress button and text */
-                align-items: center; /* Center the items vertically */
-                margin-top: 10px; /* Reduced margin for button area */
+                justify-content: space-between; 
+                align-items: center; 
+                margin-top: 10px; 
             }
             .register-link {
-                font-size: 12px; /* Smaller link size */
+                font-size: 12px; 
             }
         </style>
     </head>
 
-    <div class="registration-container"> <!-- Added container for registration -->
+    <div class="registration-container"> 
         <form method="POST" action="{{ route('admin.register.store') }}">
             @csrf
 
@@ -78,7 +76,7 @@
                 <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md register-link" href="{{ route('login') }}">
                     {{ __('Already registered?') }}
                 </a>
-                <x-primary-button class="bg-success px-4 py-1"> <!-- Adjusted button padding -->
+                <x-primary-button class="bg-success px-4 py-1"> 
                     {{ __('Register') }}
                 </x-primary-button>
             </div>

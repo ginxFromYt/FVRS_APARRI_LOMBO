@@ -12,7 +12,6 @@
 
 <style>
     body {
-        font-family: 'Merriweather', serif;
         font-weight: bold;
     }
     .container-content {
@@ -61,11 +60,9 @@
 
         <div class="container-content">
             <div class="notification-box">
-                <!-- Notification Button -->
                 <a href="{{ route('report.userreports') }}"  style="margin: 0; padding: 0;">
                     <i class="fas fa-bell"></i>
                     <span id="notificationCount" class="badge bg-danger">{{ \App\Models\UserReport::count() }}</span>
-                    <!-- Total count of reports -->
                 </a>
             </div>
 

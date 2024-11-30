@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
-            font-family: 'Merriweather', serif;
+            
             font-weight: bold;
             margin: 0;
             padding: 0;
@@ -158,10 +158,10 @@
                                 <label for="educationalbackground">Educational Background</label>
                                 <select class="form-control" id="educationalbackground" name="educationalbackground">
                                     <option value="" disabled selected>Choose here</option>
-                                    <option value="Elementarygraduate">Elementary Graduate</option>
-                                    <option value="Highschoolgraduate">High School Graduate</option>
-                                    <option value="Shsgraduate">Senior High School Graduate</option>
-                                    <option value="Collegegraduate">College Graduate</option>
+                                    <option value="Elementary Level">Elementary Level</option>
+                                    <option value="Jhs Level">Junior High School Level</option>
+                                    <option value="Shs Level">Senior High School Level</option>
+                                    <option value="College Level">College Level</option>
                                 </select>
                             </div>
                         </div>

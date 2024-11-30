@@ -15,7 +15,6 @@
             height: 100%;
             margin: 0;
             overflow: hidden;
-            font-family: 'Merriweather', serif;
             background-color: #f4f4f4;
         }
 

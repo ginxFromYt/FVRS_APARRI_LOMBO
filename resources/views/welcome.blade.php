@@ -12,9 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link href="{{ asset('fontawesome-free-5.15.4-web/css/all.min.css') }}" rel="stylesheet">
     <style>
-         body {
-                font-family: 'Merriweather', serif;
-            }
+         
         .welcome-text {
             color: black;
             font-family: 'Times New Roman', serif;
@@ -59,29 +57,29 @@
             padding: 20px;
         }
         .btn-login, .btn-register, .btn-report {
-            font-family: 'Roboto', sans-serif;
-            font-weight: 500;
-            padding: 8px 15px;  /* Adjusted padding for smaller buttons */
-            width: 100px;  /* Adjusted width for smaller buttons */
+           
+            font-weight: 400;
+            padding: 8px 15px;  
+            width: 100px;  
         }
         .btn-login {
             background-color: orange;
             color: white;
-            font-family: 'Merriweather', serif;
+            
         }
         .btn-register {
             background-color: darkgreen;
             color: white;
-            font-family: 'Merriweather', serif;
+            
         }
         .btn-report {
             background-color: red;
             color: white;
             padding: 5px 10px;
-            font-size: 12px;
+            font-size: 11px;
             display: inline-flex;
             align-items: center;
-            font-family: 'Merriweather', serif;
+            
         }
         .btn-login:hover, .btn-register:hover, .btn-report:hover {
             opacity: 0.8;
@@ -105,7 +103,7 @@
             position: absolute;
             top: 50px;
             left: 10px;
-            width: 150px;  /* Adjusted width for smaller toggle box */
+            width: 150px;  
             padding: 10px;
             background-color: rgba(0, 0, 0, 0.7);
             border-radius: 10px;
@@ -215,7 +213,7 @@
         <div class="report-section">
             <span>Do you have a report to submit? / Mayroon ka bang ulat na isusumite?</span>
             <a href="{{ url('/report') }}" class="btn btn-report">
-                <i class="fas fa-file-alt"></i> Click Here
+                <i class="fas fa-file-alt"></i> Report Here
             </a>
         </div>
     </div>

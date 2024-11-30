@@ -31,6 +31,9 @@
         .result-count {
             margin-bottom: 10px;
         }
+        .search-query {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -39,8 +42,9 @@
 
         <div class="result-count">
             @if ($searchResults->isEmpty())
-                <p>No results found.</p>
+                <p>No results found for your search.</p>
             @else
+                <p>Showing results for: <span class="search-query">"{{ $query }}"</span></p>
                 <p>Found {{ $searchResults->total() }} result(s).</p>
             @endif
         </div>

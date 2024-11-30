@@ -31,7 +31,6 @@
             position: relative;
             max-height: calc(100% - 40px);
             overflow: auto;
-            padding-top: 50px;
         }
 
         table {
@@ -147,6 +146,14 @@
                                 <a href="{{ route('admin.receiptpdf', $receipt->id) }}" class="btn btn-warning" target="_blank">
                                     Download PDF
                                 </a>
+
+                                <br>
+                                <!-- 
+                                <a href="{{ route('admin.receiptpdf', $receipt->id) }}" class="btn btn-primary" target="_blank">
+                                    Release Paper
+                                </a> 
+                                -->
+
                             </td>
                         </tr>
                     @endforeach

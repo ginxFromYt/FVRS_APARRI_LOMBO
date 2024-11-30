@@ -8,9 +8,7 @@
 
     <link href="/bootstrap-5.3.3-dist/css/bootstrap.css" rel="stylesheet">
         <style>
-             .container {
-                font-family: 'Merriweather', serif;
-            }
+            
         </style>
     <div class="container">
         <div class="text-center mb-2">

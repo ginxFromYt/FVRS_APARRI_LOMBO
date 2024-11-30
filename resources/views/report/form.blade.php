@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Violation Report Form</title>
+    <title>Incident Report Form</title>
     <link href="/bootstrap-5.3.3-dist/css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -79,7 +79,7 @@
     <div class="container">
         <div class="card">
             <div class="card-header text-center">
-                <h3>Violation Report Form</h3>
+                <h3>Incident Report Form</h3>
             </div>
             <div class="card-body">
                 @if(session('success'))
@@ -116,9 +116,9 @@
                         <!-- Right side of the form -->
                         <div class="col-md-6">
                             <!-- Information about the violator -->
-                            <label for="information">Details about the violation (required):</label>
+                            <label for="information">Details about the report (required):</label>
                             <textarea id="information" name="information" class="form-control" rows="5"
-                                placeholder="Describe the violation..." required></textarea>
+                                placeholder="Describe the incident..." required></textarea>
 
                             <!-- Photo upload -->
                             <label for="photo">Upload supporting photo (optional):</label>
@@ -128,7 +128,7 @@
 
                     <!-- Note -->
                     <p class="note">The maritime authorities will contact you within 24 hours regarding the report you
-                        submitted.</p>
+                        submitted.If you don't hear back within 24 hours, please consider your report canceled or invalid. Thank you!</p>
 
                     <!-- Submit button -->
                     <button type="submit" class="btn btn-primary">Submit Report</button>

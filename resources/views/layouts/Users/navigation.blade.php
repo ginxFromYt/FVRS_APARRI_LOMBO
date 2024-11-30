@@ -15,7 +15,7 @@
     box-shadow: rgba(0, 123, 255, 0.8) 0px 0px 10px;
     z-index: 1000;
     transition: left 0.3s ease;
-    font-family: 'Merriweather', serif;
+   
 }
 
 .control-panel.visible {
@@ -94,6 +94,10 @@
     <a href="{{ route('cancelled.reports') }}" class="btn">
         <i class="fas fa-times-circle"></i> Cancelled Reports
     </a>
+
+    <a href="{{ route('users.releases') }}" class="btn">
+    <i class="fas fa-check-circle"></i> Release Paper
+</a>
 
     <a href="{{ route('profile.edit') }}" class="btn">
         <i class="fas fa-user"></i> Profile

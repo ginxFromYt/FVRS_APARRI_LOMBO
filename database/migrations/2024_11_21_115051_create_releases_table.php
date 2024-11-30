@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('releases', function (Blueprint $table) {
+            $table->id();
+            $table->string('name_of_skipper');
+            $table->string('address');
+            $table->string('violation');
+            $table->date('date_of_violation');
+            $table->time('time_of_violation');
+            $table->date('date_of_release');
+            $table->text('compensation');
+            $table->string('agricultural_technologist');
+            $table->string('municipal_agriculturist');
+            $table->string('photo')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('releases');
+    }
+};
