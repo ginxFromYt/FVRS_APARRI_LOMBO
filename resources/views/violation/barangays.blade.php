@@ -38,9 +38,7 @@
         .btn-primary {
             margin-top: 20px;
         }
-        #violatorsTable {
-            margin-top: 30px;
-        }
+        
 
         .back-button {
             position: fixed;
@@ -53,9 +51,9 @@
 <body>
     <x-app-layout>
         <x-slot name="header">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h1 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Barangays with Violations') }}
-            </h2>
+            </h1>
         </x-slot>
 
         <div class="">
@@ -66,7 +64,7 @@
                     <div class="table-container">
                         <!-- Left Table -->
                         <div class="left-table">
-                            <h2 class="text-center">Barangays with Violations</h2>
+                            <h1 class="text-center">Barangays with Violations</h1>
                             <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
