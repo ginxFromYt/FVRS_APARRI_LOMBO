@@ -108,18 +108,20 @@
         </div>
 
         <div class="col-lg-6 col-md-6 mb-4">
-            <div class="box bg-danger d-flex flex-column h-100">
-                <div class="box-header">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <h4>Total # of Violations</h4>
-                </div>
-                <div class="box-content mt-auto">
-                    <h2 class="card-text">
-                        {{ \App\Models\RecordViolation::distinct('violation')->count('violation') }}
-                    </h2>
-                </div>
+    <a href="{{ route('violation.summary') }}" class="text-decoration-none">
+        <div class="box bg-danger d-flex flex-column h-100">
+            <div class="box-header">
+                <i class="fas fa-exclamation-circle"></i>
+                <h4>Total # of Violations</h4>
+            </div>
+            <div class="box-content mt-auto">
+                <h2 class="card-text">
+                    {{ \App\Models\RecordViolation::count() }} <!-- Count all violations -->
+                </h2>
             </div>
         </div>
+    </a>
+</div>
 
         <!-- Charts Section -->
         <div class="row mb-4">

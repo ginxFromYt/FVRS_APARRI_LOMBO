@@ -126,18 +126,18 @@
                         <th>#</th>
                         <th>Name of Banca</th>
                         <th>Name of Skipper</th>
-                        <th>Age</th>
+                        <!-- <th>Age</th>
                         <th>Birthdate</th>
                         <th>Status</th>
                         <th>Religion</th>
                         <th>Educational Background</th>
-                        <th>Occupation</th>
+                        <th>Occupation</th> -->
                         <th>Barangay</th>
                         <th>Violation</th>
-                        <th>Engine</th>
+                        <!-- <th>Engine</th>
                         <th>Engine No.</th>
                         <th>Grid Coordinate</th>
-                        <th>Estimated Amount of Banca</th>
+                        <th>Estimated Amount of Banca</th> -->
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -147,21 +147,21 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $report->nameofbanca }}</td>
                             <td>{{ $report->nameofskipper }}</td>
-                            <td>{{ $report->age }}</td>
+                            <!-- <td>{{ $report->age }}</td>
                             <td>{{ $report->birthdate }}</td>
                             <td>{{ $report->status }}</td>
                             <td>{{ $report->religion }}</td>
                             <td>{{ $report->educationalbackground }}</td>
-                            <td>{{ $report->occupation }}</td>
+                            <td>{{ $report->occupation }}</td> -->
                             <td>{{ $report->resident }}</td>
                             <td>{{ $report->violation }}</td>
-                            <td>{{ $report->engine }}</td>
+                            <!-- <td>{{ $report->engine }}</td>
                             <td>{{ $report->engineno }}</td>
                             <td>{{ $report->gridcoordinate }}</td>
-                            <td>{{ $report->amount }}</td>
+                            <td>{{ $report->amount }}</td> -->
                             <td class="btn-container">
-                                <a href="{{ route('addReferral', ['id' => $report->id]) }}" class="btn btn-referral">Submit Referral</a>
-                                <a href="{{ route('turnoverReceiptForm', ['id' => $report->id]) }}" class="btn btn-referral">Turnover Receipt</a>
+                            <a href="{{ route('addReferral', ['id' => encrypt($report->id)]) }}" class="btn btn-referral">Submit Referral</a>
+                            <a href="{{ route('turnoverReceiptForm', ['id' => encrypt($report->id)]) }}" class="btn btn-referral">Turnover Receipt</a>
                             </td>
                         </tr>
                     @endforeach

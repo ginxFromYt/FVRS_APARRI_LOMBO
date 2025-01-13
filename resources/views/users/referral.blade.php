@@ -41,7 +41,7 @@
             background-color: darkorange;
         }
 
-        
+
 
         #controlPanel {
             width: 250px;
@@ -99,7 +99,7 @@
 <div class="content-wrapper">
     <div class="form-container">
         <h5 class="text-center font-weight-bold">Violator: {{ $report->nameofskipper }}</h5>
-  
+
        <!-- Display Error Messages -->
        @if ($errors->any())
                 <div class="alert alert-danger">
@@ -110,7 +110,7 @@
                     </ul>
                 </div>
             @endif
-    
+
         <form action="{{ route('storeReferral') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="report_id" value="{{ $report->id }}">
@@ -119,7 +119,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="date">Date</label>
-                        <input type="date" class="form-control" id="date" name="date" required>
+                        <input type="date" class="form-control" id="date" name="date" required readonly>
                     </div>
                     <div class="form-group">
                         <label for="violation">Violation</label>

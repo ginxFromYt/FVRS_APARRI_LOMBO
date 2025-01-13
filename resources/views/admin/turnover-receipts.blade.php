@@ -143,9 +143,9 @@
                             <td>{{ $receipt->name_of_banca }}</td>
                             <td>{{ $receipt->investigator_pnco }}</td>
                             <td>
-                                <a href="{{ route('admin.receiptpdf', $receipt->id) }}" class="btn btn-warning" target="_blank">
-                                    Download PDF
-                                </a>
+                            <a href="{{ route('admin.receiptpdf', ['id' => encrypt($receipt->id)]) }}" class="btn btn-warning" target="_blank">
+                                Download PDF
+                            </a>
 
                                 <br>
                                 <!-- 

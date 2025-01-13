@@ -124,6 +124,8 @@
                             <td>{{ $violation->date_of_violation }}</td>
                             <td>{{ $violation->time_of_violation }}</td>
                             <td>
+                            
+                            
                                 <button class="btn btn-primary" data-bs-toggle="collapse"
                                     data-bs-target="#violators{{ $violation->id }}" aria-expanded="false">
                                     View Violators
@@ -133,6 +135,7 @@
                                     @csrf
                                     <button type="submit" class="btn btn-success">Resolved Violation</button>
                                 </form>
+                              
                             </td>
                         </tr>
                         <tr class="collapse" id="violators{{ $violation->id }}">

@@ -21,6 +21,9 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Facades\Crypt;
+
 
 class UserController extends Controller
 {
@@ -35,6 +38,8 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
     public function index()
     {
         // denies the gate if
@@ -163,11 +168,22 @@ public function viewturnoverreceipts()
     return view('admin.turnover-receipts', compact('turnoverreceipts'));
 }
 
-public function edits($id)
-{
-    $referrals = Referral::with('report')->findOrFail($id); // Fetch all referrals
 
-    return view('violation.create', compact('referrals'));
+public function edits($encryptedId)
+{
+    try {
+        // Decrypt the encrypted ID
+        $id = decrypt($encryptedId);
+
+        // Fetch the referral along with the associated report using the decrypted ID
+        $referrals = Referral::with('report')->findOrFail($id);
+
+        // Return the view with the referral data
+        return view('violation.create', compact('referrals'));
+    } catch (DecryptException $e) {
+        // Handle invalid or tampered encryption
+        abort(403, 'Unauthorized access.');
+    }
 }
 
 
@@ -204,29 +220,43 @@ public function register(Request $request)
 
 
 
-
-public function generateReferralPDF($id)
+public function generateReferralPDF($encryptedId)
 {
-    // Fetch all referrals with their respective reports and associated turnover receipts
-    $data = Referral::with('report')->findOrFail($id);
+    try {
+        // Decrypt the encrypted ID
+        $id = decrypt($encryptedId);
 
-    $datas = [
-        'data' => $data,
-    ];
+        // Fetch the referral along with its associated report using the decrypted ID
+        $data = Referral::with('report')->findOrFail($id);
 
-    // Load the view and pass the data to it
-    $pdf = PDF::loadView('admin.referral-pdf', $datas);
+        // Prepare data for the PDF
+        $datas = [
+            'data' => $data,
+        ];
 
-    // Stream the generated PDF back to the browser
-    return $pdf->stream('referral_report.pdf');
+        // Load the view and pass the data to it for PDF generation
+        $pdf = PDF::loadView('admin.referral-pdf', $datas);
+
+        // Stream the PDF file
+        return $pdf->stream('referral_report.pdf');
+    } catch (DecryptException $e) {
+        // Handle invalid or tampered encryption
+        abort(403, 'Unauthorized access.');
+    }
 }
 
 
 
 
-    public function generateReportsPDF($id)
-    {
-        // Fetch all reports with their associated referrals
+
+
+public function generateReportsPDF($encryptedId)
+{
+    try {
+        // Decrypt the encrypted ID
+        $id = decrypt($encryptedId);
+
+        // Fetch the report along with its associated referrals using the decrypted ID
         $data = Report::with('referrals')->findOrFail($id);
 
         // Prepare data for the view
@@ -234,22 +264,37 @@ public function generateReferralPDF($id)
             'data' => $data,
         ];
 
-        // Load the view and pass data if needed
+        // Load the view and pass data to generate the PDF
         $pdf = PDF::loadView('admin.reports-pdf', $datas);
 
         // Stream the PDF file
         return $pdf->stream('spot_report.pdf');
-    } 
-
-    
-    public function release($id)
-    {
-    $report = Report::with('referrals')->findOrFail($id);
-    $referral = $report->referrals->first();
-
-  
-    return view('admin.release', compact('report','referral'));
+    } catch (DecryptException $e) {
+        // Handle invalid or tampered encryption
+        abort(403, 'Unauthorized access.');
     }
+}
+
+
+
+
+public function release($encryptedId)
+{
+    try {
+        // Decrypt the encrypted ID
+        $id = decrypt($encryptedId);
+
+        // Fetch the report along with its associated referrals using the decrypted ID
+        $report = Report::with('referrals')->findOrFail($id);
+        $referral = $report->referrals->first();
+
+        // Return the view with the report and referral data
+        return view('admin.release', compact('report', 'referral'));
+    } catch (DecryptException $e) {
+        // Handle invalid or tampered encryption
+        abort(403, 'Unauthorized access.');
+    }
+}
 
     public function storeRelease(Request $request, $id)
     {
@@ -273,7 +318,7 @@ public function generateReferralPDF($id)
         // If a Release already exists, flash an error message and return
         return redirect()->back()->withErrors('A Release Paper Report has already been submitted for this report.');
     }
-    
+
         // Create a new release record
         $release = new Release();
         $release->name_of_skipper = $validatedData['skipper_name'];
@@ -285,35 +330,67 @@ public function generateReferralPDF($id)
         $release->compensation = $validatedData['compensation'];
         $release->agricultural_technologist = $validatedData['agricultural_technologist'];
         $release->municipal_agriculturist = $validatedData['municipal_agriculturist'];
-        $release->report_id = $id;  
-    
+        $release->report_id = $id;
+
         // Save the photo if uploaded
         if ($request->hasFile('photo')) {
             $path = $request->file('photo')->store('photos', 'public');
             $release->photo = $path;
         }
-    
+
         // Save the release record
         $release->save();
-    
+
         // Redirect back with success message
-        return redirect()->route('admin.report', $id)->with('success', 'Release paper details stored successfully!');
+          return redirect()->route('admin.report')->with('success', 'Release paper processed successfully.');
     }
-    
 
 
- 
-    public function generateReceiptPDF($id)
+
+    public function downloadReleasePdf($encryptedId)
     {
-        // Fetch the receipt data by ID
-        $receipt = TurnoverReceipt::findOrFail($id);
+        try {
+            // Decrypt the ID
+            $id = Crypt::decrypt($encryptedId);
 
-        // Load the view with the receipt data
-        $pdf = PDF::loadView('admin.receipt-pdf', compact('receipt'));
+            // Fetch the releases based on the decrypted ID
+            $releases = Release::where('report_id', $id)->get();
 
-        // Download the PDF file
-        return $pdf->stream('receipt.pdf');
+            // Generate the PDF
+            $pdf = PDF::loadView('admin.releasespdf', compact('releases'));
+
+            // Return the PDF as a stream
+            return $pdf->stream('release_paper.pdf');
+        } catch (\Exception $e) {
+            // Handle invalid or tampered encryption
+            abort(404, 'Invalid Release ID');
+        }
     }
+
+
+
+
+
+    public function generateReceiptPDF($encryptedId)
+    {
+        try {
+            // Decrypt the encrypted ID
+            $id = decrypt($encryptedId);
+
+            // Fetch the receipt by decrypted ID
+            $receipt = TurnoverReceipt::findOrFail($id);
+
+            // Load the view with the receipt data
+            $pdf = PDF::loadView('admin.receipt-pdf', compact('receipt'));
+
+            // Stream the PDF to the browser
+            return $pdf->stream('receipt.pdf');
+        } catch (DecryptException $e) {
+            // Handle invalid decryption or tampered data
+            abort(403, 'Unauthorized access.');
+        }
+    }
+
 
 
 

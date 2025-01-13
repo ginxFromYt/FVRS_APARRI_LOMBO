@@ -157,12 +157,12 @@
 
                 <div class="form-group">
                     <label for="date_of_violation">Date of Violation</label>
-                    <input type="date" class="form-control" name="date_of_violation" value="{{ $referral->date_of_violation  }}"required>
+                    <input type="date" class="form-control" name="date_of_violation" value="{{ $referral->date_of_violation  }}"required readonly>
                 </div>
 
                 <div class="form-group">
                     <label for="time_of_violation">Time of Violation</label>
-                    <input type="time" class="form-control" name="time_of_violation" value="{{ $referral->time   }}" required>
+                    <input type="time" class="form-control" name="time_of_violation" value="{{ $referral->time   }}" required readonly>
                 </div>
 
                 <div class="form-group">
@@ -172,17 +172,17 @@
 
                 <div class="form-group">
                     <label for="name_of_skipper">Name of Skipper</label>
-                    <input type="text" class="form-control" name="name_of_skipper" value="{{ $report->nameofskipper }}" required>
+                    <input type="text" class="form-control" name="name_of_skipper" value="{{ $report->nameofskipper }}" required readonly>
                 </div>
 
                 <div class="form-group">
                     <label for="name_of_banca">Name of Banca</label>
-                    <input type="text" class="form-control" name="name_of_banca" value="{{ $report->nameofbanca }}" required>
+                    <input type="text" class="form-control" name="name_of_banca" value="{{ $report->nameofbanca }}" required readonly>
                 </div>
 
                 <div class="form-group">
                     <label for="investigator_pnco">Investigator PNCO</label>
-                    <input type="text" class="form-control" name="investigator_pnco" value="{{ $referral->investigator_pnco }}" required>
+                    <input type="text" class="form-control" name="investigator_pnco" value="{{ $referral->investigator_pnco }}" required readonly>
                 </div>
 
                 <div class="submit-container">

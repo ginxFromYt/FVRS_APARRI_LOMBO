@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\RecordViolation;
 use App\Models\Violator;
 use App\Models\Referral;
+use App\Models\Report;
 use App\Models\Release;
 use App\Models\History;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class RecordViolationController extends Controller
 
@@ -23,7 +26,7 @@ class RecordViolationController extends Controller
         $referrals = Referral::all();
 
         // Pass the referrals to the view
-        return view('violation.create', compact('referrals')); // Adjust the view name if necessary
+        return view('violation.add', compact('referrals')); // Adjust the view name if necessary
     }
 
 
@@ -94,7 +97,57 @@ class RecordViolationController extends Controller
     return redirect()->route('violation.list')->with('success', 'Violation recorded successfully!');
 }
 
+public function storeManuallyInputtedViolators(Request $request)
+{
+    // Validate the incoming request data for manually inputted violators
+    $request->validate([
+        'violation' => 'required|string|max:255', // Ensure the violation is provided
+        'location' => 'required|string|max:255',  // Ensure the location is provided
+        'date_of_violation' => 'required|date',
+        'time_of_violation' => 'required|',
+        'violators.*.violator' => 'required|string|max:255',
+        'violators.*.sex' => 'required|string|in:Male,Female',
+        'violators.*.address' => 'nullable|string|max:255',
+    ]);
 
+    // Log the violators data
+    Log::info('Violators Input Data:', $request->violators);
+
+    // Create the violation first (RecordViolation model)
+    try {
+        $recordViolation = RecordViolation::create([
+            'violation' => $request->violation,
+            'location' => $request->location,
+            'date_of_violation' => $request->date_of_violation,
+            'time_of_violation' => $request->time_of_violation,
+        ]);
+    } catch (\Exception $e) {
+        \Log::error('Failed to save violation: ' . $e->getMessage());
+        return redirect()->route('violation.list')->with('error', 'Failed to save violation: ' . $e->getMessage());
+    }
+
+    // Loop through each violator and store them in the Violator model
+    foreach ($request->violators as $violatorData) {
+        if (!empty($violatorData['violator'])) {
+            try {
+                // Store manually inputted violators and associate them with the violation
+                $violator = Violator::create([
+                    'violator' => $violatorData['violator'],
+                    'sex' => $violatorData['sex'],
+                    'address' => $violatorData['address'], // Address is optional
+                    'record_violations_id' => $recordViolation->id, // Associate the violator with the violation
+                ]);
+            } catch (\Exception $e) {
+                // Log the exception message for debugging
+                \Log::error('Failed to save violator: ' . $e->getMessage());
+                return redirect()->route('violation.list')->with('error', 'Failed to save violator: ' . $e->getMessage());
+            }
+        }
+    }
+
+    // Redirect to the list of violations with a success message
+    return redirect()->route('violation.list')->with('success', 'Manually inputted violators recorded successfully!');
+}
 
     public function listviolation()
 {
@@ -105,11 +158,24 @@ class RecordViolationController extends Controller
 
 }
 
+public function release($id)
+{
+    $report = Report::findOrFail($id);
+
+    // Add your release document logic here (generate PDF, update status, etc.)
+
+    return redirect()->route('violation.release')->with('success', 'Release paper document processed successfully.');
+}
+
 public function edit($id)
 {
     $violation = RecordViolation::with('violators')->findOrFail($id);
     return view('violation.edit', compact('violation'));
 }
+
+
+
+
 
 public function search(Request $request)
 {
@@ -186,7 +252,8 @@ public function showBarangaysWithViolations()
 }
 
 
-// Fetch violators for the specific barangay and count violations per violator
+
+
 
 public function getViolatorsByBarangay($barangay)
 {
@@ -198,9 +265,9 @@ public function getViolatorsByBarangay($barangay)
     // Group violators by name_of_skipper
     $violatorsWithDetails = $violators->groupBy('name_of_skipper')->map(function ($group) {
         return [
-            'name_of_skipper' => $group->first()->name_of_skipper,  // Name of the violator
-            'violation_count' => $group->count(),                  // Count of violations
-            'violations' => $group->map(function ($violation) {    // Map each violation with details
+            'name_of_skipper' => $group->first()->name_of_skipper,  
+            'violation_count' => $group->count(),                
+            'violations' => $group->map(function ($violation) {  
                 return [
                     'violation' => $violation->violation,
                     'compensation' => $violation->compensation,
@@ -213,6 +280,19 @@ public function getViolatorsByBarangay($barangay)
     return response()->json($violatorsWithDetails);
 }
 
+
+
+public function summary()
+{
+    // Fetch distinct years with violations for the yearly breakdown
+    $years = RecordViolation::selectRaw('year(date_of_violation) as year')
+                                        ->distinct()
+                                        ->orderBy('year', 'desc')
+                                        ->pluck('year');
+    
+    // Return the view with the required data
+    return view('violation.summary', compact('years'));
+}
 
 
 }

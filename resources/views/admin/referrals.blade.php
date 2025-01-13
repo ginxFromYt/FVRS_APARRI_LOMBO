@@ -1,6 +1,5 @@
 <x-app-layout>
     <style>
-
         .control-panel {
             width: 300px;
             background-color: green;
@@ -86,17 +85,21 @@
             margin-left: 15px;
             vertical-align: top;
         }
+
         /* Table styling */
         .referrals-table th {
-            background-color: #28a745; /* Green color for the table header */
-            color: white; /* White text for contrast */
+            background-color: #28a745;
+            /* Green color for the table header */
+            color: white;
+            /* White text for contrast */
             text-align: center;
             vertical-align: middle;
             padding: 10px;
         }
 
-        table th, table td {
-            white-space: nowrap; 
+        table th,
+        table td {
+            white-space: nowrap;
         }
 
         /* Title styling */
@@ -107,6 +110,14 @@
             margin-bottom: 20px;
         }
 
+        /* Existing CSS */
+        .control-panel {
+            /* styles here */
+        }
+
+        .modal-content {
+            background-color: #f9f9f9;
+        }
     </style>
     <div class="container-fluid">
         <div class="main-content">
@@ -116,62 +127,128 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Referral Date</th>
+                                <!-- <th>#</th> -->
+                                <!-- <th>Referral Date</th> -->
                                 <th>Violation</th>
                                 <th>Time</th>
                                 <th>Date of Violation</th>
                                 <th>Location</th>
-                                <th>Complainant</th>
-                                <th>Investigator PNCO</th>
+                                <!-- <th>Complainant</th>
+                                <th>Investigator PNCO</th> -->
                                 <th>Violator</th>
-                                <th>Piece of Evidence</th>
-                                <th>Attached Evidences</th>
+                                <!-- <th>Piece of Evidence</th> -->
+                                <!-- <th>Attached Evidences</th> -->
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($referrals as $index => $referral)
                                 <tr>
-                                    <td>{{ $index + 1 + ($referrals->currentPage() - 1) * $referrals->perPage() }}</td>
-                                    <td>{{ $referral->date }}</td>
+                                    <!-- <td>{{ $index + 1 + ($referrals->currentPage() - 1) * $referrals->perPage() }}</td> -->
+                                    <!-- <td>{{ $referral->date }}</td> -->
                                     <td>{{ $referral->violation }}</td>
                                     <td>{{ $referral->time }}</td>
                                     <td>{{ $referral->date_of_violation }}</td>
                                     <td>{{ $referral->location }}</td>
-                                    <td>{{ $referral->complainant }}</td>
-                                    <td>{{ $referral->investigator_pnco }}</td>
+                                    <!-- <td>{{ $referral->complainant }}</td>
+                                    <td>{{ $referral->investigator_pnco }}</td> -->
                                     <td>{{ $referral->violator }}</td>
-                                    <td>{{ $referral->piece_of_evidence }}</td>
-                                    <td>
+                                    <!-- <td>{{ $referral->piece_of_evidence }}</td> -->
+                                    <!-- <td>
                                         @if ($referral && !empty($referral->image) && is_array($referral->image))
-                                            <img src="{{ asset(str_replace('public/', 'storage/', $referral->image[0])) }}"
+<img src="{{ asset(str_replace('public/', 'storage/', $referral->image[0])) }}"
                                                  alt="Image" style="width: 100px; height: 70px;">
-                                        @else
-                                            <p>No images found.</p>
-                                        @endif
-                                    </td>
+@else
+<p>No images found.</p>
+@endif
+                                    </td> -->
                                     <td>
-                                        <a href="{{ route('admin.referralpdf', $referral->id) }}"
-                                           class="btn btn-primary" target="_blank">
+                                        <!-- <button class="btn btn-info" data-bs-toggle="modal"
+                                                data-bs-target="#viewModal{{ $referral->id }}">
+                                            View Details
+                                        </button> -->
+
+                                        <a href="{{ route('admin.referralpdf', ['id' => encrypt($referral->id)]) }}"
+                                            class="btn btn-primary" target="_blank">
                                             View
                                         </a>
-                                        <form action="{{ route('admin.violation.edits', $referral->id) }}"
-                                              method="GET" style="display:inline;">
+                                        <form
+                                            action="{{ route('admin.violation.edits', ['id' => encrypt($referral->id)]) }}"
+                                            method="GET" style="display:inline;">
                                             <button type="submit" class="btn btn-success">
                                                 Record
                                             </button>
                                         </form>
+
                                     </td>
                                 </tr>
+                                <!-- Modal -->
+                                <div class="modal fade" id="viewModal{{ $referral->id }}" tabindex="-1"
+                                    aria-labelledby="modalLabel{{ $referral->id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalLabel{{ $referral->id }}">Referral
+                                                    Details</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p><strong>Referral Date:</strong> {{ $referral->date }}</p>
+                                                <p><strong>Violation:</strong> {{ $referral->violation }}</p>
+                                                <p><strong>Time:</strong> {{ $referral->time }}</p>
+                                                <p><strong>Date of Violation:</strong>
+                                                    {{ $referral->date_of_violation }}</p>
+                                                <p><strong>Location:</strong> {{ $referral->location }}</p>
+                                                <p><strong>Complainant:</strong> {{ $referral->complainant }}</p>
+                                                <p><strong>Investigator PNCO:</strong>
+                                                    {{ $referral->investigator_pnco }}</p>
+                                                <p><strong>Violator:</strong> {{ $referral->violator }}</p>
+                                                <p><strong>Piece of Evidence:</strong>
+                                                    {{ $referral->piece_of_evidence }}</p>
+                                                <p><strong>Attached Evidences:</strong></p>
+                                                <div class="row">
+                                                    @if ($referral && is_array($referral->image))
+                                                        @foreach ($referral->image as $image)
+                                                            <div class="col-md-6 mb-3">
+                                                                <a href="{{ asset(str_replace('public/', 'storage/', $image)) }}"
+                                                                    target="_blank">
+                                                                    <img src="{{ asset(str_replace('public/', 'storage/', $image)) }}"
+                                                                        alt="Image" class="img-fluid img-thumbnail"
+                                                                        style="max-width: 100%; height: auto;">
+                                                                </a>
+                                                            </div>
+                                                        @endforeach
+                                                    @elseif (is_string($referral->image))
+                                                        <div class="col-md-6 mb-3">
+                                                            <a href="{{ asset(str_replace('public/', 'storage/', $referral->image)) }}"
+                                                                target="_blank">
+                                                                <img src="{{ asset(str_replace('public/', 'storage/', $referral->image)) }}"
+                                                                    alt="Image" class="img-fluid img-thumbnail"
+                                                                    style="max-width: 100%; height: auto;">
+                                                            </a>
+                                                        </div>
+                                                    @else
+                                                        <p>No images found.</p>
+                                                    @endif
+                                                </div>
+
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
 
-
                 <div class="mt-3">
-                    {{ $referrals->links() }} 
+                    {{ $referrals->links() }}
                 </div>
             </div>
         </div>

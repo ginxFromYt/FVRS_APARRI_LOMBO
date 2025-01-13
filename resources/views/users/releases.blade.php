@@ -19,7 +19,7 @@
         .container {
             flex-grow: 1;
             padding: 20px;
-            margin-left: 250px; /* Space for the control panel */
+            margin-left: 150px; /* Space for the control panel */
             transition: margin-left 0.3s ease;
             overflow-y: auto;
             display: flex;
@@ -28,13 +28,13 @@
 
         .table-container {
             width: 100%;
-            max-width: 1200px; /* Maximum width of the table */
-            margin: 30px auto;
+            max-width: 1000px; /* Maximum width of the table */
+            margin: 20px auto;
             padding: 20px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            overflow-x: auto;
+            overflow: hidden; /* Remove horizontal scroll */
         }
 
         .table-title {
@@ -47,6 +47,8 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            word-wrap: break-word;
+            table-layout: fixed; /* Ensures even distribution of columns */
         }
 
         table th, table td {
@@ -108,14 +110,16 @@
             transform: translateX(-100%);
         }
 
+        .table-responsive {
+            display: flex;
+            justify-content: center; /* Center the table horizontally */
+            align-items: center;
+        }
+
         /* Responsive design */
         @media (max-width: 768px) {
             .container {
                 margin-left: 0; /* Adjust margin for smaller screens */
-            }
-
-            .table-container {
-                padding: 10px;
             }
         }
     </style>
@@ -137,20 +141,20 @@
 
             <!-- Wrapper for responsive table -->
             <div class="table-responsive">
-                <table>
+                <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th>Skipper Name</th>
                             <th>Address</th>
                             <th>Violation</th>
                             <th>Date of Violation</th>
-                            <th>Time of Violation</th>
+                            <!-- <th>Time of Violation</th> -->
                             <th>Date of Release</th>
                             <th>Compensation</th>
-                            <th>Agricultural Technologist</th>
+                            <!-- <th>Agricultural Technologist</th>
                             <th>Municipal Agriculturist</th>
-                            <th>Photo</th>
-                            <th>Actions</th>
+                            <th>Photo</th> -->
+                            <!-- <th>Actions</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -161,24 +165,27 @@
                                 <td>{{ $release->address }}</td>
                                 <td>{{ $release->violation }}</td>
                                 <td>{{ $release->date_of_violation }}</td>
-                                <td>{{ $release->time_of_violation }}</td>
+                                <!-- <td>{{ $release->time_of_violation }}</td> -->
                                 <td>{{ $release->date_of_release }}</td>
                                 <td>{{ $release->compensation }}</td>
-                                <td>{{ $release->agricultural_technologist }}</td>
-                                <td>{{ $release->municipal_agriculturist }}</td>
-                                <td>
+                                <!-- <td>{{ $release->agricultural_technologist }}</td>
+                                <td>{{ $release->municipal_agriculturist }}</td> -->
+                                <!-- <td>
                                     @if($release->photo)
                                         <img class="photo-img" src="{{ asset('storage/photos/' . $release->photo) }}" alt="Release Photo">
                                     @else
                                         No Photo
                                     @endif
-                                </td>
-                                <td>
-                                <a href="{{ route('releasepapers.pdf',$release->id)  }}" class="btn btn-primary" target="_blank">
+                                </td> -->
+                                <!-- <td>
+
+                                
+                                
+                                <a href="{{ route('releasepapers.pdf', ['id' => encrypt($release->id)]) }}" class="btn btn-primary" target="_blank">
                                     <i class="fas fa-file-pdf"></i> Download PDF
                                 </a>
 
-                                </td>
+                                </td> -->
                             </tr>
                         @endforeach
                     </tbody>

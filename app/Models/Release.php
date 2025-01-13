@@ -24,4 +24,5 @@ class Release extends Model
         'municipal_agriculturist',
         'photo', 
     ];
+    
 }

@@ -8,7 +8,7 @@
         }
         .form-container {
             
-            max-height: 500px; /* Limit height for scrollbar */
+            max-height: 500px; /* Limiat height for scrollbar */
             overflow-y: auto; /* Enable vertical scroll */
             padding: 20px;
             border-radius: 8px;
@@ -54,24 +54,24 @@
 
                     <div class="form-group">
                         <label for="violation">Violation:</label>
-                        <input type="text" name="violation" value="{{ $referrals->violation }}" class="form-control" required>
+                        <input type="text" name="violation" value="{{ $referrals->violation }}" class="form-control" required readonly>
                     </div>
 
                     <div class="form-group">
                         <label for="location">Location of Incident:</label>
-                        <input type="text" name="location" value="{{ $referrals->location }}" class="form-control" required>
+                        <input type="text" name="location" value="{{ $referrals->location }}" class="form-control" required readonly>
                     </div>
 
                     <div class="form-group">
                         <label for="date_of_violation">Date of Violation:</label>
                         <input type="date" name="date_of_violation" value="{{ $referrals->date_of_violation }}"
-                            class="form-control" required>
+                            class="form-control" required readonly>
                     </div>
 
                     <div class="form-group">
                         <label for="time_of_violation">Time of Violation:</label>
                         <input type="text" name="time_of_violation" value="{{ $referrals->time }}" class="form-control "
-                            required>
+                            required readonly>
                     </div>
 
 
@@ -82,7 +82,7 @@
                             <div class="form-group">
                                 <label for="violator">Violator:</label>
                                 <input type="text" value="{{ $referrals->violator }}" name="violators[0][violator]"
-                                    class="form-control" placeholder="Enter full name" required>
+                                    class="form-control" placeholder="Enter full name" required readonly>
                             </div>
 
                             <div class="form-group">
@@ -97,7 +97,7 @@
                             <div class="form-group">
                                 <label for="address">Address of Violator:</label>
                                 <input type="text" value="{{ $referrals->report->resident }}" name="violators[0][address]"
-                                    class="form-control" required>
+                                    class="form-control" required readonly>
                             </div>
                         </div>
                     </div>

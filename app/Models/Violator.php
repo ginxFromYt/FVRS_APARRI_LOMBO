@@ -9,17 +9,15 @@ class Violator extends Model
     use HasFactory;
 
     protected $fillable = [
-        'violator',
-        'sex',
-        'address',
-        'record_violations_id',  // Make sure this field exists
+        'violator', 
+        'sex', 
+        'address', 
+        'record_violations_id'
     ];
 
+    // Define the inverse of the relationship: A violator belongs to one violation
     public function recordViolation()
     {
-        return $this->belongsTo(RecordViolation::class, 'record_violations_id'); 
+        return $this->belongsTo(RecordViolation::class, 'record_violations_id');
     }
-    
-
 }
-

@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\LocalReportController;
 use App\Http\Controllers\Admin\RecordViolationController;
 use App\Http\Controllers\Users\TurnoverReceiptController;
+use App\Models\RecordViolation;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -70,6 +71,10 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
     Route::get('/spot-report/{id}', [UserController::class, 'generateReportsPDF'])->name('spotpdf');
     Route::get('/release/{id}', [UserController::class, 'release'])->name('release');
     Route::put('/release/{id}', [UserController::class, 'storeRelease'])->name('admin.release');
+    // Route::post('/admin/release-pdf/{id}', [UserController::class, 'generateReleasePdf'])->name('admin.releasepdf');
+    Route::get('/release/{id}/pdf', [UserController::class, 'downloadReleasePdf'])->name('release.pdf');
+
+
 
 });
 
@@ -81,9 +86,23 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
     Route::get('/analytics', [AnalyticsController::class, 'dashboard'])->name('analytics.dashboard');
 });
 
+Route::get('/violations/month/{month}', function($month) {
+    // Fetch violations for the given month
+    $violations = RecordViolation::whereMonth('date_of_violation', $month)->get(['violation', 'location', 'date_of_violation']);
+    return response()->json($violations);
+});
+
+Route::get('/violations/year/{year}', function($year) {
+    // Fetch violations for the given year
+    $violations = RecordViolation::whereYear('date_of_violation', $year)->get(['violation', 'location', 'date_of_violation']);
+    return response()->json($violations);
+});
+
 Route::namespace('App\Http\Controllers\Admin')->middleware('can:admin-access')->group(function () {
     Route::get('/record-violation', [RecordViolationController::class, 'recordviolation'])->name('violation.record');
     Route::post('/record-violation', [RecordViolationController::class, 'store'])->name('violation.store');
+    Route::post('/store-manually-inputted-violators', [RecordViolationController::class, 'storeManuallyInputtedViolators'])->name('violation.storeManuallyInputtedViolators');
+
     Route::get('/record-violation', [RecordViolationController::class, 'recordviolation'])->name('violation.record');
     Route::post('/record-violation', [RecordViolationController::class, 'store'])->name('violation.store');
     Route::get('/record-violation/{id}/edit', [RecordViolationController::class, 'edit'])->name('violation.edit');
@@ -99,6 +118,7 @@ Route::namespace('App\Http\Controllers\Users')->prefix('users')->name('users.')-
     Route::post('/report', [UserReportController::class, 'store'])->name('report.store');
     Route::get('/myreports', [UserReportController::class, 'myreports'])->name('myreports');
 });
+
 
 Route::namespace('App\Http\Controllers\Users')->middleware('can:user-access')->group(function () {
     Route::post('/turnover-receipt/store', [TurnoverReceiptController::class, 'store'])->name('turnover.store');
@@ -125,6 +145,7 @@ Route::namespace('App\Http\Controllers\Users')->middleware('can:user-access')->g
 Route::namespace('App\Http\Controllers\Admin')->middleware('can:admin-access')->group(function () {
     Route::get('/history', [HistoryController::class, 'index'])->name('admin.history');
     Route::post('/violation/finish/{id}', [RecordViolationController::class, 'finish'])->name('violation.finish');
+    Route::get('/admin/history/download-pdf', [HistoryController::class, 'downloadHistoryPdf'])->name('history.download-pdf');
 });
 
 
@@ -132,6 +153,9 @@ Route::namespace('App\Http\Controllers\Admin')->middleware('can:admin-access')->
    Route::get('/violation.barangays', [RecordViolationController::class, 'showBarangaysWithViolations'])->name('violation.barangays');
    // Route for fetching violators based on barangay address
 Route::get('/violators/{barangay}', [RecordViolationController::class, 'getViolatorsByBarangay']);
+// web.php
+Route::get('/violations/summary', [RecordViolationController::class, 'summary'])->name('violation.summary');
+
 
 
 

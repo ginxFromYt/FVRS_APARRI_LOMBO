@@ -156,11 +156,11 @@
 
     <div>
         <!-- Success Message -->
-        @if (session('success'))
+        <!-- @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
-        @endif
+        @endif -->
 
         <!-- Table Wrapper -->
         <div id="tableWrapper" class="table-wrapper">

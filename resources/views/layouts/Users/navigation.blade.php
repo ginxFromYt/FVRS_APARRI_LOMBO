@@ -99,9 +99,9 @@
     <i class="fas fa-check-circle"></i> Release Paper
 </a>
 
-    <a href="{{ route('profile.edit') }}" class="btn">
+    <!-- <a href="{{ route('profile.edit') }}" class="btn">
         <i class="fas fa-user"></i> Profile
-    </a>
+    </a> -->
 
     <form method="POST" action="{{ route('logout') }}">
         @csrf

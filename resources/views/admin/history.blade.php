@@ -122,6 +122,7 @@
     <!-- Table displaying violation histories -->
     <div class="table-wrapper">
         <h2 class="table-title">History of Violations</h2>
+        
         <div class="table-scroll">
             <table class="table">
                 <thead class="table-header">
@@ -155,6 +156,10 @@
                     @endif
                 </tbody>
             </table>
+              <!-- Button to download PDF -->
+          <div style="margin-bottom: 15px; text-align: center;">
+            <a href="{{ route('history.download-pdf') }}" class="btn btn-primary">Download History</a>
+        </div>
         </div>
 
         <!-- Pagination Links -->

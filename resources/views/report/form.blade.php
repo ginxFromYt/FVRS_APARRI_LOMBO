@@ -82,10 +82,19 @@
                 <h3>Incident Report Form</h3>
             </div>
             <div class="card-body">
+
+                <!-- Show success message if report is submitted -->
                 @if(session('success'))
                 <div class="alert alert-success text-center">
                     {{ session('success') }} <br>
                     Your report has been successfully submitted to the Maritime Police.
+                </div>
+                @endif
+
+                <!-- Show error message if duplicate report is found -->
+                @if(session('error'))
+                <div class="alert alert-danger text-center">
+                    {{ session('error') }}
                 </div>
                 @endif
 
@@ -115,12 +124,25 @@
 
                         <!-- Right side of the form -->
                         <div class="col-md-6">
-                            <!-- Information about the violator -->
+
+
+                            <label for="possible_violations">See Municipal Ordinances here :</label>
+                            <select id="possible_violations" name="possible_violations" class="form-control" required>
+                            <option value="" disabled selected>View Ordinances</option>
+                            <option value="Ordinance No. 2015-151 Section 1 (Closed Season of Aramang Catching every September 1 to November 15">Ordinance No. 2015-151 Section 1 (Closed Season of Aramang Catching every September 1 to November 15 )</option>
+                            <!-- <option value="Ordinance_2">Ordinance No. 2015-152 Section 22 (Licensing of Municipal Fishing Activities )</option> -->
+                            <option value="Ordinance No. 2015-152 Section 33 (Unauthorized Fishing Activities">Ordinance No. 2015-152 Section 33 (Unauthorized Fishing Activities)</option>
+                            <!-- Add more ordinances as needed -->
+                        </select>
+                        <small class="text-muted">
+                            * Only municipal ordinances should be reported. Click the dropdown to view municipal ordinances.
+                        </small><br><br>
+
                             <label for="information">Details about the report (required):</label>
-                            <textarea id="information" name="information" class="form-control" rows="5"
+                            <textarea id="information" name="information" class="form-control" rows="3"
                                 placeholder="Describe the incident..." required></textarea>
 
-                            <!-- Photo upload -->
+                        
                             <label for="photo">Upload supporting photo (optional):</label>
                             <input type="file" id="photo" name="photo" class="form-control" accept="image/*">
                         </div>
@@ -128,7 +150,7 @@
 
                     <!-- Note -->
                     <p class="note">The maritime authorities will contact you within 24 hours regarding the report you
-                        submitted.If you don't hear back within 24 hours, please consider your report canceled or invalid. Thank you!</p>
+                        submitted. If you don't hear back within 24 hours, please consider your report canceled or invalid. Thank you!</p>
 
                     <!-- Submit button -->
                     <button type="submit" class="btn btn-primary">Submit Report</button>

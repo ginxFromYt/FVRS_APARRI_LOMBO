@@ -11,7 +11,6 @@
     <style>
         body {
             background-color: #f8f9fa;
-            
         }
         
         h2 {
@@ -24,12 +23,12 @@
             justify-content: space-between;
         }
         .left-table, .right-table {
-            width: 48%; /* Adjust width to fit both tables */
+            width: 48%;
         }
         .table {
             border-radius: 0.5rem;
             overflow: hidden;
-            margin: auto; /* Center the table */
+            margin: auto;
         }
         .table thead {
             background-color: #28a745;
@@ -38,13 +37,25 @@
         .btn-primary {
             margin-top: 20px;
         }
-        
-
         .back-button {
             position: fixed;
-            top: 20px;     /* Adjust to move it from the top */
-            right: 20px;   /* Adjust to move it from the right */
-            z-index: 1000; /* Ensures the button is above other content */
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        /* Hidden columns */
+        .hidden-column {
+            display: none;
+        }
+
+        .action-btn-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .action-btn-container .btn {
+            margin-left: 10px;
         }
     </style>
 </head>
@@ -56,102 +67,126 @@
             </h1>
         </x-slot>
 
-        <div class="">
-            <div class="container">
-                @if($barangays->isEmpty())
-                    <div class="alert alert-info text-center">No barangays with violations found.</div>
-                @else
-                    <div class="table-container">
-                        <!-- Left Table -->
-                        <div class="left-table">
-                            <h1 class="text-center">Barangays with Violations</h1>
-                            <table class="table table-striped table-bordered">
-                                <thead>
+        <div class="container">
+            @if($barangays->isEmpty())
+                <div class="alert alert-info text-center">No barangays with violations found.</div>
+            @else
+                <div class="table-container">
+                    <!-- Left Table -->
+                    <div class="left-table">
+                        <h1 class="text-center">Barangays with Violations</h1>
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Barangay Address</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($barangays as $barangay)
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Barangay Address</th>
-                                        <th scope="col">Actions</th>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $barangay->address }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-success view-violators" data-barangay="{{ $barangay->address }}">
+                                                <i class="fas fa-eye"></i> View Violators
+                                            </button>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($barangays as $barangay)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $barangay->address }}</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-success view-violators" data-barangay="{{ $barangay->address }}">
-                                                    <i class="fas fa-eye"></i> View Violators
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- Right Table (Violators Table) -->
-                        <div class="right-table" id="violatorsTable"></div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                @endif
-            </div>
+
+                    <!-- Right Table (Violators Table) -->
+                    <div class="right-table" id="violatorsTable"></div>
+                </div>
+            @endif
         </div>
     </x-app-layout>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).on('click', '.view-violators', function() {
-            const barangay = $(this).data('barangay');
-            
-            // Make an AJAX request to fetch violators for this barangay
-            $.ajax({
-                url: '/violators/' + encodeURIComponent(barangay), // AJAX request to the controller method
-                method: 'GET',
-                success: function(response) {
-                    let violatorsTable = ` 
-                        <h3>Violators in ${barangay}</h3>
-                        <table class="table table-striped table-bordered" id="violatorsTable">
-                            <thead>
-                                <tr>
-                                    <th>Name of Skipper</th>
-                                    <th>Number of Violations</th>
-                                    <th>Violation</th>
-                                    <th>Compensation</th>
+    $(document).on('click', '.view-violators', function() {
+        const barangay = $(this).data('barangay');
+        
+        // Make an AJAX request to fetch violators for this barangay
+        $.ajax({
+            url: '/violators/' + encodeURIComponent(barangay), // AJAX request to the controller method
+            method: 'GET',
+            success: function(response) {
+                let violatorsTable = `
+                    <h3>Violators in ${barangay}</h3>
+                    <table class="table table-striped table-bordered" id="violatorsTable">
+                        <thead>
+                            <tr>
+                                <th>Name of Skipper</th>
+                                <th class="hidden-column">Number of Violations</th>
+                                <th class="hidden-column">Violation</th>
+                                <th class="hidden-column">Compensation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                if (response.length === 0) {
+                    violatorsTable += '<tr><td colspan="4" class="text-center">No violators found.</td></tr>';
+                } else {
+                    response.forEach(violator => {
+                        const violationCount = violator.violations.length; // Number of violations per violator
+
+                        violator.violations.forEach((violation, index) => {
+                            const violationLabel = `${index + 1}${index === 0 ? 'st' : (index === 1 ? 'nd' : (index === 2 ? 'rd' : 'th'))} violation`;
+
+                            // Determine color based on the violation index (0-based)
+                            let violationColor = '';
+                            if (index === 0) {
+                                violationColor = 'background-color: yellow;';
+                            } else if (index === 1) {
+                                violationColor = 'background-color: green; color: white;';
+                            } else if (index === 2) {
+                                violationColor = 'background-color: red; color: white;';
+                            }
+
+                            violatorsTable += `
+                                <tr style="${violationColor}">
+                                    ${index === 0 ? `<td rowspan="${violationCount}">${violator.name_of_skipper}
+                                        <div class="action-btn-container">
+                                            <button class="btn btn-success" id="toggleViolations">Show Violations</button>
+                                        </div></td>` : ''}
+                                    <td class="hidden-column">${violationLabel}</td>
+                                    <td class="hidden-column">${violation.violation}</td>
+                                    <td class="hidden-column">${violation.compensation}</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                    `;
-                    
-                    if (response.length === 0) {
-                        violatorsTable += '<tr><td colspan="4" class="text-center">No violators found.</td></tr>';
-                    } else {
-                        response.forEach(violator => {
-                            const violationCount = violator.violations.length; // Number of violations per violator
-
-                            violator.violations.forEach((violation, index) => {
-                                const violationLabel = `${index + 1}${index === 0 ? 'st' : (index === 1 ? 'nd' : (index === 2 ? 'rd' : 'th'))} violation`;
-
-                                violatorsTable += `
-                                    <tr>
-                                        ${index === 0 ? `<td rowspan="${violationCount}">${violator.name_of_skipper}</td>` : ''}
-                                        <td>${violationLabel}</td>
-                                        <td>${violation.violation}</td>
-                                        <td>${violation.compensation}</td>
-                                    </tr>
-                                `;
-                            });
+                            `;
                         });
-                    }
-
-                    violatorsTable += `</tbody></table>`;
-                    
-                    // Append the table to the div
-                    $('#violatorsTable').html(violatorsTable);
-                },
-                error: function() {
-                    $('#violatorsTable').html('<div class="alert alert-danger">Error loading violators.</div>');
+                    });
                 }
-            });
+
+                violatorsTable += `</tbody></table>`;
+
+                // Append the table to the div
+                $('#violatorsTable').html(violatorsTable);
+            },
+            error: function() {
+                $('#violatorsTable').html('<div class="alert alert-danger">Error loading violators.</div>');
+            }
         });
-    </script>
+    });
+
+    // Toggle the visibility of the additional columns when the button is clicked
+    $(document).on('click', '#toggleViolations', function() {
+        const isHidden = $('.hidden-column').first().is(':hidden');
+        if (isHidden) {
+            $('.hidden-column').show();
+            $(this).text('Hide Violations');
+        } else {
+            $('.hidden-column').hide();
+            $(this).text('Show Violations');
+        }
+    });
+</script>
+
 </body>
 </html>

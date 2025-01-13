@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
+         
             
             font-weight: bold;
             margin: 0;
@@ -225,8 +226,10 @@
                                 <label for="violation">Violation</label>
                                 <select class="form-control" id="violation" name="violation">
                                     <option value="" disabled selected>Choose here</option>
-                                    <option value="Section 33 of Municipal Ordinance No. 2015-152">Section 33 of Aparri Municipal Ordinance No.2015-152 (Unauthorized Fishing Activities)</option>
-                                    <option value="other"></option>
+                                    <option value="Section 33 of Municipal Ordinance No. 2015-151">Section 1 of Aparri Municipal Ordinance No. 2015-151 (Closed Season of Aramang Catching every September 1 to November 15 )</option>
+                                    <!-- <option value="Section 33 of Municipal Ordinance No. 2015-152">Section 22 of Aparri Municipal Ordinance No. 2015-152 (Licensing of Municipal Fishing Activities )</option> -->
+                                    <option value="Section 33 of Municipal Ordinance No. 2015-152">Section 33 of Aparri Municipal Ordinance No. 2015-152 (Unauthorized Fishing Activities)</option>
+                                         <!-- <option value="other"></option> -->
                                 </select>
                             </div>
 

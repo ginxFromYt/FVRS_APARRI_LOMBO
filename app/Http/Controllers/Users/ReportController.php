@@ -10,6 +10,7 @@ use App\Models\Referral;
 use App\Models\Release;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class ReportController extends Controller
 {
@@ -38,6 +39,7 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         // Validate the incoming request data
         $validatedData = $request->validate([
             'nameofbanca' => ['required', 'string', 'max:255'],
@@ -173,40 +175,48 @@ class ReportController extends Controller
 
         return view('users.myreports', compact('myreports'));
     }
-
-    public function addReferral($id)
+    public function addReferral($encryptedId)
     {
-        $report = Report::findOrFail($id);
-        return view('users.referral', compact('report'));
+        try {
+            // Decrypt the encrypted ID
+            $id = decrypt($encryptedId);
+
+            // Fetch the report using the decrypted ID
+            $report = Report::findOrFail($id);
+
+            return view('users.referral', compact('report'));
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            // Handle cases where decryption fails
+            abort(403, 'Unauthorized access.');
+        }
     }
 
-   
+
+
     public function storeReferral(Request $request)
     {
-        // Validate the request data
-        // $request->validate([
-        //     'report_id' => 'required|exists:reports,id',
-        //     'date' => 'required|date',
-        //     'time' => 'required',
-        //     'date_of_violation' => 'required|date',
-        //     'location' => 'required|string|max:255',
-        //     'complainant' => 'required|string|max:255',
-        //     'piece_of_evidence' => 'required|string',
-
-        // ]);
-
         // Fetch the report
         $report = Report::find($request->report_id);
 
         $imagePaths = [];
 
+        // Check and store uploaded images
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $image) {
+                // Generate a unique name for the image
                 $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+                // Store the image in the 'public/evidence' folder
                 $path = $image->storeAs('public/evidence', $imageName);
-                $imagePaths[] = $path;
+
+                // Save the relative path (removing 'public/' prefix for easier rendering)
+                $imagePaths[] = str_replace('\\', '/', 'evidence/' . $imageName);
+
+
             }
         }
+
+        // Create a new referral record
         Referral::create([
             'report_id' => $request->report_id,
             'date' => $request->date,
@@ -215,15 +225,16 @@ class ReportController extends Controller
             'date_of_violation' => $request->date_of_violation,
             'location' => $request->location,
             'complainant' => $request->complainant,
-            'investigator_pnco' =>$request->investigator_pnco,
+            'investigator_pnco' => $request->investigator_pnco,
             'violator' => $report->nameofskipper,
             'piece_of_evidence' => $request->piece_of_evidence,
-            'image' => $imagePaths,
+            'image' => $imagePaths, // Save the array directly (Laravel handles serialization)
         ]);
 
-        // Redirect back to the reports list or any other appropriate location
+        // Redirect back with success message
         return redirect()->route('users.myreports')->with('success', 'Referral added successfully!');
     }
+
 
     public function userReports()
     {
@@ -239,17 +250,29 @@ class ReportController extends Controller
             'reportCount' => $reportCount,
         ]);
     }
-
-    public function showTurnoverReceiptForm($id)
+    public function showTurnoverReceiptForm($encryptedId)
     {
-        $report = Report::findOrFail($id);
+        try {
+            // Decrypt the encrypted ID
+            $id = decrypt($encryptedId);
 
-        $referral = $report->referrals()->first();
-        // Pass any additional data if necessary
-        return view('users.turnover_receipt', compact('report','referral'));
+            // Fetch the report using the decrypted ID
+            $report = Report::findOrFail($id);
+
+            // Retrieve the first associated referral
+            $referral = $report->referrals()->first();
+
+            // Pass any additional data if necessary
+            return view('users.turnover_receipt', compact('report', 'referral'));
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            // Handle invalid or tampered encryption
+            abort(403, 'Unauthorized access.');
+        }
     }
 
-//     public function submitTurnoverReceipt(Request $request)
+
+
+    //     public function submitTurnoverReceipt(Request $request)
 // {
 //     $request->validate([
 //         'municipal_agriculturist' => 'required|string|max:255',
@@ -259,19 +282,20 @@ class ReportController extends Controller
 //         'investigator_pnco' => 'required|string|max:255',
 //     ]);
 
-//     return redirect()->route('users.myreports')->with('success', 'Turnover Receipt submitted successfully.');
+    //     return redirect()->route('users.myreports')->with('success', 'Turnover Receipt submitted successfully.');
 // }
 
 
 
 
 
-public function showUserReport($id)
-{
-    $report = Report::findOrFail($id); // Fetch the report or show a 404 error
-    return view('report.view', compact('report')); // Return the show view with the report data
-}
-    public function showresolved() {
+    public function showUserReport($id)
+    {
+        $report = Report::findOrFail($id); // Fetch the report or show a 404 error
+        return view('report.view', compact('report')); // Return the show view with the report data
+    }
+    public function showresolved()
+    {
         // fetch cancelled reports
         $data = UserReport::where('status', 'resolved')->get();
 
@@ -280,20 +304,22 @@ public function showUserReport($id)
     }
 
 
-    public function resolved() {
+    public function resolved()
+    {
         // Update the report status to resolved
         $report = UserReport::find(request('id'));
-        $report->status ='resolved';
+        $report->status = 'resolved';
         $report->save();
 
         // Redirect to the user reports list
         return redirect()->back()->with('success', 'Report has been resolved successfully.');
     }
 
-    public function cancelled() {
+    public function cancelled()
+    {
         // Update the report status to resolved
         $report = UserReport::find(request('id'));
-        $report->status ='cancelled';
+        $report->status = 'cancelled';
         $report->save();
 
         // Redirect to the user reports list
@@ -302,7 +328,8 @@ public function showUserReport($id)
 
 
 
-    public function showcancelled() {
+    public function showcancelled()
+    {
         // fetch cancelled reports
         $data = UserReport::where('status', 'cancelled')->get();
 
@@ -315,20 +342,28 @@ public function showUserReport($id)
     {
         // Fetch data from the 'releases' table
         $releases = Release::all(); // You can adjust this query to fit your needs (e.g., paginate, filter, etc.)
-        
+
         // Return a view with the releases data
         return view('users.releases', compact('releases'));
     }
 
-    public function generatePdf($id)
+    public function generatePdf($encryptedId)
     {
-        // Fetch specific releases or all releases as needed
-        $releases = Release::where('id', $id)->get(); // Example: filtering by ID
-    
-        // Generate the PDF
-        $pdf = PDF::loadView('users.releasepaperspdf', compact('releases'));
-    
-        // Stream the PDF file
-        return $pdf->stream('releasepapers.pdf');
+        try {
+            // Decrypt the encrypted ID
+            $id = decrypt($encryptedId);
+
+            // Fetch the release using the decrypted ID
+            $releases = Release::where('id', $id)->get(); // Example: filtering by ID
+
+            // Generate the PDF
+            $pdf = PDF::loadView('users.releasepaperspdf', compact('releases'));
+
+            // Stream the PDF file
+            return $pdf->stream('releasepapers.pdf');
+        } catch (DecryptException $e) {
+            // Handle invalid or tampered encryption
+            abort(403, 'Unauthorized access.');
+        }
     }
 }

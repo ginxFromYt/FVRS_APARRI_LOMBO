@@ -83,8 +83,12 @@
                 <!-- Compensation -->
                 <div class="form-group mb-3">
                     <label for="compensation">Compensation</label>
-                    <input type="text" name="compensation" id="compensation" class="form-control" value="{{ $report->compensation }}" >
+                    <input type="text" name="compensation" id="compensation" class="form-control" value="{{ $report->compensation }}">
+                    <small class="form-text text-muted">
+                        Note: If the violator paid his/her violation, please input the amount of money they paid.
+                    </small>
                 </div>
+
 
                 <!-- Agricultural Technologist -->
                 <div class="form-group mb-3">
@@ -96,12 +100,6 @@
                 <div class="form-group mb-3">
                     <label for="municipal_agriculturist">Municipal Agriculturist</label>
                     <input type="text" name="municipal_agriculturist" id="municipal_agriculturist" class="form-control" value="{{ $report->municipal_agriculturist }}" required>
-                </div>
-
-                <!-- Photo -->
-                <div class="form-group mb-3">
-                    <label for="photo">Photo</label>
-                    <input type="file" name="photo" id="photo" class="form-control">
                 </div>
 
                 <!-- Submit Button -->

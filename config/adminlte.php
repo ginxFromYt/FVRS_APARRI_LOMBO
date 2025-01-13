@@ -330,6 +330,16 @@ return [
             'url' => 'admin/turnover-receipts',
             'icon' => 'fas fa-fw fa-receipt', // Changed to a receipt icon
         ],
+     
+
+        [
+            'text' => 'Record Violation',
+            'url' => 'record-violation',
+            'icon' => 'fas fa-fw fa-receipt',
+        ],
+
+        
+
         [
             'text' => 'List of Records',
             'url' => '/list-of-records',

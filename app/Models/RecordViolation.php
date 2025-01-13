@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,7 +20,6 @@ class RecordViolation extends Model
     {
         return $this->hasMany(Violator::class, 'record_violations_id'); 
     }
-    
-    
 }
+
 

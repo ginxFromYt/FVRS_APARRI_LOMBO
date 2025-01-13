@@ -16,7 +16,7 @@
 
         .table th,
         .table td {
-            padding: 8px;
+            padding: 5px;
             text-align: left;
         }
 
@@ -34,13 +34,13 @@
 
         .header {
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .header td {
             vertical-align: middle;
             text-align: center;
-            padding: 10px;
+            padding: 3px;
         }
 
         .header img {
@@ -50,12 +50,12 @@
 
         .header h3 {
             margin: 0;
-            font-size: 16px;
+            font-size: 12px;
         }
 
         .header p {
             margin: 0;
-            font-size: 12px;
+            font-size: 10px;
         }
 
         .span {
@@ -64,7 +64,7 @@
 
         .data-table {
             width: 100%;
-            margin-top: 20px;
+            margin-top: 10px;
             border-collapse: collapse;
             border: none;
         }
@@ -83,6 +83,8 @@
         .data-table td {
             vertical-align: top;
         }
+
+        
     </style>
 </head>
 
@@ -169,7 +171,7 @@
                 <td>{{ $data->amount }}</td>
             </tr>
         </table>
-
+      
     </div>
 
 </body>

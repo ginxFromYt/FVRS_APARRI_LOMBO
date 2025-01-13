@@ -62,10 +62,12 @@
             <div class="notification-box">
                 <a href="{{ route('report.userreports') }}"  style="margin: 0; padding: 0;">
                     <i class="fas fa-bell"></i>
-                    <span id="notificationCount" class="badge bg-danger">{{ \App\Models\UserReport::count() }}</span>
+                    <span id="notificationCount" class="badge bg-danger">{{ \App\Models\UserReport::where('status', 'pending')->count() }}</span>
+
                 </a>
             </div>
 
+            
             <div class="center-container">
                 <img src="{{ asset('img/1.jpg') }}" alt="Logo" class="logo-main rounded-circle mb-3">
 
