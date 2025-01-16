@@ -56,7 +56,7 @@ jobs:
           find ./bootstrap/cache -type d -exec chmod 755 {} \;
           find ./bootstrap/cache -type f -exec chmod 644 {} \;
 
-      # Step 8: Sync non-public files
+     # Step 8: Sync non-public files
       - name: Sync non-public files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -65,9 +65,8 @@ jobs:
           password: ${{ secrets.CPANEL_FTP_PASSWORD }}
           server-dir: fvrsaparri/
           local-dir: ./
-          passive: true  # Enable passive mode
           timeout: 600  # Increase timeout to 10 minutes
-
+          # Remove passive and protocol settings as they may not be required
 
       # Step 9: Sync public files
       - name: Sync public files
@@ -78,4 +77,6 @@ jobs:
           password: ${{ secrets.CPANEL_FTP_PASSWORD }}
           server-dir: public_html/fvrs.aparri.org.ph/
           local-dir: ./public/
+          timeout: 600  # Increase timeout to 10 minutes
+          # Remove passive and protocol settings as they may not be required
 
