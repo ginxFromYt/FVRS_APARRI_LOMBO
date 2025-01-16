@@ -105,7 +105,7 @@ Route::namespace('App\Http\Controllers\Admin')->middleware('can:admin-access')->
 
     Route::get('/record-violation', [RecordViolationController::class, 'recordviolation'])->name('violation.record');
     Route::post('/record-violation', [RecordViolationController::class, 'store'])->name('violation.store');
-    Route::get('/record-violation/{id}/edit', [RecordViolationController::class, 'edit'])->name('violation.edit');
+    Route::get('/record-violation/{id}/edit', [RecordViolationController::class, 'edit'])->name('record-violation.edit');
     Route::get('/list-of-records', [RecordViolationController::class, 'listviolation'])->name('violation.list');
     Route::get('/violation/{id}/edit', [RecordViolationController::class, 'edit'])->name('violation.edit');
     Route::put('/record-violation/{id}', [RecordViolationController::class, 'update'])->name('violation.update');
@@ -136,7 +136,7 @@ Route::namespace('App\Http\Controllers\Users')->middleware('can:user-access')->g
     Route::post('/reports/store-referral', [ReportController::class, 'storeReferral'])->name('storeReferral');
     Route::get('/user-reports', [ReportController::class, 'userReports'])->name('report.userreports');
     Route::get('/report/{id}', [ReportController::class, 'showUserReport'])->name('report.view');
-  
+
     Route::get('/users/releases', [ReportController::class, 'releases'])->name('users.releases');
     Route::get('/releasepapers-pdf/{id}', [ReportController::class, 'generatePdf'])->name('releasepapers.pdf');
 
