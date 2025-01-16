@@ -42,7 +42,7 @@ jobs:
         run: |
           php artisan key:generate
           php artisan storage:link
-          php artisan migrate --force
+          #php artisan migrate --force
           php artisan cache:clear
           php artisan config:cache
           php artisan route:cache
