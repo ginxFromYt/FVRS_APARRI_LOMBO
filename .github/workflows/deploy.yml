@@ -1,0 +1,77 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  web-deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the latest code
+      - name: Get the latest code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up PHP 8.2
+      - name: Setup PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, pdo_mysql, gd, curl, xml
+
+      # Step 3: Copy .env.example to .env
+      - name: Copy .env.example to .env
+        run: cp .env.example .env
+
+
+      # Step 4: Install dependencies using Composer
+      - name: Install Dependencies
+        run: composer install --ignore-platform-reqs
+
+      # Step 5: Build Frontend Assets
+      - name: Build Frontend Assets
+        run: |
+          npm install
+          npm run build
+
+      # Step 6: Run Laravel Commands
+      - name: Run Laravel Commands
+        run: |
+          php artisan key:generate
+          php artisan storage:link
+          #php artisan migrate --force
+          php artisan cache:clear
+          php artisan config:cache
+          php artisan route:cache
+
+      # Step 7: Set proper file and directory permissions
+      - name: Set proper file and directory permissions
+        run: |
+          find ./storage -type d -exec chmod 755 {} \;
+          find ./storage -type f -exec chmod 644 {} \;
+          find ./bootstrap/cache -type d -exec chmod 755 {} \;
+          find ./bootstrap/cache -type f -exec chmod 644 {} \;
+
+      # Step 8: Sync non-public files
+      - name: Sync non-public files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.CPANEL_FTP_HOST }}
+          username: ${{ secrets.CPANEL_FTP_USERNAME }}
+          password: ${{ secrets.CPANEL_FTP_PASSWORD }}
+          server-dir: /home/aparrio1/fvrsaparri/
+          local-dir: ./
+
+      # Step 9: Sync public files
+      - name: Sync public files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.CPANEL_FTP_HOST }}
+          username: ${{ secrets.CPANEL_FTP_USERNAME }}
+          password: ${{ secrets.CPANEL_FTP_PASSWORD }}
+          server-dir: /home/aparrio1/public_html/fvrs.aparri.org.ph/
+          local-dir: ./public/
+
