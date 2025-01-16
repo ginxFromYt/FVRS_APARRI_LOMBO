@@ -45,6 +45,7 @@ jobs:
           #php artisan migrate --force
           php artisan cache:clear
           php artisan config:cache
+          php artisan route:clear
           php artisan route:cache
 
       # Step 7: Set proper file and directory permissions
