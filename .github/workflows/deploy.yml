@@ -54,22 +54,23 @@
 #           find ./bootstrap/cache -type d -exec chmod 755 {} \;
 #           find ./bootstrap/cache -type f -exec chmod 644 {} \;
 
-#       # Step 8: Sync non-public files
-#       - name: Sync non-public files
-#         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-#         with:
-#           server: ${{ secrets.CPANEL_FTP_HOST }}
-#           username: ${{ secrets.CPANEL_FTP_USERNAME }}
-#           password: ${{ secrets.CPANEL_FTP_PASSWORD }}
-#           server-dir: /home/aparrio1/fvrsaparri/
-#           local-dir: ./
+      # Step 8: Sync non-public files
+      - name: Sync non-public files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.CPANEL_FTP_HOST }}
+          username: ${{ secrets.CPANEL_FTP_USERNAME }}
+          password: ${{ secrets.CPANEL_FTP_PASSWORD }}
+          server-dir: /home/aparrio1/fvrsaparri/
+          local-dir: ./
 
-#       # Step 9: Sync public files
-#       - name: Sync public files
-#         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-#         with:
-#           server: ${{ secrets.CPANEL_FTP_HOST }}
-#           username: ${{ secrets.CPANEL_FTP_USERNAME }}
-#           password: ${{ secrets.CPANEL_FTP_PASSWORD }}
-#           server-dir: /home/aparrio1/public_html/fvrs.aparri.org.ph/
-#           local-dir: ./public/
+      # Step 9: Sync public files
+      - name: Sync public files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.CPANEL_FTP_HOST }}
+          username: ${{ secrets.CPANEL_FTP_USERNAME }}
+          password: ${{ secrets.CPANEL_FTP_PASSWORD }}
+          server-dir: /home/aparrio1/public_html/fvrs.aparri.org.ph/
+          local-dir: ./public/
+
